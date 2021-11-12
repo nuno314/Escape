@@ -52,7 +52,7 @@ public class Box2D extends ApplicationAdapter {
 		world = new World(new Vector2(0f, -15f), true);
 		b2dr = new Box2DDebugRenderer();
 
-		player = createBox(80, 100, 32, 88, false);
+		player = createBox(80, 120, 32, 80, false);
 		platform = createBox(80, 80,1000, 32, true);
 
 		batch = new SpriteBatch();
