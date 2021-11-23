@@ -1,8 +1,8 @@
 package com.mygdx.game;
 
 import static com.mygdx.game.utils.Constants.PPM;
-
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
@@ -13,21 +13,18 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.utils.TiledObjectUtil;
 
-
-public class Box2D extends ApplicationAdapter {
-
+public class Box2D extends Game {
 	private boolean DEBUG = false;
-	private final float SCALE = 0.5f;
+	private final float SCALE = 1;
 
 	private Viewport viewport;
 	private TiledMap map;
@@ -43,25 +40,25 @@ public class Box2D extends ApplicationAdapter {
 
 	@Override
 	public void create() {
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
+		float WIDTH = 576;
+		float HEIGHT = 1056;
 
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, w / SCALE, h / SCALE);
+		camera = new OrthographicCamera(WIDTH, HEIGHT);
+
+		viewport = new FitViewport(WIDTH, HEIGHT, camera);
 
 		world = new World(new Vector2(0f, -15f), true);
 		b2dr = new Box2DDebugRenderer();
 
-		player = createBox(80, 120, 32, 80, false);
-		platform = createBox(80, 80,1000, 32, true);
+		player = createBox(80, 120, 25, 55, false);
 
 		batch = new SpriteBatch();
-		tex = new Texture("Images/ninja1.png");
+		tex = new Texture("data/ninja1.png");
 
-		map = new TmxMapLoader().load("data/map1.tmx");
+		map = new TmxMapLoader().load("data/Escape.tmx");
 		renderer = new OrthogonalTiledMapRenderer(map);
 
-		TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("Wall Physics").getObjects());
+		TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("Walls").getObjects());
 	}
 
 	@Override
@@ -69,22 +66,20 @@ public class Box2D extends ApplicationAdapter {
 		update(Gdx.graphics.getDeltaTime());
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//		viewport.apply();
-//
-//		renderer.setView((OrthographicCamera) viewport.getCamera());
-//		renderer.render();
+
 		renderer.render();
 		batch.begin();
 		batch.draw(tex, player.getPosition().x * PPM - (tex.getWidth() / 2),player.getPosition().y * PPM - (tex.getHeight() / 2));
 		batch.end();
 
-		b2dr.render(world, camera.combined.scl(PPM));
-
+		b2dr.render(world, camera.combined);
+		b2dr.setDrawBodies(false);
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		camera.setToOrtho(false, width / SCALE,  height / SCALE);
+		camera.setToOrtho(false);
+		viewport.update(width, height);
 	}
 
 	@Override
@@ -113,20 +108,21 @@ public class Box2D extends ApplicationAdapter {
 			horizontalForce += 1;
 		}
 		if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-			if (player.getLinearVelocity().y == 0)
-				player.applyForceToCenter(0,1000, true);
+
+				player.applyForceToCenter(0,700, true);
 		}
 
 		player.setLinearVelocity(horizontalForce * 5, player.getLinearVelocity().y);
 	}
 	public void cameraUpdate(float delta) {
-		Vector3 position = camera.position;
-		position.x = player.getPosition().x * PPM;
-		position.y = player.getPosition().y * PPM;
-		camera.position.set(position);
+//		Vector3 position = camera.position;
+//		position.x = player.getPosition().x * PPM;
+//		position.y = player.getPosition().y * PPM;
 
+		camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
 		camera.update();
 	}
+
 	public Body createBox(int x, int y, int width, int height, boolean isStatic) {
 		Body pBody;
 		BodyDef def = new BodyDef();
@@ -147,6 +143,6 @@ public class Box2D extends ApplicationAdapter {
 	}
 
 	public World getWorld() {
-		return world;
+		return world	;
 	}
 }
