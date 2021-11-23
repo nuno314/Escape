@@ -1,7 +1,7 @@
-package com.mygdx.game;
+package com.mygdx.game.client;
 
-import static com.mygdx.game.utils.Constants.PPM;
-import com.badlogic.gdx.ApplicationAdapter;
+import static com.mygdx.game.client.utils.Constants.PPM;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -20,7 +20,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.utils.TiledObjectUtil;
+import com.mygdx.game.client.utils.TiledObjectUtil;
 
 public class Box2D extends Game {
 	private boolean DEBUG = false;

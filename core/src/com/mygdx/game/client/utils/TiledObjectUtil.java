@@ -1,22 +1,16 @@
-package com.mygdx.game.utils;
+package com.mygdx.game.client.utils;
 
-import static com.mygdx.game.utils.Constants.PPM;
+import static com.mygdx.game.client.utils.Constants.PPM;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
-import com.badlogic.gdx.maps.objects.PolylineMapObject;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TiledObjectUtil {
     public static void parseTiledObjectLayer(World world, MapObjects objects) {

@@ -1,4 +1,4 @@
-package com.mygdx.game.Screens;
+package com.mygdx.game.client.screens;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -8,8 +8,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.Box2D;
-import com.mygdx.game.Sprites.Ninja;
+import com.mygdx.game.client.Box2D;
+import com.mygdx.game.client.sprites.Ninja;
 
 public class PlayScreen implements Screen {
     // Reference to our Game, used to set Screens

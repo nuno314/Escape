@@ -1,6 +1,6 @@
-package com.mygdx.game.Sprites;
+package com.mygdx.game.client.sprites;
 
-import static com.mygdx.game.utils.Constants.PPM;
+import static com.mygdx.game.client.utils.Constants.PPM;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.game.Screens.PlayScreen;
+import com.mygdx.game.client.screens.PlayScreen;
 
 public class Ninja extends Sprite {
     public World world;
