@@ -2,6 +2,8 @@ package com.mygdx.game.client.sprites;
 
 import static com.mygdx.game.client.utils.Constants.PPM;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -49,25 +51,43 @@ public class Steven extends Sprite {
     }
 
     public void update(float dt) {
-        //setPosition(player.getPosition().x - getWidth(), player.getPosition().y);
+        inputUpdate(dt);//setPosition(player.getPosition().x - getWidth(), player.getPosition().y);
     }
 
     public void defineSteven() {
         int x = 5500;
         int y = 5500;
-        int width = 3000;
-        int height = 3000;
+        int width = 2000;
+        int height = 2000;
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(x / 32, y / 32);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.fixedRotation = true;
         player = world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width / 2 / 32, height / 2 / 32);
+        shape.setAsBox(width / 100, height / 60);
 
         player.createFixture(shape, 1.0f);
         //shape.dispose();
+    }
+
+    public void inputUpdate(float delta) {
+        int horizontalForce = 0;
+
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+            horizontalForce -= 1;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            horizontalForce += 1;
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+
+            player.applyForceToCenter(0,10000, true);
+        }
+
+        player.setLinearVelocity(horizontalForce * 5, player.getLinearVelocity().y);
     }
 
     public void draw(Batch batch) {

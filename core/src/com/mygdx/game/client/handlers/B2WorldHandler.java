@@ -34,7 +34,7 @@ public class B2WorldHandler {
             BodyDef bodyDef = new BodyDef();
             Body body;
             bodyDef.type = BodyDef.BodyType.StaticBody;
-            bodyDef.position.set(1000,1000);
+
             body = world.createBody(bodyDef);
             body.createFixture(shape, 0);
 
