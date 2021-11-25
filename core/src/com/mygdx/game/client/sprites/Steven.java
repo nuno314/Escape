@@ -46,8 +46,9 @@ public class Steven extends Sprite {
         previousState = State.STANDING;
 
 //        stevenRun = new Animation(1 / 15f, screen.getAtlas().findRegions("left"));
-//        stevenStand = new TextureRegion(screen.getAtlas().findRegion("stand"));
+        stevenStand = new TextureRegion(screen.getAtlas().findRegion("stand"));
         defineSteven();
+        setRegion(stevenStand);
     }
 
     public void update(float dt) {
@@ -55,21 +56,21 @@ public class Steven extends Sprite {
     }
 
     public void defineSteven() {
-        int x = 5500;
-        int y = 5500;
-        int width = 2000;
-        int height = 2000;
+        int x = 120;
+        int y = 120;
+        int width = 12;
+        int height = 20;
 
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(x / 32, y / 32);
+        bodyDef.position.set(x, y);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.fixedRotation = true;
         player = world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width / 100, height / 60);
-
-        player.createFixture(shape, 1.0f);
+        shape.setAsBox(width, height);
+        player.setLinearDamping(0.5f);
+        player.createFixture(shape, 0);
         //shape.dispose();
     }
 
@@ -77,17 +78,40 @@ public class Steven extends Sprite {
         int horizontalForce = 0;
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            horizontalForce -= 1;
+            horizontalForce -= 100;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            horizontalForce += 1;
+            horizontalForce += 100;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
 
-            player.applyForceToCenter(0,10000, true);
+            player.applyForceToCenter(0,10000, false);
         }
 
-        player.setLinearVelocity(horizontalForce * 5, player.getLinearVelocity().y);
+        player.setLinearVelocity(horizontalForce , player.getLinearVelocity().y);
+    }
+
+
+
+    public TextureRegion getFrame(float dt) {
+        currentState = getState();
+        TextureRegion region;
+
+        switch (currentState) {
+            case STANDING:
+                region = stevenStand;
+            default:
+                region = stevenStand;
+                break;
+        }
+
+        previousState = currentState;
+
+        return region;
+    }
+
+    public State getState() {
+        return State.STANDING;
     }
 
     public void draw(Batch batch) {
