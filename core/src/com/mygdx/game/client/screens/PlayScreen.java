@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.client.Box2D;
+import com.mygdx.game.client.handlers.B2WorldHandler;
 import com.mygdx.game.client.sprites.Steven;
 
 public class PlayScreen implements Screen {
@@ -33,28 +34,32 @@ public class PlayScreen implements Screen {
     // Box2D variables
     private World world;
     private Box2DDebugRenderer b2dr;
+    private B2WorldHandler worldHandler;
 
     // Sprites
     private Steven player;
 
     public PlayScreen(Box2D game) {
-        atlas = new TextureAtlas("data/sprite.atlas");
-        this.game = game;
-        camera = new OrthographicCamera();
-
-        viewport = new FitViewport(Box2D.WIDTH, Box2D.HEIGHT, camera);
-
-        mapLoader = new TmxMapLoader();
-        map = mapLoader.load("data/Escape.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map);
-
-        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
-
-        world = new World(new Vector2(0, -10), true);
-
-        b2dr = new Box2DDebugRenderer();
-
-        player = new Steven(this);
+//        atlas = new TextureAtlas("data/sprite.atlas");
+//        this.game = game;
+//        camera = new OrthographicCamera();
+//
+//        viewport = new FitViewport(Box2D.WIDTH, Box2D.HEIGHT, camera);
+//
+//        mapLoader = new TmxMapLoader();
+//        map = mapLoader.load("data/Escape.tmx");
+//
+//        renderer = new OrthogonalTiledMapRenderer(map);
+//
+//        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+//
+//        world = new World(new Vector2(0, -15), true);
+//
+//        b2dr = new Box2DDebugRenderer();
+//
+//        //worldHandler = new B2WorldHandler(this);
+//
+//        player = new Steven(this);
     }
 
     public TextureAtlas getAtlas() {
@@ -73,6 +78,8 @@ public class PlayScreen implements Screen {
        // player.update(dt);
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+
+
         camera.update();
         renderer.setView(camera);
     }
@@ -126,5 +133,9 @@ public class PlayScreen implements Screen {
 
     public World getWorld() {
         return world;
+    }
+
+    public TiledMap getMap() {
+        return map;
     }
 }

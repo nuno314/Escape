@@ -45,7 +45,6 @@ public class Steven extends Sprite {
 
 //        stevenRun = new Animation(1 / 15f, screen.getAtlas().findRegions("left"));
 //        stevenStand = new TextureRegion(screen.getAtlas().findRegion("stand"));
-
         defineSteven();
     }
 
@@ -54,26 +53,24 @@ public class Steven extends Sprite {
     }
 
     public void defineSteven() {
-        int x = 80;
-        int y = 120;
-        int width = 25;
-        int height = 55;
+        int x = 5500;
+        int y = 5500;
+        int width = 3000;
+        int height = 3000;
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(x / PPM, y / PPM);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         player = world.createBody(bodyDef);
 
-        FixtureDef fixtureDef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width / 2 / PPM, height / 2 / PPM);
 
         player.createFixture(shape, 1.0f);
-        shape.dispose();
+        //shape.dispose();
     }
 
     public void draw(Batch batch) {
         super.draw(batch);
-
     }
 }
