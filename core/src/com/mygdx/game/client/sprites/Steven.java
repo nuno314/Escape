@@ -59,12 +59,12 @@ public class Steven extends Sprite {
         int height = 3000;
 
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(x / PPM, y / PPM);
+        bodyDef.position.set(x / 32, y / 32);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         player = world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width / 2 / PPM, height / 2 / PPM);
+        shape.setAsBox(width / 2 / 32, height / 2 / 32);
 
         player.createFixture(shape, 1.0f);
         //shape.dispose();

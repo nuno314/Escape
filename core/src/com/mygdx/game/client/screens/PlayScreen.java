@@ -40,26 +40,27 @@ public class PlayScreen implements Screen {
     private Steven player;
 
     public PlayScreen(Box2D game) {
-//        atlas = new TextureAtlas("data/sprite.atlas");
-//        this.game = game;
-//        camera = new OrthographicCamera();
-//
-//        viewport = new FitViewport(Box2D.WIDTH, Box2D.HEIGHT, camera);
-//
-//        mapLoader = new TmxMapLoader();
-//        map = mapLoader.load("data/Escape.tmx");
-//
-//        renderer = new OrthogonalTiledMapRenderer(map);
-//
-//        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
-//
-//        world = new World(new Vector2(0, -15), true);
-//
-//        b2dr = new Box2DDebugRenderer();
-//
-//        //worldHandler = new B2WorldHandler(this);
-//
-//        player = new Steven(this);
+        this.game = game;
+        atlas = new TextureAtlas("data/sprite.atlas");
+
+        camera = new OrthographicCamera();
+
+        viewport = new FitViewport(Box2D.WIDTH, Box2D.HEIGHT, camera);
+
+        mapLoader = new TmxMapLoader();
+        map = mapLoader.load("data/Escape.tmx");
+
+        renderer = new OrthogonalTiledMapRenderer(map);
+
+        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+
+        world = new World(new Vector2(0, -15), true);
+
+        b2dr = new Box2DDebugRenderer();
+
+        worldHandler = new B2WorldHandler(this);
+
+        player = new Steven(this);
     }
 
     public TextureAtlas getAtlas() {
@@ -75,10 +76,9 @@ public class PlayScreen implements Screen {
 
         world.step(1 / 60f, 6, 2);
 
-       // player.update(dt);
+        player.update(dt);
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
-
 
         camera.update();
         renderer.setView(camera);
@@ -97,8 +97,7 @@ public class PlayScreen implements Screen {
 
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-     //
-        //   player.draw(game.batch);
+
         game.batch.end();
     }
 
@@ -107,6 +106,8 @@ public class PlayScreen implements Screen {
         camera.setToOrtho(false);
         viewport.update(width, height);
     }
+
+
 
     @Override
     public void pause() {
