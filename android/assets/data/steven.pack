@@ -1,0 +1,69 @@
+
+steven.png
+size: 512, 64
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+left
+  rotate: false
+  xy: 80, 2
+  size: 34, 54
+  orig: 34, 54
+  offset: 0, 0
+  index: 2
+left
+  rotate: false
+  xy: 116, 2
+  size: 34, 54
+  orig: 34, 54
+  offset: 0, 0
+  index: 4
+left
+  rotate: false
+  xy: 224, 4
+  size: 34, 52
+  orig: 34, 52
+  offset: 0, 0
+  index: 1
+left
+  rotate: false
+  xy: 260, 4
+  size: 34, 52
+  orig: 34, 52
+  offset: 0, 0
+  index: 3
+right
+  rotate: false
+  xy: 44, 2
+  size: 34, 54
+  orig: 34, 54
+  offset: 0, 0
+  index: 4
+right
+  rotate: false
+  xy: 152, 2
+  size: 34, 54
+  orig: 34, 54
+  offset: 0, 0
+  index: 2
+right
+  rotate: false
+  xy: 188, 4
+  size: 34, 52
+  orig: 34, 52
+  offset: 0, 0
+  index: 1
+right
+  rotate: false
+  xy: 188, 4
+  size: 34, 52
+  orig: 34, 52
+  offset: 0, 0
+  index: 3
+stand
+  rotate: false
+  xy: 2, 4
+  size: 40, 52
+  orig: 40, 52
+  offset: 0, 0
+  index: -1

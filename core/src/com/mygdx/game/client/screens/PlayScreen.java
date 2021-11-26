@@ -41,7 +41,7 @@ public class PlayScreen implements Screen {
 
     public PlayScreen(Box2D game) {
         this.game = game;
-        atlas = new TextureAtlas("data/sprite.atlas");
+        atlas = new TextureAtlas("data/steven.pack");
 
         camera = new OrthographicCamera();
 
@@ -54,7 +54,7 @@ public class PlayScreen implements Screen {
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
 
-        world = new World(new Vector2(0, -100), true);
+        world = new World(new Vector2(0, -100), false);
 
         b2dr = new Box2DDebugRenderer();
 
@@ -74,7 +74,7 @@ public class PlayScreen implements Screen {
 
     public void update(float dt) {
 
-        world.step(1/ 60f, 6, 2);
+        world.step(1f/ 60f, 6, 2);
 
         player.update(dt);
 
@@ -97,8 +97,10 @@ public class PlayScreen implements Screen {
 
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-
+        player.draw(game.batch);
         game.batch.end();
+
+        b2dr.setDrawBodies(false);
     }
 
     @Override

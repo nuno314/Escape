@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -48,18 +49,21 @@ public class Steven extends Sprite {
 //        stevenRun = new Animation(1 / 15f, screen.getAtlas().findRegions("left"));
         stevenStand = new TextureRegion(screen.getAtlas().findRegion("stand"));
         defineSteven();
+        setBounds(0,0, 40, 52);
         setRegion(stevenStand);
     }
 
     public void update(float dt) {
-        inputUpdate(dt);//setPosition(player.getPosition().x - getWidth(), player.getPosition().y);
+        inputUpdate(dt);
+        setRegion(getFrame(dt));
+        setPosition(player.getPosition().x - getWidth() / 2, player.getPosition().y - getHeight()/2);
     }
 
     public void defineSteven() {
         int x = 120;
         int y = 120;
-        int width = 12;
-        int height = 20;
+        int width = 20;
+        int height = 26;
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(x, y);
@@ -69,9 +73,10 @@ public class Steven extends Sprite {
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width, height);
-        player.setLinearDamping(0.5f);
+
+       // player.setLinearDamping(0.5f);
         player.createFixture(shape, 0);
-        //shape.dispose();
+        shape.dispose();
     }
 
     public void inputUpdate(float delta) {
@@ -85,7 +90,7 @@ public class Steven extends Sprite {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
 
-            player.applyForceToCenter(0,10000, false);
+            player.applyForceToCenter(0,1000000, true);
         }
 
         player.setLinearVelocity(horizontalForce , player.getLinearVelocity().y);
@@ -115,6 +120,7 @@ public class Steven extends Sprite {
     }
 
     public void draw(Batch batch) {
+
         super.draw(batch);
     }
 }
