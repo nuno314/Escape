@@ -51,6 +51,7 @@ public class Steven extends Sprite {
         defineSteven();
         setBounds(0,0, 40, 52);
         setRegion(stevenStand);
+
     }
 
     public void update(float dt) {
@@ -123,4 +124,6 @@ public class Steven extends Sprite {
 
         super.draw(batch);
     }
+
+
 }
