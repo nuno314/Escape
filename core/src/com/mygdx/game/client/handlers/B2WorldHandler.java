@@ -15,7 +15,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.client.Box2D;
 import com.mygdx.game.client.screens.PlayScreen;
 
-public class B2WorldHandler {
+public class  B2WorldHandler {
 
     public B2WorldHandler(PlayScreen screen) {
         World world = screen.getWorld();
@@ -35,9 +35,9 @@ public class B2WorldHandler {
             BodyDef bodyDef = new BodyDef();
             Body body;
             bodyDef.type = BodyDef.BodyType.StaticBody;
-
             body = world.createBody(bodyDef);
             body.createFixture(shape, 0);
+
 
         }
     }
@@ -53,7 +53,6 @@ public class B2WorldHandler {
         }
         ChainShape cs = new ChainShape();
         cs.createChain(worldVertices);
-
         return cs;
     }
 }

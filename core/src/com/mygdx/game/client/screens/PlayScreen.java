@@ -17,6 +17,8 @@ import com.mygdx.game.client.Box2D;
 import com.mygdx.game.client.handlers.B2WorldHandler;
 import com.mygdx.game.client.sprites.Steven;
 
+import javax.swing.Box;
+
 public class PlayScreen implements Screen {
     //Reference to our Game, used to set Screens
     private Box2D game;
@@ -83,7 +85,7 @@ public class PlayScreen implements Screen {
         camera.update();
         renderer.setView(camera);
 
-        if(player.player.getPosition().y >= 850 && player.player.getPosition().x >= 430)
+        if(player.player.getPosition().y >= 850 / Box2D.PPM && player.player.getPosition().x >= 430 / Box2D.PPM)
             player.currentState = Steven.State.DEAD;
     }
 

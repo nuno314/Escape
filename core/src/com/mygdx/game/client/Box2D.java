@@ -45,20 +45,15 @@ public class Box2D extends Game {
 	@Override
 	public void create() {
 		this.camera = new OrthographicCamera();
-		this.camera.setToOrtho(false, WIDTH / PPM, HEIGHT / PPM);
+		this.camera.setToOrtho(false,800, 600);
 		batch = new SpriteBatch();
 		setScreen(new ConnectScreen());
-
-
-
-
-
+		//setScreen(new PlayScreen(this));
 	}
 
 	@Override
 	public void render() {
 		super.render();
-
 	}
 
 	@Override
