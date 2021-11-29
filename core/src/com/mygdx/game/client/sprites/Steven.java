@@ -52,7 +52,7 @@ public class Steven extends Sprite {
         stevenStand = new TextureRegion(screen.getAtlas().findRegion("stand"));
         defineSteven();
         setBounds(0,0, 40 / Box2D.PPM, 52 / Box2D.PPM);
-        setRegion(stevenRun);
+
     }
 
     public void update(float dt) {
