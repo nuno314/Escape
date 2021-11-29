@@ -45,16 +45,16 @@ public class PlayScreen implements Screen {
 
         camera = new OrthographicCamera();
 
-        viewport = new FitViewport(Box2D.WIDTH, Box2D.HEIGHT, camera);
+        viewport = new FitViewport(Box2D.WIDTH / Box2D.PPM, Box2D.HEIGHT / Box2D.PPM, camera);
 
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("data/Escape.tmx");
 
-        renderer = new OrthogonalTiledMapRenderer(map);
+        renderer = new OrthogonalTiledMapRenderer(map, 1 / Box2D.PPM);
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
 
-        world = new World(new Vector2(0, -100), false);
+        world = new World(new Vector2(0, -10), false);
 
         b2dr = new Box2DDebugRenderer();
 

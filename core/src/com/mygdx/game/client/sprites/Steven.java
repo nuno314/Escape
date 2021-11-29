@@ -21,6 +21,8 @@ import com.mygdx.game.client.screens.PlayScreen;
 
 import java.lang.reflect.Array;
 
+import javax.swing.Box;
+
 public class Steven extends Sprite {
     public enum State { FALLING, JUMPING, STANDING, RUNNING, GROWING, DEAD };
     public State currentState;
@@ -46,11 +48,11 @@ public class Steven extends Sprite {
         currentState = State.STANDING;
         previousState = State.STANDING;
 
-//        stevenRun = new Animation(1 / 15f, screen.getAtlas().findRegions("left"));
+        stevenRun = new Animation(1 / 15f, screen.getAtlas().findRegions("left"));
         stevenStand = new TextureRegion(screen.getAtlas().findRegion("stand"));
         defineSteven();
-        setBounds(0,0, 40, 52);
-        setRegion(stevenStand);
+        setBounds(0,0, 40 / Box2D.PPM, 52 / Box2D.PPM);
+        setRegion(stevenRun);
     }
 
     public void update(float dt) {
@@ -66,13 +68,13 @@ public class Steven extends Sprite {
         int height = 26;
 
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(x, y);
+        bodyDef.position.set(x / Box2D.PPM, y / Box2D.PPM);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.fixedRotation = true;
         player = world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width, height);
+        shape.setAsBox(width / Box2D.PPM, height / Box2D.PPM);
 
        // player.setLinearDamping(0.5f);
         player.createFixture(shape, 0);
@@ -83,14 +85,14 @@ public class Steven extends Sprite {
         int horizontalForce = 0;
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            horizontalForce -= 100;
+            horizontalForce -= 2;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            horizontalForce += 100;
+            horizontalForce += 2;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
 
-            player.applyForceToCenter(0,1000000, true);
+            player.applyForceToCenter(0,290, true);
         }
 
         player.setLinearVelocity(horizontalForce , player.getLinearVelocity().y);

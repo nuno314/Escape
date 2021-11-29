@@ -26,7 +26,7 @@ import com.mygdx.game.client.utils.TiledObjectUtil;
 public class Box2D extends Game {
 	public static final float WIDTH = 576;
 	public static final float HEIGHT = 1056;
-	public static final float PPM = 32;
+	public static final float PPM = 100;
 	private Viewport viewport;
 	private TiledMap map;
 	private OrthogonalTiledMapRenderer renderer;
