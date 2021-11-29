@@ -51,7 +51,7 @@ public class Steven extends Sprite {
         previousState = State.STANDING;
         stateTimer = 0;
 
-        stevenLeft = new Animation(1/15f, screen.getAtlas().findRegion("left"));
+        stevenLeft = new Animation(0.333f, screen.getAtlas().findRegion("left"));
         stevenRight = new Animation(0.1f, screen.getAtlas().findRegion("right"));
         stevenStand = new TextureRegion(screen.getAtlas().findRegion("stand"));
         defineSteven();
