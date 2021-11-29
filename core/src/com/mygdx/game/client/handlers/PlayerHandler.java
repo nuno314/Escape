@@ -8,11 +8,11 @@ public class PlayerHandler {
 
     private final LinkedList<Steven> players = new LinkedList<>();
 
-//    public Steven getPlayerByUsername(final String username) {
-//        for (int i = 0; i < this.players.size(); i++) {
-//            final Steven player = this.players.get(i);
-//
-//
-//        }
-//    };
+    public Steven getPlayerByUsername(final String username) {
+        for (int i = 0; i < this.players.size(); i++) {
+            final Steven player = this.players.get(i);
+
+
+        }
+    };
 }
