@@ -57,6 +57,7 @@ public class Steven extends Sprite {
         defineSteven();
         setBounds(0,0, 40 / Box2D.PPM, 52 / Box2D.PPM);
         setRegion(stevenStand);
+
     }
 
     public void update(float dt) {
@@ -142,4 +143,6 @@ public class Steven extends Sprite {
 
         super.draw(batch);
     }
+
+
 }

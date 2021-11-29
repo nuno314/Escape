@@ -1,23 +1,30 @@
 package com.mygdx.game.server.supers;
 
+import com.esotericsoftware.kryonet.Connection;
+
 public class ServerPlayer {
     private final String username;
-    private int x;
-    private int y;
+    private final Connection connection;
 
-    public ServerPlayer(String username) {
+    private boolean moveUp, moveDown, moveLeft, moveRigtht;
+
+    private float x;
+    private float y;
+
+    public ServerPlayer(String username, Connection connection) {
         this.username = username;
+        this.connection = connection;
     }
 
     public void update() {
 
     }
 
-    public int getX() {
+    public float getX() {
         return this.x;
     }
 
-    public int getY() {
+    public float getY() {
         return this.y;
     }
 }
