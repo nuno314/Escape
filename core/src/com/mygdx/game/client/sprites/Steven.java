@@ -18,21 +18,23 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.client.Box2D;
 import com.mygdx.game.client.screens.PlayScreen;
-
-import java.lang.reflect.Array;
+import com.badlogic.gdx.utils.Array;
 
 import javax.swing.Box;
 
 public class Steven extends Sprite {
-    public enum State { FALLING, JUMPING, STANDING, RUNNING, GROWING, DEAD };
+    public enum State { FALLING, JUMPING, STANDING, LEFTING, RIGHTING, GROWING, DEAD };
     public State currentState;
     public State previousState;
 
     public World world;
     public Body player;
 
+    private float stateTimer;
+    Array<TextureRegion> frames;
     private TextureRegion stevenStand;
-    private Animation stevenRun;
+    private Animation<TextureRegion> stevenLeft;
+    private Animation<TextureRegion> stevenRight;
     private TextureRegion stevenJump;
     private TextureRegion stevenDead;
 
@@ -47,12 +49,14 @@ public class Steven extends Sprite {
         this.world = screen.getWorld();
         currentState = State.STANDING;
         previousState = State.STANDING;
+        stateTimer = 0;
 
-        stevenRun = new Animation(1 / 15f, screen.getAtlas().findRegions("left"));
+        stevenLeft = new Animation(1/15f, screen.getAtlas().findRegion("left"));
+        stevenRight = new Animation(0.1f, screen.getAtlas().findRegion("right"));
         stevenStand = new TextureRegion(screen.getAtlas().findRegion("stand"));
         defineSteven();
         setBounds(0,0, 40 / Box2D.PPM, 52 / Box2D.PPM);
-
+        setRegion(stevenStand);
     }
 
     public void update(float dt) {
@@ -92,7 +96,7 @@ public class Steven extends Sprite {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
 
-            player.applyForceToCenter(0,290, true);
+            player.applyForceToCenter(0,300, true);
         }
 
         player.setLinearVelocity(horizontalForce , player.getLinearVelocity().y);
@@ -105,19 +109,32 @@ public class Steven extends Sprite {
         TextureRegion region;
 
         switch (currentState) {
+            case LEFTING:
+                region = stevenLeft.getKeyFrame(stateTimer, true);
+                break;
+            case RIGHTING:
+                region = stevenRight.getKeyFrame(stateTimer, true);
+                break;
             case STANDING:
                 region = stevenStand;
+                break;
             default:
                 region = stevenStand;
                 break;
         }
 
+        stateTimer = currentState == previousState ? stateTimer + dt : 0;
         previousState = currentState;
 
         return region;
     }
 
     public State getState() {
+
+        if (player.getLinearVelocity().x > 0)
+            return State.RIGHTING;
+        else if (player.getLinearVelocity().x < 0)
+            return State.LEFTING;
         return State.STANDING;
     }
 

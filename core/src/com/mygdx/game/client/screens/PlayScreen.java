@@ -41,7 +41,7 @@ public class PlayScreen implements Screen {
 
     public PlayScreen(Box2D game) {
         this.game = game;
-        atlas = new TextureAtlas("data/steven.pack");
+        atlas = new TextureAtlas("data/steven.atlas");
 
         camera = new OrthographicCamera();
 
