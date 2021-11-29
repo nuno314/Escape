@@ -1,68 +1,67 @@
-
 steven.png
-size: 512, 64
+size: 312, 54
 format: RGBA8888
-filter: Nearest, Nearest
+filter: Linear,Linear
 repeat: none
 left
   rotate: false
-  xy: 80, 2
-  size: 34, 54
-  orig: 34, 54
-  offset: 0, 0
-  index: 2
-left
-  rotate: false
-  xy: 116, 2
-  size: 34, 54
-  orig: 34, 54
-  offset: 0, 0
-  index: 4
-left
-  rotate: false
-  xy: 224, 4
+  xy: 0, 0
   size: 34, 52
   orig: 34, 52
   offset: 0, 0
   index: 1
 left
   rotate: false
-  xy: 260, 4
+  xy: 34, 0
+  size: 34, 54
+  orig: 34, 54
+  offset: 0, 0
+  index: 2
+left
+  rotate: false
+  xy: 68, 0
   size: 34, 52
   orig: 34, 52
   offset: 0, 0
   index: 3
-right
+left
   rotate: false
-  xy: 44, 2
+  xy: 102, 0
   size: 34, 54
   orig: 34, 54
   offset: 0, 0
   index: 4
 right
   rotate: false
-  xy: 152, 2
-  size: 34, 54
-  orig: 34, 54
-  offset: 0, 0
-  index: 2
-right
-  rotate: false
-  xy: 188, 4
+  xy: 136, 0
   size: 34, 52
   orig: 34, 52
   offset: 0, 0
   index: 1
 right
   rotate: false
-  xy: 188, 4
+  xy: 170, 0
+  size: 34, 54
+  orig: 34, 54
+  offset: 0, 0
+  index: 2
+right
+  rotate: false
+  xy: 204, 0
   size: 34, 52
   orig: 34, 52
   offset: 0, 0
   index: 3
+right
+  rotate: false
+  xy: 238, 0
+  size: 34, 54
+  orig: 34, 54
+  offset: 0, 0
+  index: 4
 stand
   rotate: false
-  xy: 2, 4
+  xy: 272, 0
   size: 40, 52
   orig: 40, 52
   offset: 0, 0

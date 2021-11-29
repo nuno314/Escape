@@ -1,5 +1,6 @@
 package com.mygdx.game.server.listeners;
 
+
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.mygdx.game.global.JoinRequestEvent;
