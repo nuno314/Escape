@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -39,11 +40,15 @@ public class Box2D extends Game {
 	public SpriteBatch batch;
 	private Texture tex;
 
-
+//	public  Bodydef finishDoor;
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
 		setScreen(new PlayScreen(this));
+
+
+
+
 
 	}
 

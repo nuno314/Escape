@@ -82,6 +82,9 @@ public class PlayScreen implements Screen {
 
         camera.update();
         renderer.setView(camera);
+
+        if(player.player.getPosition().y >= 850 && player.player.getPosition().x >= 430)
+            player.currentState = Steven.State.DEAD;
     }
 
     @Override
@@ -101,8 +104,16 @@ public class PlayScreen implements Screen {
         game.batch.end();
 
         b2dr.setDrawBodies(false);
+
+        if(gameOver()){
+            game.setScreen(new GameOverScreen(game));
+            dispose();
+        }
     }
 
+    public boolean gameOver(){
+        return player.currentState == Steven.State.DEAD ;
+    }
     @Override
     public void resize(int width, int height) {
         camera.setToOrtho(false);
