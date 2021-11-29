@@ -20,6 +20,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.client.screens.ConnectScreen;
 import com.mygdx.game.client.screens.PlayScreen;
 import com.mygdx.game.client.utils.TiledObjectUtil;
 
@@ -42,8 +43,10 @@ public class Box2D extends Game {
 
 	@Override
 	public void create() {
+		this.camera = new OrthographicCamera();
+		this.camera.setToOrtho(false, WIDTH / PPM, HEIGHT / PPM);
 		batch = new SpriteBatch();
-		setScreen(new PlayScreen(this));
+		setScreen(new ConnectScreen());
 
 	}
 
@@ -62,5 +65,12 @@ public class Box2D extends Game {
 
 	public World getWorld() {
 		return world	;
+	}
+
+	public OrthographicCamera getCamera() {
+		return camera;
+	}
+	public static Box2D getInstance() {
+		return (Box2D) Gdx.app.getApplicationListener();
 	}
 }
