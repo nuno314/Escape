@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.client.Box2D;
 import com.mygdx.game.client.screens.PlayScreen;
 
 public class B2WorldHandler {
@@ -47,7 +48,7 @@ public class B2WorldHandler {
         Vector2[] worldVertices = new Vector2[vertices.length / 2];
 
         for (int i = 0; i < vertices.length / 2; i++) {
-            worldVertices[i] = new Vector2(vertices[i * 2] / PPM, vertices[i * 2 + 1] / PPM);
+            worldVertices[i] = new Vector2(vertices[i * 2] / Box2D.PPM, vertices[i * 2 + 1] / Box2D.PPM);
 
         }
         ChainShape cs = new ChainShape();

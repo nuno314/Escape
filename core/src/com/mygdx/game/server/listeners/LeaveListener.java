@@ -7,5 +7,4 @@ import com.mygdx.game.server.handlers.PlayerHandler;
 import com.mygdx.game.server.supers.ServerPlayer;
 
 public class LeaveListener extends Listener {
-
 }
