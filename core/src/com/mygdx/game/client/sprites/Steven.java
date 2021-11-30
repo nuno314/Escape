@@ -29,6 +29,7 @@ public class Steven extends Sprite {
 
     public World world;
     public Body player;
+    String username;
 
     private float stateTimer;
     Array<TextureRegion> frames;
@@ -44,9 +45,10 @@ public class Steven extends Sprite {
 
     private PlayScreen screen;
 
-    public Steven(PlayScreen screen) {
+    public Steven(PlayScreen screen, final String username) {
         this.screen = screen;
         this.world = screen.getWorld();
+        this.username = username;
         currentState = State.STANDING;
         previousState = State.STANDING;
         stateTimer = 0;
@@ -144,5 +146,7 @@ public class Steven extends Sprite {
         super.draw(batch);
     }
 
-
+    public String getUsername() {
+        return this.username;
+    }
 }

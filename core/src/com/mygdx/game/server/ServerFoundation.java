@@ -10,9 +10,9 @@ public class ServerFoundation {
 
     private Server server;
 
-//    public static void main(String args[]) {
-//        ServerFoundation.instance = new ServerFoundation(6334);
-//    }
+    public static void main(String args[]) {
+        ServerFoundation.instance = new ServerFoundation(6334);
+    }
 
     public ServerFoundation(final int port) {
         this.server = new Server(1_000_000, 1_000_000);

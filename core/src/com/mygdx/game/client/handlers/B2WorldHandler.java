@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.client.Box2D;
@@ -36,7 +37,9 @@ public class  B2WorldHandler {
             Body body;
             bodyDef.type = BodyDef.BodyType.StaticBody;
             body = world.createBody(bodyDef);
-            body.createFixture(shape, 0);
+
+            Fixture fixture = body.createFixture(shape, 0);
+            fixture.setFriction(0);
 
 
         }

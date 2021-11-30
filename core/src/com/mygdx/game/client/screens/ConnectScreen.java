@@ -5,18 +5,22 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.esotericsoftware.kryonet.Client;
 import com.mygdx.game.client.Box2D;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.game.client.handlers.LabelHandler;
+import com.mygdx.game.client.network.ConnectStateListener;
 
 public class ConnectScreen implements Screen {
-
+    public static final ConnectScreen INSTANCE = new ConnectScreen();
     private final Stage stage;
     private final Table root;
 
@@ -29,6 +33,8 @@ public class ConnectScreen implements Screen {
     private final Label errorLabel;
 
     public ConnectScreen() {
+
+
         this.stage = new Stage();
         this.stage.getViewport().setCamera(Box2D.getInstance().getCamera());
 
@@ -42,8 +48,29 @@ public class ConnectScreen implements Screen {
         this.usernameLabel = new TextField("Username", skin);
 
         this.connectButton = new TextButton("Connect", skin);
+        this.connectButton.addListener(new ClickListener() {
+           @Override
+           public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-        this.errorLabel = LabelHandler.INSTANCE.createLabel("This is test error", 16, Color.RED);
+               final Client client = new Client();
+
+               client.addListener(new ConnectStateListener());
+
+               try {
+                   client.start();
+                   client.connect(15000, ipAddressLabel.getText(), Integer.parseInt((portLabel.getText())));
+               } catch (Exception e){
+                   errorLabel.setText(e.getMessage());
+                   return super.touchDown(event, x, y, pointer, button);
+               }
+
+               Box2D.getInstance().setClient(client);
+
+               return super.touchDown(event, x, y, pointer, button);
+           }
+        });
+
+        this.errorLabel = LabelHandler.INSTANCE.createLabel(null, 16, Color.RED);
         this.stage.addActor(this.root);
 
         this.setToDefault();
@@ -92,5 +119,9 @@ public class ConnectScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    public Label getErrorLabel() {
+        return errorLabel;
     }
 }

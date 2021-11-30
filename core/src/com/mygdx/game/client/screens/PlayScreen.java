@@ -20,6 +20,9 @@ import com.mygdx.game.client.sprites.Steven;
 import javax.swing.Box;
 
 public class PlayScreen implements Screen {
+
+    public static final PlayScreen INSTANCE = new PlayScreen(Box2D.getInstance());
+
     //Reference to our Game, used to set Screens
     private Box2D game;
     private TextureAtlas atlas;
@@ -62,7 +65,7 @@ public class PlayScreen implements Screen {
 
         worldHandler = new B2WorldHandler(this);
 
-        player = new Steven(this);
+        player = new Steven(this, "NUNO");
     }
 
     public TextureAtlas getAtlas() {

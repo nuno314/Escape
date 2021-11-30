@@ -12,7 +12,15 @@ public class PlayerHandler {
         for (int i = 0; i < this.players.size(); i++) {
             final Steven player = this.players.get(i);
 
+            if (player.getUsername().equals(username))
+                return player;
 
         }
+        return null;
     };
+
+    // Soon
+    public void addPlayer(){
+
+    }
 }
