@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.client.Box2D;
 import com.mygdx.game.client.handlers.B2WorldHandler;
+import com.mygdx.game.client.scenes.Hud;
 import com.mygdx.game.client.sprites.Steven;
 
 import javax.swing.Box;
@@ -26,6 +27,8 @@ public class PlayScreen implements Screen {
     //Reference to our Game, used to set Screens
     private Box2D game;
     private TextureAtlas atlas;
+    private static Hud hud;
+
 
     // Basic playscreen variables
     private OrthographicCamera camera;
@@ -44,6 +47,9 @@ public class PlayScreen implements Screen {
     // Sprites
     private Steven player;
 
+    private final String[] pathMapGame={"","data/Escape.tmx","data/map_2.tmx"};
+    int currentLevel;
+
     public PlayScreen(Box2D game) {
         this.game = game;
         atlas = new TextureAtlas("data/steven.atlas");
@@ -53,7 +59,8 @@ public class PlayScreen implements Screen {
         viewport = new FitViewport(Box2D.WIDTH / Box2D.PPM, Box2D.HEIGHT / Box2D.PPM, camera);
 
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("data/Escape.tmx");
+        currentLevel = Hud.level;
+        map = mapLoader.load(pathMapGame[currentLevel]);
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Box2D.PPM);
 
@@ -66,6 +73,8 @@ public class PlayScreen implements Screen {
         worldHandler = new B2WorldHandler(this);
 
         player = new Steven(this, "NUNO");
+
+        hud = new Hud(game.batch);
     }
 
     public TextureAtlas getAtlas() {
@@ -82,6 +91,7 @@ public class PlayScreen implements Screen {
         world.step(1f/ 60f, 6, 2);
 
         player.update(dt);
+        hud.update(dt);
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
 
@@ -89,7 +99,11 @@ public class PlayScreen implements Screen {
         renderer.setView(camera);
 
         if(player.player.getPosition().y >= 850 / Box2D.PPM && player.player.getPosition().x >= 430 / Box2D.PPM)
+            player.currentState = Steven.State.PASS;
+        if(hud.getWorldTimer() <=0)
             player.currentState = Steven.State.DEAD;
+
+
     }
 
     @Override
@@ -103,22 +117,41 @@ public class PlayScreen implements Screen {
 
         b2dr.render(world, camera.combined);
 
+
         game.batch.setProjectionMatrix(camera.combined);
+
+
         game.batch.begin();
         player.draw(game.batch);
+
         game.batch.end();
 
+        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+        hud.stage.draw();
         b2dr.setDrawBodies(false);
 
         if(gameOver()){
             game.setScreen(new GameOverScreen(game));
             dispose();
         }
+        if(isPassLevel()){
+            game.setScreen(new WinnerScreen(game,hud.getScore(),hud.getWorldTimer()));
+            dispose();
+        }
+
     }
 
     public boolean gameOver(){
-        return player.currentState == Steven.State.DEAD ;
+        return player.currentState == Steven.State.DEAD;
     }
+
+    public boolean isPassLevel(){
+        return player.currentState == Steven.State.PASS ;
+    }
+    public boolean isFinish(){
+        return player.currentState == Steven.State.FINISH ;
+    }
+
     @Override
     public void resize(int width, int height) {
         camera.setToOrtho(false);

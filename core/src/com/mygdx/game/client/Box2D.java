@@ -55,8 +55,8 @@ public class Box2D extends Game {
 		batch = new SpriteBatch();
 
 
-		setScreen(ConnectScreen.INSTANCE);
-		//setScreen(new PlayScreen(this));
+//		setScreen(getClient);
+		setScreen(new PlayScreen(this));
 	}
 
 	@Override

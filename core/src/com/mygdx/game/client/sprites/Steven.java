@@ -23,7 +23,7 @@ import com.badlogic.gdx.utils.Array;
 import javax.swing.Box;
 
 public class Steven extends Sprite {
-    public enum State { FALLING, JUMPING, STANDING, LEFTING, RIGHTING, GROWING, DEAD };
+    public enum State { FALLING, JUMPING, STANDING, LEFTING, RIGHTING, GROWING, DEAD , PASS,FINISH};
     public State currentState;
     public State previousState;
 

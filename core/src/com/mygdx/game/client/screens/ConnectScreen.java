@@ -56,13 +56,13 @@ public class ConnectScreen implements Screen {
 
                client.addListener(new ConnectStateListener());
 
-               try {
-                   client.start();
-                   client.connect(15000, ipAddressLabel.getText(), Integer.parseInt((portLabel.getText())));
-               } catch (Exception e){
-                   errorLabel.setText(e.getMessage());
-                   return super.touchDown(event, x, y, pointer, button);
-               }
+//               try {
+//                   client.start();
+//                   client.connect(15000, ipAddressLabel.getText(), Integer.parseInt((portLabel.getText())));
+//               } catch (Exception e){
+//                   errorLabel.setText(e.getMessage());
+//                   return super.touchDown(event, x, y, pointer, button);
+//               }
 
                Box2D.getInstance().setClient(client);
 
