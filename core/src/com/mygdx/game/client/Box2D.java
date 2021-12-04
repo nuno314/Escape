@@ -5,6 +5,9 @@ import static com.mygdx.game.client.utils.Constants.PPM;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -44,7 +47,7 @@ public class Box2D extends Game {
 	private Texture tex;
 
 	private Client client;
-
+	public static AssetManager manager;
 //	public  Bodydef finishDoor;
 	@Override
 	public void create() {
@@ -55,6 +58,16 @@ public class Box2D extends Game {
 		batch = new SpriteBatch();
 
 
+//		Set sound for my game
+			manager = new AssetManager();
+			manager.load("audio/music/Escape_music.ogg", Music.class);
+			manager.load("audio/sounds/Trap.mp3", Sound.class);
+			manager.load("audio/sounds/GameOver.mp3", Sound.class);
+			manager.load("audio/sounds/PassLevel.mp3", Sound.class);
+
+			manager.finishLoading();
+
+//		end setting sound
 //		setScreen(getClient);
 		setScreen(new PlayScreen(this));
 	}
@@ -66,8 +79,10 @@ public class Box2D extends Game {
 
 	@Override
 	public void dispose() {
+
 		world.dispose();
 		b2dr.dispose();
+		manager.dispose();
 		batch.dispose();
 	}
 

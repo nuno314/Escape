@@ -28,7 +28,7 @@ public class Hud {
     private Label stevenLabel;
     private  final Integer LIMIT_TIME = 60;
     public static int level=1;
-    private final int MAX_LEVEL = 2;
+    private final int MAX_LEVEL = 10;
 
     public Hud(SpriteBatch sb){
         worldTimer = LIMIT_TIME;

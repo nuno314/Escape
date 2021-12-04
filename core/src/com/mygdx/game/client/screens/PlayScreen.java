@@ -2,6 +2,7 @@ package com.mygdx.game.client.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -17,8 +18,6 @@ import com.mygdx.game.client.Box2D;
 import com.mygdx.game.client.handlers.B2WorldHandler;
 import com.mygdx.game.client.scenes.Hud;
 import com.mygdx.game.client.sprites.Steven;
-
-import javax.swing.Box;
 
 public class PlayScreen implements Screen {
 
@@ -49,6 +48,7 @@ public class PlayScreen implements Screen {
 
     private final String[] pathMapGame={"","data/Escape.tmx","data/map_2.tmx"};
     int currentLevel;
+    private Music music;
 
     public PlayScreen(Box2D game) {
         this.game = game;
@@ -59,7 +59,9 @@ public class PlayScreen implements Screen {
         viewport = new FitViewport(Box2D.WIDTH / Box2D.PPM, Box2D.HEIGHT / Box2D.PPM, camera);
 
         mapLoader = new TmxMapLoader();
-        currentLevel = Hud.level;
+//        currentLevel = Hud.level;
+          currentLevel = (Hud.level)%2 +1;
+
         map = mapLoader.load(pathMapGame[currentLevel]);
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Box2D.PPM);
@@ -75,6 +77,15 @@ public class PlayScreen implements Screen {
         player = new Steven(this, "NUNO");
 
         hud = new Hud(game.batch);
+
+//        Music for game
+        music = Box2D.manager.get("audio/music/Escape_music.ogg", Music.class);
+//      music = Box2D.manager.get("audio/sounds/Trap.mp3",Music.class);
+
+        music.setLooping(true);
+        music.setVolume(0.7f);
+        music.play();
+
     }
 
     public TextureAtlas getAtlas() {
@@ -131,11 +142,13 @@ public class PlayScreen implements Screen {
         b2dr.setDrawBodies(false);
 
         if(gameOver()){
+
             game.setScreen(new GameOverScreen(game));
             dispose();
         }
         if(isPassLevel()){
-            game.setScreen(new WinnerScreen(game,hud.getScore(),hud.getWorldTimer()));
+
+            game.setScreen(new LevelPassScreen(game,hud.getScore(),hud.getWorldTimer()));
             dispose();
         }
 
@@ -181,6 +194,8 @@ public class PlayScreen implements Screen {
         renderer.dispose();
         world.dispose();
         b2dr.dispose();
+        music.dispose();
+
     }
 
     public World getWorld() {
