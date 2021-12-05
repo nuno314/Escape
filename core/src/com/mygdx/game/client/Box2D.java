@@ -34,6 +34,16 @@ public class Box2D extends Game {
 	public static final float WIDTH = 576;
 	public static final float HEIGHT = 1056;
 	public static final float PPM = 100;
+
+	//add for collision
+	public static final short DEFAULT_BIT=1;
+	public  static final short STEVEN_BIT=2;
+	public static final short TRAP_BIT=4;
+	public static final short DESTROYED_BIT=8;
+	public static final short STEVEN_DEAD=16;
+	public static final short STEVEN_FOOT_BIT=32;
+	public static final short DOOR_BITCH_BIT =64;
+	//
 	private Viewport viewport;
 	private TiledMap map;
 	private OrthogonalTiledMapRenderer renderer;

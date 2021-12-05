@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="12" height="22" tilewidth="48" tileheight="48" infinite="0" nextlayerid="10" nextobjectid="59">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="12" height="22" tilewidth="48" tileheight="48" infinite="0" nextlayerid="10" nextobjectid="67">
  <tileset firstgid="1" source="map_2.tsx"/>
  <layer id="1" name="Background 1" width="12" height="22">
   <data encoding="csv">
@@ -79,12 +79,18 @@
 0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="4" name="Doors">
+ <objectgroup id="4" name="OutDoors">
   <object id="3" x="96.9091" y="222.909">
    <polygon points="0,0 68.1818,0.181818 64.1818,-4 64,-57.2727 62,-62.3636 56.1818,-68.3636 52.3636,-70 48,-73.2727 43.0909,-73.6364 36.5455,-75.8182 25.0909,-75.2727 21.2727,-73.6364 13.6364,-70.7273 8.36364,-65.0909 4.54545,-60.7273 2.18182,-53.4545 2.18182,-4.90909"/>
   </object>
-  <object id="4" x="432.364" y="1007.64">
-   <polygon points="0,0 68.1818,-0.181818 64.5455,-2.72727 64.5455,-56.9091 61.2727,-64 55.0909,-68.9091 49.8182,-73.2727 43.0909,-75.0909 24.9091,-74.5455 14.9091,-70.9091 8.90909,-65.4545 5.09091,-59.4545 3.09091,-54.3636 2.72727,-2.36364"/>
+  <object id="64" x="428" y="925">
+   <polygon points="0,0 63,-3 60,60 81,71 66,84 4,82"/>
+  </object>
+  <object id="65" x="447" y="925">
+   <polygon points="0,0 20,31 25,54 -13,63 -22,81 -27,-2"/>
+  </object>
+  <object id="66" x="422" y="926">
+   <polygon points="0,0 0,83 26,78"/>
   </object>
  </objectgroup>
  <objectgroup id="5" name="Buttons">
@@ -121,8 +127,17 @@
   <object id="13" x="51" y="765">
    <polygon points="0,1.75 44,2.25 43,-12.5 1.5,-12.75"/>
   </object>
-  <object id="14" x="340" y="767">
-   <polygon points="0,0 138,1 137,-16 1,-13"/>
+  <object id="59" x="348.333" y="754">
+   <polygon points="0,0 -10.3333,13.3333 80.3333,13.3333 80,3"/>
+  </object>
+  <object id="60" x="476" y="755">
+   <polygon points="0,0 1.5,13 -50,12.5"/>
+  </object>
+  <object id="61" x="411" y="755">
+   <polygon points="0,0 45,-1 59.5,-1 59.5,5.5 31,12"/>
+  </object>
+  <object id="62" x="343.5" y="754">
+   <polygon points="0,0 0,12 47,12 63.5,1"/>
   </object>
  </objectgroup>
  <objectgroup id="9" name="Walls">

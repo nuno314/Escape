@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -17,7 +18,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.client.Box2D;
 import com.mygdx.game.client.handlers.B2WorldHandler;
 import com.mygdx.game.client.scenes.Hud;
+import com.mygdx.game.client.sprites.OutDoor;
 import com.mygdx.game.client.sprites.Steven;
+import com.mygdx.game.client.sprites.Trap;
+import com.mygdx.game.client.utils.WorldContactListener;
 
 public class PlayScreen implements Screen {
 
@@ -74,7 +78,19 @@ public class PlayScreen implements Screen {
 
         worldHandler = new B2WorldHandler(this);
 
+        //add for collision
+        for (MapObject object: map.getLayers().get("Traps").getObjects()){
+            new Trap(this,object);
+        }
+
+        for (MapObject object: map.getLayers().get("OutDoors").getObjects()){
+            new OutDoor(this,object);
+        }
+
         player = new Steven(this, "NUNO");
+
+        //add for collision
+        world.setContactListener(new WorldContactListener());
 
         hud = new Hud(game.batch);
 
@@ -139,7 +155,7 @@ public class PlayScreen implements Screen {
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
-        b2dr.setDrawBodies(false);
+     //   b2dr.setDrawBodies(false);
 
         if(gameOver()){
 

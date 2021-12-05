@@ -45,6 +45,9 @@ public class Steven extends Sprite {
 
     private PlayScreen screen;
 
+    public boolean isCollied=false;
+    public boolean isPassed=false;
+
     public Steven(PlayScreen screen, final String username) {
         this.screen = screen;
         this.world = screen.getWorld();
@@ -64,6 +67,15 @@ public class Steven extends Sprite {
 
     public void update(float dt) {
         inputUpdate(dt);
+
+        //add for collision
+        if (isCollied==true){
+            reDefineSteven();
+        }
+        if (isCollied==false){
+            //nothing
+        }
+        //
         setRegion(getFrame(dt));
         setPosition(player.getPosition().x - getWidth() / 2, player.getPosition().y - getHeight()/2);
     }
@@ -83,9 +95,76 @@ public class Steven extends Sprite {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width / Box2D.PPM, height / Box2D.PPM);
 
-       // player.setLinearDamping(0.5f);
-        player.createFixture(shape, 0);
+        //
+        FixtureDef fdef=new FixtureDef();
+
+        fdef.filter.categoryBits=Box2D.STEVEN_BIT;
+        fdef.filter.maskBits= Box2D.DEFAULT_BIT| Box2D.DOOR_BITCH_BIT | Box2D.TRAP_BIT; //bit co the va cham
+        fdef.shape=shape;
+        //  player.setLinearDamping(0.5f);
+        player.createFixture(fdef).setUserData(this);
         shape.dispose();
+
+
+        //CREATE FOOT:
+        PolygonShape foot=new PolygonShape();
+        Vector2[] vertices=new Vector2[4];
+        vertices[0]= new Vector2(-17,-20).scl(1/Box2D.PPM);
+        vertices[1]=new Vector2(17,-20).scl(1/Box2D.PPM);
+        vertices[2]= new Vector2(-22,-28).scl(1/Box2D.PPM);
+        vertices[3]=new Vector2(22,-28).scl(1/Box2D.PPM);
+        foot.set(vertices);
+        fdef.shape=foot;
+        fdef.filter.categoryBits=Box2D.STEVEN_FOOT_BIT;
+
+
+        player.createFixture(fdef).setUserData(this);
+        // foot.dispose();
+    }
+
+    //add for collision
+    public void reDefineSteven(){
+        Vector2 currentPos=player.getPosition();
+        world.destroyBody(player);
+        int width = 20;
+        int height = 26;
+        //float x=player.getPosition().x-1f;
+        // float y=player.getPosition().y;
+
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.position.set(currentPos.sub(0.2f, 0));
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.fixedRotation = true;
+        player = world.createBody(bodyDef);
+
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(width/Box2D.PPM, height/Box2D.PPM);
+
+        FixtureDef fdef=new FixtureDef();
+
+        fdef.filter.categoryBits=Box2D.STEVEN_BIT;
+        fdef.filter.maskBits= Box2D.DEFAULT_BIT|Box2D.DOOR_BITCH_BIT|Box2D.TRAP_BIT; //bit co the va cham
+        fdef.shape=shape;
+        //  player.setLinearDamping(0.5f);
+        player.createFixture(fdef).setUserData(this);
+        shape.dispose();
+
+        //CREATE FOOT:
+        PolygonShape foot=new PolygonShape();
+        Vector2[] vertices=new Vector2[4];
+        vertices[0]= new Vector2(-17,-20).scl(1/Box2D.PPM);
+        vertices[1]=new Vector2(17,-20).scl(1/Box2D.PPM);
+        vertices[2]= new Vector2(-22,-28).scl(1/Box2D.PPM);
+        vertices[3]=new Vector2(22,-28).scl(1/Box2D.PPM);
+        foot.set(vertices);
+        fdef.shape=foot;
+        fdef.filter.categoryBits=Box2D.STEVEN_FOOT_BIT;
+
+        player.createFixture(fdef).setUserData(this);
+        //  foot.dispose();
+
+        isCollied=false;
     }
 
     public void inputUpdate(float delta) {
