@@ -12,8 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.Box2D;
-import com.mygdx.screens.PlayScreen;
+import com.mygdx.Escape;
 
 public class GameOverScreen  implements Screen {
     private Viewport viewport;
@@ -21,7 +20,7 @@ public class GameOverScreen  implements Screen {
     private Game game;
     public GameOverScreen(Game game){
         this.game  = game;
-        viewport = new FitViewport(Box2D.WIDTH,Box2D.HEIGHT, new OrthographicCamera());
+        viewport = new FitViewport(Escape.WIDTH, Escape.HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport);
         Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
         Table table = new Table();
@@ -47,7 +46,7 @@ public class GameOverScreen  implements Screen {
     @Override
     public void render(float delta) {
         if(Gdx.input.justTouched()) {
-            game.setScreen(new PlayScreen((Box2D) game));
+            game.setScreen(new PlayScreen((Escape) game));
             dispose();
         }
 

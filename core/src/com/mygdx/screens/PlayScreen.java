@@ -14,19 +14,16 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.Box2D;
+import com.mygdx.Escape;
 import com.mygdx.handlers.B2WorldHandler;
 import com.mygdx.sprites.Steven;
-import com.mygdx.screens.GameOverScreen;
-
-import javax.swing.Box;
 
 public class PlayScreen implements Screen {
 
-    public static final PlayScreen INSTANCE = new PlayScreen(Box2D.getInstance());
+    public static final PlayScreen INSTANCE = new PlayScreen(Escape.getInstance());
 
     //Reference to our Game, used to set Screens
-    private final Box2D game;
+    private final Escape game;
     private final TextureAtlas atlas;
 
 
@@ -39,7 +36,7 @@ public class PlayScreen implements Screen {
     private final TiledMap map;
     private final OrthogonalTiledMapRenderer renderer;
 
-    // Box2D variables
+    // Escape variables
     private final World world;
     private final Box2DDebugRenderer b2dr;
     private final B2WorldHandler worldHandler;
@@ -48,18 +45,18 @@ public class PlayScreen implements Screen {
     private SpriteBatch batch;
     private Steven player;
 
-    public PlayScreen(Box2D game) {
+    public PlayScreen(Escape game) {
         this.game = game;
         atlas = new TextureAtlas("data/steven.atlas");
 
         camera = new OrthographicCamera();
 
-        viewport = new FitViewport(Box2D.WIDTH / Box2D.PPM, Box2D.HEIGHT / Box2D.PPM, camera);
+        viewport = new FitViewport(Escape.WIDTH / Escape.PPM, Escape.HEIGHT / Escape.PPM, camera);
 
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("data/Escape.tmx");
 
-        renderer = new OrthogonalTiledMapRenderer(map, 1 / Box2D.PPM);
+        renderer = new OrthogonalTiledMapRenderer(map, 1 / Escape.PPM);
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
 
@@ -94,7 +91,7 @@ public class PlayScreen implements Screen {
         camera.update();
         renderer.setView(camera);
 
-        if(player.player.getPosition().y >= 850 / Box2D.PPM && player.player.getPosition().x >= 430 / Box2D.PPM)
+        if(player.player.getPosition().y >= 850 / Escape.PPM && player.player.getPosition().x >= 430 / Escape.PPM)
             player.currentState = Steven.State.DEAD;
     }
 

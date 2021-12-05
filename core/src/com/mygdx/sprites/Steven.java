@@ -8,17 +8,13 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.Box2D;
+import com.mygdx.Escape;
 import com.mygdx.screens.PlayScreen;
 import com.badlogic.gdx.utils.Array;
-
-import javax.swing.Box;
 
 public class Steven extends Sprite {
     public enum State { FALLING, JUMPING, STANDING, LEFTING, RIGHTING, GROWING, DEAD };
@@ -55,7 +51,7 @@ public class Steven extends Sprite {
         stevenRight = new Animation(0.1f, screen.getAtlas().findRegion("right"));
         stevenStand = new TextureRegion(screen.getAtlas().findRegion("stand"));
         defineSteven();
-        setBounds(0,0, 40 / Box2D.PPM, 52 / Box2D.PPM);
+        setBounds(0,0, 40 / Escape.PPM, 52 / Escape.PPM);
         setRegion(stevenStand);
 
     }
@@ -73,13 +69,13 @@ public class Steven extends Sprite {
         int height = 26;
 
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(x / Box2D.PPM, y / Box2D.PPM);
+        bodyDef.position.set(x / Escape.PPM, y / Escape.PPM);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.fixedRotation = true;
         player = world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width / Box2D.PPM, height / Box2D.PPM);
+        shape.setAsBox(width / Escape.PPM, height / Escape.PPM);
 
        // player.setLinearDamping(0.5f);
         player.createFixture(shape, 0);
