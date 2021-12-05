@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.mygdx.Box2D;
+import com.mygdx.utils.TouchPadTest;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
@@ -12,5 +13,6 @@ public class AndroidLauncher extends AndroidApplication {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		initialize(new Box2D(), config);
+//		initialize(new TouchPadTest(), config);
 	}
 }

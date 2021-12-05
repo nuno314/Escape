@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -12,12 +14,19 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.Box2D;
 import com.mygdx.handlers.B2WorldHandler;
 import com.mygdx.sprites.Steven;
 import com.mygdx.screens.GameOverScreen;
+import com.mygdx.utils.TouchPadTest;
 
 import javax.swing.Box;
 
@@ -48,6 +57,15 @@ public class PlayScreen implements Screen {
     private SpriteBatch batch;
     private Steven player;
 
+    // Touchpad
+    private Stage stage;
+    private Touchpad touchpad;
+    private Touchpad.TouchpadStyle touchpadStyle;
+    private Skin touchpadSkin;
+    private Drawable touchBackground;
+    private Drawable touchKnob;
+
+
     public PlayScreen(Box2D game) {
         this.game = game;
         atlas = new TextureAtlas("data/steven.atlas");
@@ -72,6 +90,31 @@ public class PlayScreen implements Screen {
         player = new Steven(this, "NUNO");
 
         batch = new SpriteBatch();
+
+        //Create a touchpad skin
+        touchpadSkin = new Skin();
+        //Set background image
+        touchpadSkin.add("touchBackground", new Texture("data/touchBackground3.png"));
+        //Set knob image
+        touchpadSkin.add("touchKnob", new Texture("data/touchKnob.png"));
+        //Create TouchPad Style
+        touchpadStyle = new Touchpad.TouchpadStyle();
+        //Create Drawable's from TouchPad skin
+        touchBackground = touchpadSkin.getDrawable("touchBackground");
+        touchKnob = touchpadSkin.getDrawable("touchKnob");
+        //Apply the Drawables to the TouchPad Style
+        touchpadStyle.background = touchBackground;
+        touchpadStyle.knob = touchKnob;
+        //Create new TouchPad with the created style
+        touchpad = new Touchpad(15, touchpadStyle);
+        //setBounds(x,y,width,height)
+        touchpad.setPosition(10, 2000);
+        touchpad.setBounds(15, 15, 100, 100);
+
+        //Create a Stage and add TouchPad
+        stage = new Stage();
+        stage.addActor(touchpad);
+        Gdx.input.setInputProcessor(stage);
     }
 
     public TextureAtlas getAtlas() {
@@ -101,7 +144,6 @@ public class PlayScreen implements Screen {
     @Override
     public void render(float delta) {
         update(delta);
-
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -121,6 +163,14 @@ public class PlayScreen implements Screen {
             game.setScreen(new GameOverScreen(game));
             dispose();
         }
+
+        player.setX(player.getX() + touchpad.getKnobPercentX()*5);
+        player.setY(player.getY() + touchpad.getKnobPercentY()*5);
+
+        stage.act(Gdx.graphics.getDeltaTime());
+        touchpad.setPosition(515, 15);
+        touchpad.setSize(180, 200);
+        stage.draw();
     }
 
     public boolean gameOver(){
