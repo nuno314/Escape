@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.mygdx.Escape;
+import com.mygdx.utils.TouchPadTest;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
