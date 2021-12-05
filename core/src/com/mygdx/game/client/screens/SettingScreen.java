@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.client.Box2D;
 
-public class ConnectScreen implements Screen {
+public class SettingScreen implements Screen {
 
     private SpriteBatch batch;
     private Stage stage;
@@ -25,7 +25,7 @@ public class ConnectScreen implements Screen {
     private OrthographicCamera camera;
     private Viewport viewport;
 
-    public ConnectScreen() {
+    public SettingScreen() {
         skin = new Skin(Gdx.files.internal("skin/screen.json"), new TextureAtlas("skin/screen.pack"));
 
         batch = new SpriteBatch();
@@ -43,17 +43,14 @@ public class ConnectScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        Button play = new Button(skin, "play");
-        Button create = new Button(skin, "create");
-        Button find = new Button(skin, "find");
-        Button home = new Button(skin, "home");
+        Button home = new Button(skin, "home_off");
         Button rank = new Button(skin, "rank_off");
-        Button setting = new Button(skin, "setting_off");
+        Button setting = new Button(skin, "setting");
 
-        play.addListener(new ClickListener() {
+        home.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new PlayScreen(Box2D.getInstance()));
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new ConnectScreen());
             }
         });
 
@@ -61,13 +58,6 @@ public class ConnectScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new RankScreen());
-            }
-        });
-
-        setting.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new SettingScreen());
             }
         });
 
@@ -81,9 +71,6 @@ public class ConnectScreen implements Screen {
         root.setBackground(skin.getDrawable("background"));
         root.setFillParent(true);
         root.top();
-        root.add(play).padTop(100).row();
-        root.add(create).padTop(100).row();
-        root.add(find).padTop(100).row();
         root.add(menu).expand().bottom();
 
         stage.addActor(root);

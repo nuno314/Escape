@@ -1,6 +1,5 @@
 package com.mygdx.game.server;
 
-
 import com.esotericsoftware.kryonet.Server;
 
 import java.io.IOException;

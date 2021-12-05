@@ -48,7 +48,7 @@ public class PlayScreen implements Screen {
         viewport = new FitViewport(Box2D.WIDTH / Box2D.PPM, Box2D.HEIGHT / Box2D.PPM, camera);
 
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("data/Escape.tmx");
+        map = mapLoader.load("data/map_10.tmx");
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Box2D.PPM);
 
@@ -78,12 +78,11 @@ public class PlayScreen implements Screen {
 
         player.update(dt);
 
-        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
-
-        camera.update();
+//        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+//        camera.update();
         renderer.setView(camera);
 
-        if(player.player.getPosition().y >= 850 && player.player.getPosition().x >= 430)
+        if (player.player.getPosition().y >= 850 && player.player.getPosition().x >= 430)
             player.currentState = Steven.State.DEAD;
     }
 
@@ -105,22 +104,23 @@ public class PlayScreen implements Screen {
 
         b2dr.setDrawBodies(false);
 
-        if(gameOver()){
+        if (gameOver()) {
             game.setScreen(new GameOverScreen(game));
             dispose();
         }
     }
 
-    public boolean gameOver(){
+    public boolean gameOver() {
         return player.currentState == Steven.State.DEAD ;
     }
+
     @Override
     public void resize(int width, int height) {
-        camera.setToOrtho(false);
+//        camera.setToOrtho(false);
         viewport.update(width, height);
+        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+        camera.update();
     }
-
-
 
     @Override
     public void pause() {

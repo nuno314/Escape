@@ -67,7 +67,7 @@ public class Steven extends Sprite {
     }
 
     public void defineSteven() {
-        int x = 120;
+        int x = 250;
         int y = 120;
         int width = 20;
         int height = 26;
@@ -140,7 +140,6 @@ public class Steven extends Sprite {
     }
 
     public void draw(Batch batch) {
-
         super.draw(batch);
     }
 

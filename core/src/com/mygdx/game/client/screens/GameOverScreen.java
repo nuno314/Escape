@@ -18,10 +18,13 @@ public class GameOverScreen  implements Screen {
     private Viewport viewport;
     private Stage stage;
     private Game game;
-    public GameOverScreen(Game game){
+
+    public GameOverScreen(Game game) {
         this.game  = game;
+
         viewport = new FitViewport(Box2D.WIDTH,Box2D.HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, ((Box2D)game).batch);
+
         Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
         Table table = new Table();
         table.center();
@@ -34,9 +37,7 @@ public class GameOverScreen  implements Screen {
         table.row();
         table.add(playAgainLabel).expandX().padTop(10f);
 
-
         stage.addActor(table);
-
     }
     @Override
     public void show() {
@@ -53,7 +54,6 @@ public class GameOverScreen  implements Screen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
-
     }
 
     @Override
