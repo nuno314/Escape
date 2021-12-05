@@ -11,14 +11,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.Box2D;
+import com.mygdx.Escape;
+import com.mygdx.handlers.ResourceHandler;
 import com.mygdx.screens.PlayScreen;
 import com.badlogic.gdx.utils.Array;
-
-import javax.swing.Box;
 
 public class Steven extends Sprite {
     public enum State { FALLING, JUMPING, STANDING, LEFTING, RIGHTING, GROWING, DEAD , PASS,FINISH};
@@ -30,7 +28,6 @@ public class Steven extends Sprite {
     String username;
 
     private float stateTimer;
-    Array<TextureRegion> frames;
     private TextureRegion stevenStand;
     private Animation<TextureRegion> stevenLeft;
     private Animation<TextureRegion> stevenRight;
@@ -40,27 +37,35 @@ public class Steven extends Sprite {
     private SpriteBatch batch;
     private Texture texture;
 
-
     private PlayScreen screen;
 
+<<<<<<< HEAD
     public boolean isCollied=false;
     public boolean isPassed=false;
 
     public Steven(PlayScreen screen, final String username) {
         this.screen = screen;
         this.world = screen.getWorld();
+=======
+    public Steven(final String username, int order) {
+        this.screen = PlayScreen.getINSTANCE();
+        this.world = PlayScreen.getWorld();
+>>>>>>> 476496ae517ad5fa600b389b08631266d3cb1fbc
         this.username = username;
         currentState = State.STANDING;
         previousState = State.STANDING;
         stateTimer = 0;
 
-        stevenLeft = new Animation(0.333f, screen.getAtlas().findRegion("left"));
-        stevenRight = new Animation(0.1f, screen.getAtlas().findRegion("right"));
-        stevenStand = new TextureRegion(screen.getAtlas().findRegion("stand"));
-        defineSteven();
-        setBounds(0,0, 40 / Box2D.PPM, 52 / Box2D.PPM);
-        setRegion(stevenStand);
+        if (order == 1) {
+            stevenLeft = ResourceHandler.left1;
+            stevenRight = ResourceHandler.right1;
+            stevenStand = ResourceHandler.stand1;
+        }
+        //else (order == 2)
 
+        defineSteven();
+        setBounds(0,0, 40 / Escape.PPM, 52 / Escape.PPM);
+        setRegion(stevenStand);
     }
 
     public void update(float dt) {
@@ -85,13 +90,13 @@ public class Steven extends Sprite {
         int height = 26;
 
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(x / Box2D.PPM, y / Box2D.PPM);
+        bodyDef.position.set(x / Escape.PPM, y / Escape.PPM);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.fixedRotation = true;
         player = world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width / Box2D.PPM, height / Box2D.PPM);
+        shape.setAsBox(width / Escape.PPM, height / Escape.PPM);
 
         //
         FixtureDef fdef=new FixtureDef();

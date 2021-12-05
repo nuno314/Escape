@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+<<<<<<< HEAD
 import com.mygdx.sprites.Steven;
 import com.mygdx.screens.GameOverScreen;
 
@@ -26,16 +27,25 @@ import com.mygdx.game.client.sprites.OutDoor;
 import com.mygdx.game.client.sprites.Steven;
 import com.mygdx.game.client.sprites.Trap;
 import com.mygdx.game.client.utils.WorldContactListener;
+=======
+import com.mygdx.Escape;
+import com.mygdx.handlers.B2WorldHandler;
+import com.mygdx.sprites.Steven;
+>>>>>>> 476496ae517ad5fa600b389b08631266d3cb1fbc
 
 public class PlayScreen implements Screen {
+    private static final PlayScreen INSTANCE = new PlayScreen();
 
-    public static final PlayScreen INSTANCE = new PlayScreen(Box2D.getInstance());
-
+    private static World world;
     //Reference to our Game, used to set Screens
+<<<<<<< HEAD
     private Box2D game;
     private TextureAtlas atlas;
     private static Hud hud;
 
+=======
+    private final Escape game;
+>>>>>>> 476496ae517ad5fa600b389b08631266d3cb1fbc
 
     // Basic playscreen variables
     private final OrthographicCamera camera;
@@ -46,8 +56,8 @@ public class PlayScreen implements Screen {
     private final TiledMap map;
     private final OrthogonalTiledMapRenderer renderer;
 
-    // Box2D variables
-    private final World world;
+    // Escape variables
+
     private final Box2DDebugRenderer b2dr;
     private final B2WorldHandler worldHandler;
 
@@ -55,6 +65,7 @@ public class PlayScreen implements Screen {
     private SpriteBatch batch;
     private Steven player;
 
+<<<<<<< HEAD
     private final String[] pathMapGame={"","data/Escape.tmx","data/map_2.tmx"};
     int currentLevel;
     private Music music;
@@ -62,27 +73,36 @@ public class PlayScreen implements Screen {
     public PlayScreen(Box2D game) {
         this.game = game;
         atlas = new TextureAtlas("data/steven.atlas");
+=======
+    public PlayScreen() {
+        this.game = Escape.getINSTANCE();
+>>>>>>> 476496ae517ad5fa600b389b08631266d3cb1fbc
 
-        camera = new OrthographicCamera();
+        this.camera = game.getCamera();
 
-        viewport = new FitViewport(Box2D.WIDTH / Box2D.PPM, Box2D.HEIGHT / Box2D.PPM, camera);
+        viewport = game.getViewport();
 
         mapLoader = new TmxMapLoader();
+<<<<<<< HEAD
         currentLevel = Hud.level;
 //          currentLevel = (Hud.level+1)%2 +1;
 
         map = mapLoader.load(pathMapGame[currentLevel]);
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Box2D.PPM);
+=======
+        map = mapLoader.load("data/Escape.tmx");
+        renderer = new OrthogonalTiledMapRenderer(map, 1 / Escape.PPM);
+>>>>>>> 476496ae517ad5fa600b389b08631266d3cb1fbc
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
 
         world = new World(new Vector2(0, -10), false);
 
         b2dr = new Box2DDebugRenderer();
-
         worldHandler = new B2WorldHandler(this);
 
+<<<<<<< HEAD
         //add for collision
         for (MapObject object: map.getLayers().get("Traps").getObjects()){
             new Trap(this,object);
@@ -109,9 +129,13 @@ public class PlayScreen implements Screen {
         music.play();
 
     }
+=======
+        player = new Steven("NUNO", 1);
 
-    public TextureAtlas getAtlas() {
-        return atlas;
+        batch = new SpriteBatch();
+>>>>>>> 476496ae517ad5fa600b389b08631266d3cb1fbc
+
+
     }
 
     @Override
@@ -131,11 +155,15 @@ public class PlayScreen implements Screen {
         camera.update();
         renderer.setView(camera);
 
+<<<<<<< HEAD
 //        if(player.player.getPosition().y >= 850 / Box2D.PPM && player.player.getPosition().x >= 430 / Box2D.PPM)
 //            player.currentState = Steven.State.PASS;
         if(player.isPassed)
             player.currentState = Steven.State.PASS;
         if(hud.getWorldTimer() <=0)
+=======
+        if(player.player.getPosition().y >= 850 / Escape.PPM && player.player.getPosition().x >= 430 / Escape.PPM)
+>>>>>>> 476496ae517ad5fa600b389b08631266d3cb1fbc
             player.currentState = Steven.State.DEAD;
 
 
@@ -171,8 +199,12 @@ public class PlayScreen implements Screen {
         b2dr.setDrawBodies(false);
 
         if(gameOver()){
+<<<<<<< HEAD
 
             game.setScreen(new GameOverScreen(game));
+=======
+            game.setScreen(new GameOverScreen());
+>>>>>>> 476496ae517ad5fa600b389b08631266d3cb1fbc
             dispose();
         }
         if(isPassLevel()){
@@ -228,7 +260,7 @@ public class PlayScreen implements Screen {
 
     }
 
-    public World getWorld() {
+    public static World getWorld() {
         return world;
     }
 
@@ -239,5 +271,11 @@ public class PlayScreen implements Screen {
     public SpriteBatch getBatch() {
         return batch;
     }
+
+    public static PlayScreen getINSTANCE() {
+        return INSTANCE;
+    }
+
+
 }
 
