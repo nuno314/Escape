@@ -1,4 +1,4 @@
-package com.mygdx.game.client.screens;
+package com.mygdx.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -12,7 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.client.Box2D;
+import com.mygdx.Box2D;
+import com.mygdx.screens.PlayScreen;
 
 public class GameOverScreen  implements Screen {
     private Viewport viewport;
@@ -21,7 +22,7 @@ public class GameOverScreen  implements Screen {
     public GameOverScreen(Game game){
         this.game  = game;
         viewport = new FitViewport(Box2D.WIDTH,Box2D.HEIGHT, new OrthographicCamera());
-        stage = new Stage(viewport, ((Box2D)game).batch);
+        stage = new Stage(viewport);
         Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
         Table table = new Table();
         table.center();

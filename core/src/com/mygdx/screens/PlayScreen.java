@@ -1,9 +1,10 @@
-package com.mygdx.game.client.screens;
+package com.mygdx.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -13,9 +14,10 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.client.Box2D;
-import com.mygdx.game.client.handlers.B2WorldHandler;
-import com.mygdx.game.client.sprites.Steven;
+import com.mygdx.Box2D;
+import com.mygdx.handlers.B2WorldHandler;
+import com.mygdx.sprites.Steven;
+import com.mygdx.screens.GameOverScreen;
 
 import javax.swing.Box;
 
@@ -24,24 +26,26 @@ public class PlayScreen implements Screen {
     public static final PlayScreen INSTANCE = new PlayScreen(Box2D.getInstance());
 
     //Reference to our Game, used to set Screens
-    private Box2D game;
-    private TextureAtlas atlas;
+    private final Box2D game;
+    private final TextureAtlas atlas;
+
 
     // Basic playscreen variables
-    private OrthographicCamera camera;
-    private Viewport viewport;
+    private final OrthographicCamera camera;
+    private final Viewport viewport;
 
     // Tiled map variables
-    private TmxMapLoader mapLoader;
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer renderer;
+    private final TmxMapLoader mapLoader;
+    private final TiledMap map;
+    private final OrthogonalTiledMapRenderer renderer;
 
     // Box2D variables
-    private World world;
-    private Box2DDebugRenderer b2dr;
-    private B2WorldHandler worldHandler;
+    private final World world;
+    private final Box2DDebugRenderer b2dr;
+    private final B2WorldHandler worldHandler;
 
     // Sprites
+    private SpriteBatch batch;
     private Steven player;
 
     public PlayScreen(Box2D game) {
@@ -66,6 +70,8 @@ public class PlayScreen implements Screen {
         worldHandler = new B2WorldHandler(this);
 
         player = new Steven(this, "NUNO");
+
+        batch = new SpriteBatch();
     }
 
     public TextureAtlas getAtlas() {
@@ -103,10 +109,11 @@ public class PlayScreen implements Screen {
 
         b2dr.render(world, camera.combined);
 
-        game.batch.setProjectionMatrix(camera.combined);
-        game.batch.begin();
-        player.draw(game.batch);
-        game.batch.end();
+        batch.begin();
+        batch.setProjectionMatrix(camera.combined);
+        player.draw(batch);
+        //player.update(delta);
+        batch.end();
 
         b2dr.setDrawBodies(false);
 
@@ -144,6 +151,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void dispose() {
+        batch.dispose();
         map.dispose();
         renderer.dispose();
         world.dispose();
@@ -157,4 +165,9 @@ public class PlayScreen implements Screen {
     public TiledMap getMap() {
         return map;
     }
+
+    public SpriteBatch getBatch() {
+        return batch;
+    }
 }
+

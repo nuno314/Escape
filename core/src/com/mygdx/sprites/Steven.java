@@ -1,6 +1,4 @@
-package com.mygdx.game.client.sprites;
-
-import static com.mygdx.game.client.utils.Constants.PPM;
+package com.mygdx.sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -16,8 +14,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.game.client.Box2D;
-import com.mygdx.game.client.screens.PlayScreen;
+import com.mygdx.Box2D;
+import com.mygdx.screens.PlayScreen;
 import com.badlogic.gdx.utils.Array;
 
 import javax.swing.Box;
