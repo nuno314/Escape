@@ -36,10 +36,9 @@ public class WorldContactListener implements ContactListener {
                 if (fixA.getFilterData().categoryBits == Box2D.STEVEN_BIT) {
                     Gdx.app.log("steven", "");
                 } else if (fixA.getFilterData().categoryBits==Box2D.DOOR_BITCH_BIT){
-                    ((Interactive)fixA.getUserData()).OnFootHit((Steven) fixB.getUserData());
-                    Gdx.app.log("not steven", "is door");
+                    ((Interactive)fixA.getUserData()).OnBodyHit((Steven) fixB.getUserData());
+                    Gdx.app.log("steven", "is door");
                 }
-
                 break;
             default:
                 break;

@@ -51,6 +51,8 @@ public abstract class Interactive {
 
 
     public abstract void OnFootHit(Steven steven);
+    public abstract void OnBodyHit(Steven steven);
+
     public void setCategoryFilter(short filterBit){
         Filter filter= new Filter();
         filter.categoryBits=filterBit;

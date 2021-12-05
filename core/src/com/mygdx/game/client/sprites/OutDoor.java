@@ -12,11 +12,18 @@ public class OutDoor extends Interactive {
         fixture.setUserData(this);
         setCategoryFilter(Box2D.DOOR_BITCH_BIT);
 
+
     }
 
     @Override
     public void OnFootHit(Steven steven) {
+
+    }
+
+    @Override
+    public void OnBodyHit(Steven steven) {
         Gdx.app.log("DOOR: ","COLLISION");
         steven.isPassed=true;
+
     }
 }

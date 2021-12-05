@@ -75,12 +75,17 @@ public class Hud {
         scoreLabel.setText(String.format("%06d",score));
     }
 
+
     public Integer getWorldTimer() {
         return worldTimer;
     }
-    public Integer getScore(){
+    public static Integer getScore(){
         return score;
     }
+    public static void setScore(int x){
+        score=x;
+    }
+
     public boolean isLastLevel() {
         return level==MAX_LEVEL;
     }

@@ -63,8 +63,8 @@ public class PlayScreen implements Screen {
         viewport = new FitViewport(Box2D.WIDTH / Box2D.PPM, Box2D.HEIGHT / Box2D.PPM, camera);
 
         mapLoader = new TmxMapLoader();
-//        currentLevel = Hud.level;
-          currentLevel = (Hud.level)%2 +1;
+        currentLevel = Hud.level;
+//          currentLevel = (Hud.level+1)%2 +1;
 
         map = mapLoader.load(pathMapGame[currentLevel]);
 
@@ -125,7 +125,9 @@ public class PlayScreen implements Screen {
         camera.update();
         renderer.setView(camera);
 
-        if(player.player.getPosition().y >= 850 / Box2D.PPM && player.player.getPosition().x >= 430 / Box2D.PPM)
+//        if(player.player.getPosition().y >= 850 / Box2D.PPM && player.player.getPosition().x >= 430 / Box2D.PPM)
+//            player.currentState = Steven.State.PASS;
+        if(player.isPassed)
             player.currentState = Steven.State.PASS;
         if(hud.getWorldTimer() <=0)
             player.currentState = Steven.State.DEAD;
@@ -155,7 +157,7 @@ public class PlayScreen implements Screen {
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
-     //   b2dr.setDrawBodies(false);
+        b2dr.setDrawBodies(false);
 
         if(gameOver()){
 
@@ -175,7 +177,7 @@ public class PlayScreen implements Screen {
     }
 
     public boolean isPassLevel(){
-        return player.currentState == Steven.State.PASS ;
+        return player.isPassed;
     }
     public boolean isFinish(){
         return player.currentState == Steven.State.FINISH ;
