@@ -1,19 +1,20 @@
 package com.mygdx.game.client.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.esotericsoftware.kryonet.Client;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.client.Box2D;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.game.client.handlers.LabelHandler;
@@ -23,6 +24,12 @@ public class ConnectScreen implements Screen {
     public static final ConnectScreen INSTANCE = new ConnectScreen();
     private final Stage stage;
     private final Table root;
+
+    private SpriteBatch batch;
+    private Stage stage;
+    private Skin skin;
+    private OrthographicCamera camera;
+    private Viewport viewport;
 
     private final TextField ipAddressLabel;
     private final TextField portLabel;
@@ -83,45 +90,106 @@ public class ConnectScreen implements Screen {
         this.root.add(this.usernameLabel).width(250).padTop(50).row();
         this.root.add(this.connectButton).size(250,50).padTop(100).row();
         this.root.add(this.errorLabel).padTop(50);
+        skin = new Skin(Gdx.files.internal("skin/screen.json"), new TextureAtlas("skin/screen.pack"));
+
+        batch = new SpriteBatch();
+        camera = new OrthographicCamera();
+        viewport = new FitViewport(Box2D.WIDTH, Box2D.HEIGHT, camera);
+
+        viewport.apply();
+        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+        camera.update();
+
+        stage = new Stage(viewport, batch);
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(this.stage);
+        Gdx.input.setInputProcessor(stage);
+
+        Button play = new Button(skin, "play");
+        Button create = new Button(skin, "create");
+        Button find = new Button(skin, "find");
+        Button home = new Button(skin, "home");
+        Button rank = new Button(skin, "rank_off");
+        Button setting = new Button(skin, "setting_off");
+
+        play.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new PlayScreen(Box2D.getInstance()));
+            }
+        });
+
+        rank.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new RankScreen());
+            }
+        });
+
+        setting.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new SettingScreen());
+            }
+        });
+
+        Table menu = new Table();
+        menu.left();
+        menu.add(home);
+        menu.add(rank);
+        menu.add(setting);
+
+        Table root = new Table();
+        root.setBackground(skin.getDrawable("background"));
+        root.setFillParent(true);
+        root.top();
+        root.add(play).padTop(100).row();
+        root.add(create).padTop(100).row();
+        root.add(find).padTop(100).row();
+        root.add(menu).expand().bottom();
+
+        stage.addActor(root);
     }
 
     @Override
     public void render(float delta) {
-        this.stage.draw();
-        this.stage.act(delta);
+        Gdx.gl.glClearColor(0,0,0,1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        stage.act();
+        stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-
+        viewport.update(width, height);
+        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+        camera.update();
     }
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override
     public void hide() {
-
+        dispose();
     }
 
     @Override
     public void dispose() {
-
+        skin.dispose();
     }
 
     public Label getErrorLabel() {
         return errorLabel;
     }
 }
+

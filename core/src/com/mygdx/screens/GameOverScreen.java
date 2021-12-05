@@ -36,7 +36,6 @@ public class GameOverScreen implements Screen {
         table.row();
         table.add(playAgainLabel).expandX().padTop(10f);
 
-
         stage.addActor(table);
 
         Box2D.manager.get("audio/sounds/GameOver.mp3", Sound.class).play();
@@ -58,7 +57,6 @@ public class GameOverScreen implements Screen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
-
     }
 
     @Override
