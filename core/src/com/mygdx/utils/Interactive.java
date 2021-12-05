@@ -1,4 +1,4 @@
-package com.mygdx.game.client.utils;
+package com.mygdx.utils;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -11,8 +11,8 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.game.client.screens.PlayScreen;
-import com.mygdx.game.client.sprites.Steven;
+import com.mygdx.screens.PlayScreen;
+import com.mygdx.sprites.Steven;
 
 public abstract class Interactive {
     protected World world;
@@ -48,7 +48,6 @@ public abstract class Interactive {
 
 
     }
-
 
     public abstract void OnFootHit(Steven steven);
     public abstract void OnBodyHit(Steven steven);

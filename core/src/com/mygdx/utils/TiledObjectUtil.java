@@ -1,6 +1,4 @@
-package com.mygdx.game.client.utils;
-
-import static com.mygdx.game.client.utils.Constants.PPM;
+package com.mygdx.utils;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -11,9 +9,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.game.client.Box2D;
-
-import javax.swing.Box;
+import com.mygdx.Escape;
 
 public class TiledObjectUtil {
     public static void parseTiledObjectLayer(World world, MapObjects objects) {
@@ -41,7 +37,7 @@ public class TiledObjectUtil {
         Vector2[] worldVertices = new Vector2[vertices.length / 2];
 
         for (int i = 0; i < vertices.length / 2; i++) {
-            worldVertices[i] = new Vector2(vertices[i * 2] / Box2D.PPM, vertices[i * 2 + 1] / Box2D.PPM);
+            worldVertices[i] = new Vector2(vertices[i * 2] / Escape.PPM, vertices[i * 2 + 1] / Escape.PPM);
 
         }
 

@@ -11,12 +11,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.Escape;
 import com.mygdx.handlers.ResourceHandler;
 import com.mygdx.screens.PlayScreen;
-import com.badlogic.gdx.utils.Array;
 
 public class Steven extends Sprite {
     public enum State { FALLING, JUMPING, STANDING, LEFTING, RIGHTING, GROWING, DEAD , PASS,FINISH};
@@ -39,18 +39,12 @@ public class Steven extends Sprite {
 
     private PlayScreen screen;
 
-<<<<<<< HEAD
     public boolean isCollied=false;
     public boolean isPassed=false;
 
-    public Steven(PlayScreen screen, final String username) {
-        this.screen = screen;
-        this.world = screen.getWorld();
-=======
     public Steven(final String username, int order) {
         this.screen = PlayScreen.getINSTANCE();
         this.world = PlayScreen.getWorld();
->>>>>>> 476496ae517ad5fa600b389b08631266d3cb1fbc
         this.username = username;
         currentState = State.STANDING;
         previousState = State.STANDING;
@@ -64,7 +58,7 @@ public class Steven extends Sprite {
         //else (order == 2)
 
         defineSteven();
-        setBounds(0,0, 40 / Escape.PPM, 52 / Escape.PPM);
+        setBounds(0,0, 40 / com.mygdx.Escape.PPM, 52 / com.mygdx.Escape.PPM);
         setRegion(stevenStand);
     }
 
@@ -90,19 +84,19 @@ public class Steven extends Sprite {
         int height = 26;
 
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(x / Escape.PPM, y / Escape.PPM);
+        bodyDef.position.set(x / com.mygdx.Escape.PPM, y / com.mygdx.Escape.PPM);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.fixedRotation = true;
         player = world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width / Escape.PPM, height / Escape.PPM);
+        shape.setAsBox(width / com.mygdx.Escape.PPM, height / com.mygdx.Escape.PPM);
 
         //
         FixtureDef fdef=new FixtureDef();
 
-        fdef.filter.categoryBits=Box2D.STEVEN_BIT;
-        fdef.filter.maskBits= Box2D.DEFAULT_BIT| Box2D.DOOR_BITCH_BIT | Box2D.TRAP_BIT; //bit co the va cham
+        fdef.filter.categoryBits= Escape.STEVEN_BIT;
+        fdef.filter.maskBits= Escape.DEFAULT_BIT| Escape.DOOR_BITCH_BIT | Escape.TRAP_BIT; //bit co the va cham
         fdef.shape=shape;
         //  player.setLinearDamping(0.5f);
         player.createFixture(fdef).setUserData(this);
@@ -112,13 +106,13 @@ public class Steven extends Sprite {
         //CREATE FOOT:
         PolygonShape foot=new PolygonShape();
         Vector2[] vertices=new Vector2[4];
-        vertices[0]= new Vector2(-17,-20).scl(1/Box2D.PPM);
-        vertices[1]=new Vector2(17,-20).scl(1/Box2D.PPM);
-        vertices[2]= new Vector2(-22,-28).scl(1/Box2D.PPM);
-        vertices[3]=new Vector2(22,-28).scl(1/Box2D.PPM);
+        vertices[0]= new Vector2(-17,-20).scl(1/ Escape.PPM);
+        vertices[1]=new Vector2(17,-20).scl(1/ Escape.PPM);
+        vertices[2]= new Vector2(-22,-28).scl(1/ Escape.PPM);
+        vertices[3]=new Vector2(22,-28).scl(1/ Escape.PPM);
         foot.set(vertices);
         fdef.shape=foot;
-        fdef.filter.categoryBits=Box2D.STEVEN_FOOT_BIT;
+        fdef.filter.categoryBits= Escape.STEVEN_FOOT_BIT;
 
 
         player.createFixture(fdef).setUserData(this);
@@ -142,12 +136,12 @@ public class Steven extends Sprite {
 
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width/Box2D.PPM, height/Box2D.PPM);
+        shape.setAsBox(width/ Escape.PPM, height/ Escape.PPM);
 
         FixtureDef fdef=new FixtureDef();
 
-        fdef.filter.categoryBits=Box2D.STEVEN_BIT;
-        fdef.filter.maskBits= Box2D.DEFAULT_BIT|Box2D.DOOR_BITCH_BIT|Box2D.TRAP_BIT; //bit co the va cham
+        fdef.filter.categoryBits= Escape.STEVEN_BIT;
+        fdef.filter.maskBits= Escape.DEFAULT_BIT| Escape.DOOR_BITCH_BIT| Escape.TRAP_BIT; //bit co the va cham
         fdef.shape=shape;
         //  player.setLinearDamping(0.5f);
         player.createFixture(fdef).setUserData(this);
@@ -156,13 +150,13 @@ public class Steven extends Sprite {
         //CREATE FOOT:
         PolygonShape foot=new PolygonShape();
         Vector2[] vertices=new Vector2[4];
-        vertices[0]= new Vector2(-17,-20).scl(1/Box2D.PPM);
-        vertices[1]=new Vector2(17,-20).scl(1/Box2D.PPM);
-        vertices[2]= new Vector2(-22,-28).scl(1/Box2D.PPM);
-        vertices[3]=new Vector2(22,-28).scl(1/Box2D.PPM);
+        vertices[0]= new Vector2(-17,-20).scl(1/ Escape.PPM);
+        vertices[1]=new Vector2(17,-20).scl(1/ Escape.PPM);
+        vertices[2]= new Vector2(-22,-28).scl(1/ Escape.PPM);
+        vertices[3]=new Vector2(22,-28).scl(1/ Escape.PPM);
         foot.set(vertices);
         fdef.shape=foot;
-        fdef.filter.categoryBits=Box2D.STEVEN_FOOT_BIT;
+        fdef.filter.categoryBits= Escape.STEVEN_FOOT_BIT;
 
         player.createFixture(fdef).setUserData(this);
         //  foot.dispose();

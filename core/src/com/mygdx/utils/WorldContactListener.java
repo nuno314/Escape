@@ -1,4 +1,4 @@
-package com.mygdx.game.client.utils;
+package com.mygdx.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -6,8 +6,9 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.mygdx.game.client.Box2D;
-import com.mygdx.game.client.sprites.Steven;
+import com.mygdx.Escape;
+import com.mygdx.sprites.Steven;
+import com.mygdx.utils.Interactive;
 
 public class WorldContactListener implements ContactListener {
     @Override
@@ -23,19 +24,19 @@ public class WorldContactListener implements ContactListener {
 
         switch (cdef)
         {
-            case Box2D.TRAP_BIT | Box2D.STEVEN_FOOT_BIT:
-                if (fixA.getFilterData().categoryBits == Box2D.STEVEN_FOOT_BIT) {
+            case Escape.TRAP_BIT | Escape.STEVEN_FOOT_BIT:
+                if (fixA.getFilterData().categoryBits == Escape.STEVEN_FOOT_BIT) {
                     ((Interactive) fixB.getUserData()).OnFootHit((Steven) fixA.getUserData());
                 } else {
                     ((Interactive) fixA.getUserData()).OnFootHit((Steven) fixB.getUserData());
                 }
 
                 break;
-            case Box2D.DOOR_BITCH_BIT | Box2D.STEVEN_BIT:
+            case Escape.DOOR_BITCH_BIT | Escape.STEVEN_BIT:
                 Gdx.app.log("door", "collide");
-                if (fixA.getFilterData().categoryBits == Box2D.STEVEN_BIT) {
+                if (fixA.getFilterData().categoryBits == Escape.STEVEN_BIT) {
                     Gdx.app.log("steven", "");
-                } else if (fixA.getFilterData().categoryBits==Box2D.DOOR_BITCH_BIT){
+                } else if (fixA.getFilterData().categoryBits== Escape.DOOR_BITCH_BIT){
                     ((Interactive)fixA.getUserData()).OnBodyHit((Steven) fixB.getUserData());
                     Gdx.app.log("steven", "is door");
                 }

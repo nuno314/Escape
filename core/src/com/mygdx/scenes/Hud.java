@@ -1,4 +1,4 @@
-package com.mygdx.game.client.scenes;
+package com.mygdx.scenes;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -9,8 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.client.Box2D;
-import com.mygdx.game.client.screens.PlayScreen;
+import com.mygdx.Escape;
 
 public class Hud {
     public Stage stage;
@@ -34,7 +33,7 @@ public class Hud {
         worldTimer = LIMIT_TIME;
         timeCount = 0;
 
-        viewport = new FitViewport(com.mygdx.game.client.Box2D.WIDTH, Box2D.HEIGHT, new OrthographicCamera());
+        viewport = new FitViewport(Escape.WIDTH, Escape.HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
 
         Table table = new Table();

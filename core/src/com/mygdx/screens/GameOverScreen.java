@@ -38,7 +38,7 @@ public class GameOverScreen implements Screen {
 
         stage.addActor(table);
 
-        Box2D.manager.get("audio/sounds/GameOver.mp3", Sound.class).play();
+        Escape.manager.get("audio/sounds/GameOver.mp3", Sound.class).play();
 
 
     }

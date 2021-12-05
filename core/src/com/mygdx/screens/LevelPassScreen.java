@@ -1,4 +1,4 @@
-package com.mygdx.game.client.screens;
+package com.mygdx.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -8,25 +8,28 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.client.Box2D;
-import com.mygdx.game.client.scenes.Hud;
+import com.mygdx.Escape;
+import com.mygdx.scenes.Hud;
 
 public class LevelPassScreen implements Screen {
     private Viewport viewport;
     private Stage stage;
     private Game game;
     private Hud hud;
+    private SpriteBatch batch;
 
     public LevelPassScreen(Game game, Integer point, Integer time) {
 
         this.game = game;
-        viewport = new FitViewport(Box2D.WIDTH, Box2D.HEIGHT, new OrthographicCamera());
-        stage = new Stage(viewport, ((Box2D) game).batch);
+        batch = new SpriteBatch();
+        viewport = new FitViewport(Escape.WIDTH, Escape.HEIGHT, new OrthographicCamera());
+        stage = new Stage(viewport, batch);
 
         Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
         Table table = new Table();
@@ -51,7 +54,7 @@ public class LevelPassScreen implements Screen {
         table.add(continueLabel).expandX().padTop(10f);
         stage.addActor(table);
 
-        Box2D.manager.get("audio/sounds/PassLevel.mp3", Sound.class).play();
+        Escape.manager.get("audio/sounds/PassLevel.mp3", Sound.class).play();
 
 
     }
@@ -66,7 +69,7 @@ public class LevelPassScreen implements Screen {
     public void render(float delta) {
         if (Gdx.input.justTouched()) {
             Hud.level++;
-            game.setScreen(new PlayScreen((Box2D) game));
+            game.setScreen(PlayScreen.getINSTANCE());
             dispose();
         }
 

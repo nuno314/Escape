@@ -1,12 +1,12 @@
 package com.mygdx.screens;
 
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
@@ -16,39 +16,30 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.sprites.Steven;
-import com.mygdx.screens.GameOverScreen;
-import com.mygdx.utils.TouchPadTest;
 
-import javax.swing.Box;
-import com.mygdx.game.client.handlers.B2WorldHandler;
-import com.mygdx.game.client.scenes.Hud;
-import com.mygdx.game.client.sprites.OutDoor;
-import com.mygdx.game.client.sprites.Steven;
-import com.mygdx.game.client.sprites.Trap;
-import com.mygdx.game.client.utils.WorldContactListener;
 import com.mygdx.Escape;
-import com.mygdx.handlers.B2WorldHandler;
+import com.mygdx.scenes.Hud;
+import com.mygdx.sprites.OutDoor;
+import com.mygdx.sprites.Trap;
+import com.mygdx.utils.WorldContactListener;
 import com.mygdx.sprites.Steven;
+
+import com.mygdx.handlers.B2WorldHandler;
 
 public class PlayScreen implements Screen {
     private static final PlayScreen INSTANCE = new PlayScreen();
 
     private static World world;
     //Reference to our Game, used to set Screens
-    private Box2D game;
     private TextureAtlas atlas;
     private static Hud hud;
 
-    private final Escape game;
+    private final com.mygdx.Escape game;
 
     // Basic playscreen variables
     private final OrthographicCamera camera;
@@ -68,8 +59,7 @@ public class PlayScreen implements Screen {
     private SpriteBatch batch;
     private Steven player;
 
-
-    private final String[] pathMapGame={"","data/Escape.tmx","data/map_2.tmx"};
+    private final String[] pathMapGame={"","data/map_1.tmx","data/map_1.tmx"};
     int currentLevel;
     private Music music;
 
@@ -82,12 +72,8 @@ public class PlayScreen implements Screen {
     private Drawable touchKnob;
 
 
-    public PlayScreen(Box2D game) {
-        this.game = game;
-        atlas = new TextureAtlas("data/steven.atlas");
-
     public PlayScreen() {
-        this.game = Escape.getINSTANCE();
+        this.game = com.mygdx.Escape.getINSTANCE();
 
         this.camera = game.getCamera();
 
@@ -98,11 +84,7 @@ public class PlayScreen implements Screen {
 //          currentLevel = (Hud.level+1)%2 +1;
 
         map = mapLoader.load(pathMapGame[currentLevel]);
-
-        renderer = new OrthogonalTiledMapRenderer(map, 1 / Box2D.PPM);
-        map = mapLoader.load("data/Escape.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map, 1 / Escape.PPM);
-
+        renderer = new OrthogonalTiledMapRenderer(map, 1 / com.mygdx.Escape.PPM);
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
 
         world = new World(new Vector2(0, -10), false);
@@ -113,24 +95,23 @@ public class PlayScreen implements Screen {
 
         //add for collision
         for (MapObject object: map.getLayers().get("Traps").getObjects()){
-            new Trap(this,object);
+            new Trap(this ,object);
         }
 
-        for (MapObject object: map.getLayers().get("OutDoors").getObjects()){
+        for (MapObject object: map.getLayers().get("Door").getObjects()){
             new OutDoor(this,object);
         }
 
-        player = new Steven(this, "NUNO");
 
         batch = new SpriteBatch();
         //add for collision
         world.setContactListener(new WorldContactListener());
 
-        hud = new Hud(game.batch);
+        hud = new Hud(batch);
 
 //        Music for game
-        music = Box2D.manager.get("audio/music/Escape_music.ogg", Music.class);
-//      music = Box2D.manager.get("audio/sounds/Trap.mp3",Music.class);
+        music = Escape.manager.get("audio/music/Escape_music.ogg", Music.class);
+//      music = Escape.manager.get("audio/sounds/Trap.mp3",Music.class);
 
         music.setLooping(true);
         music.setVolume(0.7f);
@@ -161,14 +142,13 @@ public class PlayScreen implements Screen {
         stage = new Stage();
         stage.addActor(touchpad);
         Gdx.input.setInputProcessor(stage);
-    }
 
+
+        // Steven
         player = new Steven("NUNO", 1);
-
         batch = new SpriteBatch();
-
-
     }
+
 
     @Override
     public void show() {
@@ -187,12 +167,12 @@ public class PlayScreen implements Screen {
         camera.update();
         renderer.setView(camera);
 
-//        if(player.player.getPosition().y >= 850 / Box2D.PPM && player.player.getPosition().x >= 430 / Box2D.PPM)
+//        if(player.player.getPosition().y >= 850 / Escape.PPM && player.player.getPosition().x >= 430 / Escape.PPM)
 //            player.currentState = Steven.State.PASS;
         if(player.isPassed)
             player.currentState = Steven.State.PASS;
         if(hud.getWorldTimer() <=0)
-        if(player.player.getPosition().y >= 850 / Escape.PPM && player.player.getPosition().x >= 430 / Escape.PPM)
+        if(player.player.getPosition().y >= 850 / com.mygdx.Escape.PPM && player.player.getPosition().x >= 430 / com.mygdx.Escape.PPM)
             player.currentState = Steven.State.DEAD;
 
 
@@ -214,21 +194,20 @@ public class PlayScreen implements Screen {
         //player.update(delta);
         batch.end();
 
-        game.batch.setProjectionMatrix(camera.combined);
+        batch.setProjectionMatrix(camera.combined);
 
 
-        game.batch.begin();
-        player.draw(game.batch);
+        batch.begin();
+        player.draw(batch);
 
-        game.batch.end();
+        batch.end();
 
-        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+        batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
         b2dr.setDrawBodies(false);
 
         if(gameOver()){
 
-            game.setScreen(new GameOverScreen(game));
             game.setScreen(new GameOverScreen());
             dispose();
         }
