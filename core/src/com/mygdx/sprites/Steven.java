@@ -8,11 +8,13 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.Escape;
+import com.mygdx.handlers.ResourceHandler;
 import com.mygdx.screens.PlayScreen;
 import com.badlogic.gdx.utils.Array;
 
@@ -26,7 +28,6 @@ public class Steven extends Sprite {
     String username;
 
     private float stateTimer;
-    Array<TextureRegion> frames;
     private TextureRegion stevenStand;
     private Animation<TextureRegion> stevenLeft;
     private Animation<TextureRegion> stevenRight;
@@ -36,24 +37,26 @@ public class Steven extends Sprite {
     private SpriteBatch batch;
     private Texture texture;
 
-
     private PlayScreen screen;
 
-    public Steven(PlayScreen screen, final String username) {
-        this.screen = screen;
-        this.world = screen.getWorld();
+    public Steven(final String username, int order) {
+        this.screen = PlayScreen.getINSTANCE();
+        this.world = PlayScreen.getWorld();
         this.username = username;
         currentState = State.STANDING;
         previousState = State.STANDING;
         stateTimer = 0;
 
-        stevenLeft = new Animation(0.333f, screen.getAtlas().findRegion("left"));
-        stevenRight = new Animation(0.1f, screen.getAtlas().findRegion("right"));
-        stevenStand = new TextureRegion(screen.getAtlas().findRegion("stand"));
+        if (order == 1) {
+            stevenLeft = ResourceHandler.left1;
+            stevenRight = ResourceHandler.right1;
+            stevenStand = ResourceHandler.stand1;
+        }
+        //else (order == 2)
+
         defineSteven();
         setBounds(0,0, 40 / Escape.PPM, 52 / Escape.PPM);
         setRegion(stevenStand);
-
     }
 
     public void update(float dt) {

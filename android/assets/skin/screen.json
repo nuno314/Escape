@@ -1,0 +1,71 @@
+{
+  com.badlogic.gdx.graphics.g2d.BitmapFont: {
+    carterone-font: {
+      file: carterone.fnt
+    }
+  },
+  com.badlogic.gdx.graphics.Color: {
+    green: {
+      a: 1,
+      b: 0,
+      g: 1,
+      r: 0
+    },
+    white: {
+      a: 1,
+      b: 1,
+      g: 1,
+      r: 1
+    },
+    red: {
+      a: 1,
+      b: 0,
+      g: 0,
+      r: 1
+    },
+    black: {
+      a: 1,
+      b: 0,
+      g: 0,
+      r: 0
+    }
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+    home: {
+      down: home,
+      up: home
+    },
+    rank: {
+      down: rank,
+      up: rank
+    },
+    setting: {
+      down: setting,
+      up: setting
+    },
+    home_off: {
+      down: home_off,
+      up: home_off
+    },
+    rank_off: {
+      down: rank_off,
+      up: rank_off
+    },
+    setting_off: {
+      down: setting_off,
+      up: setting_off
+    },
+    play: {
+      down: play_off,
+      up: play
+    },
+    create: {
+      down: create_off,
+      up: create
+    },
+    find: {
+      down: find_off,
+      up: find
+    }
+  }
+}

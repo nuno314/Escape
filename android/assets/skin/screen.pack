@@ -1,0 +1,95 @@
+screen.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+background
+    rotate: false
+    xy: 0, 0
+    size: 576, 1056
+    orig: 576, 1056
+    offset: 0, 0
+    index: -1
+home
+    rotate: false
+    xy: 576, 856
+    size: 192, 100
+    orig: 192, 100
+    offset: 0, 0
+    index: -1
+rank
+    rotate: false
+    xy: 768, 856
+    size: 192, 100
+    orig: 192, 100
+    offset: 0, 0
+    index: -1
+setting
+    rotate: false
+    xy: 960, 856
+    size: 192, 100
+    orig: 192, 100
+    offset: 0, 0
+    index: -1
+home_off
+    rotate: false
+    xy: 576, 956
+    size: 192, 100
+    orig: 192, 100
+    offset: 0, 0
+    index: -1
+rank_off
+    rotate: false
+    xy: 768, 956
+    size: 192, 100
+    orig: 192, 100
+    offset: 0, 0
+    index: -1
+setting_off
+    rotate: false
+    xy: 960, 956
+    size: 192, 100
+    orig: 192, 100
+    offset: 0, 0
+    index: -1
+play
+    rotate: false
+    xy: 576, 0
+    size: 280, 92
+    orig: 280, 92
+    offset: 0, 0
+    index: -1
+create
+    rotate: false
+    xy: 576, 92
+    size: 280, 92
+    orig: 280, 92
+    offset: 0, 0
+    index: -1
+find
+    rotate: false
+    xy: 576, 184
+    size: 280, 92
+    orig: 280, 92
+    offset: 0, 0
+    index: -1
+play_off
+    rotate: false
+    xy: 576, 276
+    size: 280, 92
+    orig: 280, 92
+    offset: 0, 0
+    index: -1
+create_off
+    rotate: false
+    xy: 576, 368
+    size: 280, 92
+    orig: 280, 92
+    offset: 0, 0
+    index: -1
+find_off
+    rotate: false
+    xy: 576, 460
+    size: 280, 92
+    orig: 280, 92
+    offset: 0, 0
+    index: -1

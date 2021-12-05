@@ -19,13 +19,11 @@ import com.mygdx.handlers.B2WorldHandler;
 import com.mygdx.sprites.Steven;
 
 public class PlayScreen implements Screen {
+    private static final PlayScreen INSTANCE = new PlayScreen();
 
-    public static final PlayScreen INSTANCE = new PlayScreen(Escape.getInstance());
-
+    private static World world;
     //Reference to our Game, used to set Screens
     private final Escape game;
-    private final TextureAtlas atlas;
-
 
     // Basic playscreen variables
     private final OrthographicCamera camera;
@@ -37,7 +35,7 @@ public class PlayScreen implements Screen {
     private final OrthogonalTiledMapRenderer renderer;
 
     // Escape variables
-    private final World world;
+
     private final Box2DDebugRenderer b2dr;
     private final B2WorldHandler worldHandler;
 
@@ -45,17 +43,15 @@ public class PlayScreen implements Screen {
     private SpriteBatch batch;
     private Steven player;
 
-    public PlayScreen(Escape game) {
-        this.game = game;
-        atlas = new TextureAtlas("data/steven.atlas");
+    public PlayScreen() {
+        this.game = Escape.getINSTANCE();
 
-        camera = new OrthographicCamera();
+        this.camera = game.getCamera();
 
-        viewport = new FitViewport(Escape.WIDTH / Escape.PPM, Escape.HEIGHT / Escape.PPM, camera);
+        viewport = game.getViewport();
 
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("data/Escape.tmx");
-
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Escape.PPM);
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
@@ -63,16 +59,13 @@ public class PlayScreen implements Screen {
         world = new World(new Vector2(0, -10), false);
 
         b2dr = new Box2DDebugRenderer();
-
         worldHandler = new B2WorldHandler(this);
 
-        player = new Steven(this, "NUNO");
+        player = new Steven("NUNO", 1);
 
         batch = new SpriteBatch();
-    }
 
-    public TextureAtlas getAtlas() {
-        return atlas;
+
     }
 
     @Override
@@ -115,7 +108,7 @@ public class PlayScreen implements Screen {
         b2dr.setDrawBodies(false);
 
         if(gameOver()){
-            game.setScreen(new GameOverScreen(game));
+            game.setScreen(new GameOverScreen());
             dispose();
         }
     }
@@ -155,7 +148,7 @@ public class PlayScreen implements Screen {
         b2dr.dispose();
     }
 
-    public World getWorld() {
+    public static World getWorld() {
         return world;
     }
 
@@ -166,5 +159,11 @@ public class PlayScreen implements Screen {
     public SpriteBatch getBatch() {
         return batch;
     }
+
+    public static PlayScreen getINSTANCE() {
+        return INSTANCE;
+    }
+
+
 }
 

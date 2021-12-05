@@ -14,12 +14,12 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.Escape;
 
-public class GameOverScreen  implements Screen {
+public class GameOverScreen implements Screen {
     private Viewport viewport;
     private Stage stage;
     private Game game;
-    public GameOverScreen(Game game){
-        this.game  = game;
+    public GameOverScreen(){
+        this.game  = new Escape();
         viewport = new FitViewport(Escape.WIDTH, Escape.HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport);
         Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
@@ -46,7 +46,7 @@ public class GameOverScreen  implements Screen {
     @Override
     public void render(float delta) {
         if(Gdx.input.justTouched()) {
-            game.setScreen(new PlayScreen((Escape) game));
+            game.setScreen(new PlayScreen());
             dispose();
         }
 
