@@ -51,9 +51,9 @@ public class ConnectScreen implements Screen {
     private TextField usernameLabel;
     private TextButton connectButton;
 
-    public static Steven player1;
-    Steven player2;
-    private int order;
+    public static String player, teammate;
+    public static int order;
+    public static String[] players;
 
     float labelWidth, labelHeight;
     public ConnectScreen(final Escape game) {
@@ -67,7 +67,7 @@ public class ConnectScreen implements Screen {
         stage = new Stage(viewport, batch);
         skin = new Skin(Gdx.files.internal("skin/screen.json"), new TextureAtlas("skin/screen.pack"));
         textSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        order = 1;
+        order = 0;
 
         root = new Table();
         usernameLabel = new TextField("Username", textSkin);
@@ -79,8 +79,14 @@ public class ConnectScreen implements Screen {
                 Gdx.app.postRunnable(new Runnable() {
                     @Override
                     public void run() {
+                        try {
                         connectSocket();
                         configSocketEvents();
+
+                    } catch (Exception e) {
+                            e.printStackTrace();
+
+                        }
                     }
                 });
 
@@ -118,8 +124,10 @@ public class ConnectScreen implements Screen {
 
         stage.draw();
         stage.act(delta);
-
-
+        if (order == 1)
+            game.setScreen(new PlayScreen(game));
+//        if (order == 2)
+//            game.setScreen(new PlayScreen(game));
     }
 
     @Override
@@ -164,15 +172,15 @@ public class ConnectScreen implements Screen {
             @Override
             public void call(Object... args) {
                 Gdx.app.log("SocketIO", "Connected");
+                String tmp = usernameLabel.getText();
+                if (order == 0) {
+                    player = tmp;
+                    order++;
+                    System.out.println("Welcome " + player);
+                    //players.push()
+                }
 
-                String username = usernameLabel.getText();
-                if (player1 == null) {
-                    player1 = new Steven(username, order++);
-                }
                 System.out.println("Order: "+ order);
-                if (order == 2) {
-                    game.setScreen(new PlayScreen(game));
-                }
             }
         }).on("socketID", new Emitter.Listener() {
             @Override
@@ -192,6 +200,19 @@ public class ConnectScreen implements Screen {
                 try {
                     String id = data.getString("id");
                     Gdx.app.log("SocketIO", "New Player Connect: " + id);
+                    if (order == 1)
+                        teammate = usernameLabel.getText();
+                } catch (JSONException e) {
+                    Gdx.app.log("SocketIO", "Error getting New Player ID");
+                }
+            }
+        }).on("playerDisconnected", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                try {
+                    String id = data.getString("id");
+
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error getting New Player ID");
                 }

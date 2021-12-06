@@ -56,7 +56,7 @@ public class PlayScreen implements Screen {
 
     // Sprites
     private SpriteBatch batch;
-    private Steven player;
+    private Steven player, teammate;
 
     private final String[] pathMapGame={"","data/map_1.tmx","data/map_1.tmx"};
     int currentLevel;
@@ -144,7 +144,9 @@ public class PlayScreen implements Screen {
 
 
         // Steven
-        this.player = new Steven("NUNO", 2);
+        if (ConnectScreen.player != null)
+            player = new Steven(ConnectScreen.player, 1);
+
         batch = new SpriteBatch();
     }
 
@@ -183,6 +185,9 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        if (ConnectScreen.teammate != null)
+            teammate = new Steven(ConnectScreen.teammate, 2);
+
         renderer.render();
 
         b2dr.render(world, camera.combined);
@@ -192,6 +197,8 @@ public class PlayScreen implements Screen {
         if (player != null)
             player.draw(batch);
         //player.update(delta);
+        if (teammate != null)
+            teammate.draw(batch);
         batch.end();
 
         batch.setProjectionMatrix(camera.combined);

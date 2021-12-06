@@ -37,10 +37,12 @@ public class Steven extends Sprite {
 
     Vector2 previousPosition;
 
+    private int order;
 
     public Steven(final String username, int order) {
         this.world = PlayScreen.getWorld();
         this.username = username;
+        this.order = order;
         currentState = State.STANDING;
         previousState = State.STANDING;
         stateTimer = 0;
@@ -79,8 +81,15 @@ public class Steven extends Sprite {
     }
 
     public void defineSteven() {
-        int x = 120;
-        int y = 120;
+        int x = 0, y = 0;
+        if (order == 1) {
+            x = 120;
+            y = 120;
+        }
+        else if (order == 2) {
+            x = 300;
+            y = 300;
+        }
         int width = 20;
         int height = 26;
 
@@ -94,7 +103,7 @@ public class Steven extends Sprite {
         shape.setAsBox(width / com.mygdx.Escape.PPM, height / com.mygdx.Escape.PPM);
 
         //
-        FixtureDef fdef=new FixtureDef();
+        FixtureDef fdef = new FixtureDef();
 
         fdef.filter.categoryBits= Escape.STEVEN_BIT;
         fdef.filter.maskBits= Escape.DEFAULT_BIT| Escape.DOOR_BITCH_BIT | Escape.TRAP_BIT; //bit co the va cham
