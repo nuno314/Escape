@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import com.mygdx.Escape;
@@ -75,9 +76,9 @@ public class PlayScreen implements Screen {
     public PlayScreen() {
         this.game = com.mygdx.Escape.getINSTANCE();
 
-        this.camera = game.getCamera();
+        this.camera = new OrthographicCamera();
 
-        viewport = game.getViewport();
+        viewport = new FitViewport(Escape.WIDTH / Escape.PPM, Escape.HEIGHT / Escape.PPM, camera);
 
         mapLoader = new TmxMapLoader();
         currentLevel = Hud.level;
@@ -145,7 +146,7 @@ public class PlayScreen implements Screen {
 
 
         // Steven
-        player = new Steven("NUNO", 1);
+        this.player = ConnectScreen.player1;
         batch = new SpriteBatch();
     }
 
@@ -190,17 +191,12 @@ public class PlayScreen implements Screen {
 
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
-        player.draw(batch);
+        if (player != null)
+            player.draw(batch);
         //player.update(delta);
         batch.end();
 
         batch.setProjectionMatrix(camera.combined);
-
-
-        batch.begin();
-        player.draw(batch);
-
-        batch.end();
 
         batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
@@ -268,7 +264,6 @@ public class PlayScreen implements Screen {
         world.dispose();
         b2dr.dispose();
         music.dispose();
-
     }
 
     public static World getWorld() {

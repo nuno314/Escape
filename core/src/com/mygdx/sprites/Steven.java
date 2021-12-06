@@ -31,29 +31,30 @@ public class Steven extends Sprite {
     private TextureRegion stevenStand;
     private Animation<TextureRegion> stevenLeft;
     private Animation<TextureRegion> stevenRight;
-    private TextureRegion stevenJump;
-    private TextureRegion stevenDead;
-
-    private SpriteBatch batch;
-    private Texture texture;
-
-    private PlayScreen screen;
 
     public boolean isCollied=false;
     public boolean isPassed=false;
 
+    Vector2 previousPosition;
+
+
     public Steven(final String username, int order) {
-        this.screen = PlayScreen.getINSTANCE();
         this.world = PlayScreen.getWorld();
         this.username = username;
         currentState = State.STANDING;
         previousState = State.STANDING;
         stateTimer = 0;
 
+        previousPosition = new Vector2(getX(), getY());
         if (order == 1) {
             stevenLeft = ResourceHandler.left1;
             stevenRight = ResourceHandler.right1;
             stevenStand = ResourceHandler.stand1;
+        }
+        else if (order == 2) {
+            stevenLeft = ResourceHandler.left2;
+            stevenRight = ResourceHandler.right2;
+            stevenStand = ResourceHandler.stand2;
         }
         //else (order == 2)
 
@@ -181,8 +182,6 @@ public class Steven extends Sprite {
         player.setLinearVelocity(horizontalForce , player.getLinearVelocity().y);
     }
 
-
-
     public TextureRegion getFrame(float dt) {
         currentState = getState();
         TextureRegion region;
@@ -215,6 +214,15 @@ public class Steven extends Sprite {
         else if (player.getLinearVelocity().x < 0)
             return State.LEFTING;
         return State.STANDING;
+    }
+
+    public boolean hasMoved() {
+        if (previousPosition.x != getX() || previousPosition.y != getY()) {
+            previousPosition.x = getX();
+            previousPosition.y = getY();
+            return true;
+        }
+        return false;
     }
 
     public void draw(Batch batch) {
