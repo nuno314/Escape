@@ -85,7 +85,6 @@ public class ConnectScreen implements Screen {
 
                     } catch (Exception e) {
                             e.printStackTrace();
-
                         }
                     }
                 });
@@ -206,17 +205,17 @@ public class ConnectScreen implements Screen {
                     Gdx.app.log("SocketIO", "Error getting New Player ID");
                 }
             }
-        }).on("playerDisconnected", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                JSONObject data = (JSONObject) args[0];
-                try {
-                    String id = data.getString("id");
-
-                } catch (JSONException e) {
-                    Gdx.app.log("SocketIO", "Error getting New Player ID");
-                }
-            }
+//        }).on("playerDisconnected", new Emitter.Listener() {
+//            @Override
+//            public void call(Object... args) {
+//                JSONObject data = (JSONObject) args[0];
+//                try {
+//                    String id = data.getString("id");
+//
+//                } catch (JSONException e) {
+//                    Gdx.app.log("SocketIO", "Error getting New Player ID");
+//                }
+//            }
         });
     }
 }
