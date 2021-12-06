@@ -14,6 +14,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -24,6 +25,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import com.mygdx.Escape;
+import com.mygdx.handlers.InputHandler;
 import com.mygdx.scenes.Hud;
 import com.mygdx.sprites.OutDoor;
 import com.mygdx.sprites.Trap;
@@ -57,6 +59,7 @@ public class PlayScreen implements Screen {
     // Sprites
     private SpriteBatch batch;
     private Steven player, teammate;
+    private Body playerBody;
 
     private final String[] pathMapGame={"","data/map_1.tmx","data/map_1.tmx"};
     int currentLevel;
@@ -73,9 +76,7 @@ public class PlayScreen implements Screen {
 
     public PlayScreen(Escape game) {
         this.game = game;
-
         this.camera = new OrthographicCamera();
-
         viewport = new FitViewport(Escape.WIDTH / Escape.PPM, Escape.HEIGHT / Escape.PPM, camera);
 
         mapLoader = new TmxMapLoader();
@@ -144,8 +145,10 @@ public class PlayScreen implements Screen {
 
 
         // Steven
-        if (ConnectScreen.player != null)
+        if (ConnectScreen.player != null) {
             player = new Steven(ConnectScreen.player, 1);
+            playerBody = player.getBody();
+        }
 
         batch = new SpriteBatch();
     }
@@ -157,6 +160,8 @@ public class PlayScreen implements Screen {
     }
 
     public void update(float dt) {
+        if (playerBody!=null)
+        InputHandler.inputUpdate(playerBody, dt);
 
         world.step(1f/ 60f, 6, 2);
 
@@ -226,6 +231,8 @@ public class PlayScreen implements Screen {
         touchpad.setSize(180, 200);
         stage.draw();
     }
+
+
 
     public boolean gameOver(){
         return player.currentState == Steven.State.DEAD;

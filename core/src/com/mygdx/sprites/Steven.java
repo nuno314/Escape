@@ -66,7 +66,7 @@ public class Steven extends Sprite {
     }
 
     public void update(float dt) {
-        inputUpdate(dt);
+        //inputUpdate(dt);
 
         //add for collision
         if (isCollied==true){
@@ -174,22 +174,22 @@ public class Steven extends Sprite {
         isCollied=false;
     }
 
-    public void inputUpdate(float delta) {
-        int horizontalForce = 0;
-
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            horizontalForce -= 2;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            horizontalForce += 2;
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-
-            player.applyForceToCenter(0,300, true);
-        }
-
-        player.setLinearVelocity(horizontalForce , player.getLinearVelocity().y);
-    }
+//    public void inputUpdate(float delta) {
+//        int horizontalForce = 0;
+//
+//        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+//            horizontalForce -= 2;
+//        }
+//        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+//            horizontalForce += 2;
+//        }
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+//
+//            player.applyForceToCenter(0,300, true);
+//        }
+//
+//        player.setLinearVelocity(horizontalForce , player.getLinearVelocity().y);
+//    }
 
     public TextureRegion getFrame(float dt) {
         currentState = getState();
@@ -237,6 +237,10 @@ public class Steven extends Sprite {
     public void draw(Batch batch) {
 
         super.draw(batch);
+    }
+
+    public Body getBody() {
+        return player;
     }
 
     public String getUsername() {

@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -29,6 +30,7 @@ import com.mygdx.sprites.Steven;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import io.socket.client.IO;
@@ -53,9 +55,8 @@ public class ConnectScreen implements Screen {
 
     public static String player, teammate;
     public static int order;
-    public static String[] players;
+    public static ArrayList<Object> players;
 
-    float labelWidth, labelHeight;
     public ConnectScreen(final Escape game) {
         this.game = game;
         batch = new SpriteBatch();
@@ -68,7 +69,7 @@ public class ConnectScreen implements Screen {
         skin = new Skin(Gdx.files.internal("skin/screen.json"), new TextureAtlas("skin/screen.pack"));
         textSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         order = 0;
-
+        players = new ArrayList<>();
         root = new Table();
         usernameLabel = new TextField("Username", textSkin);
         connectButton = new TextButton("Connect", textSkin);
