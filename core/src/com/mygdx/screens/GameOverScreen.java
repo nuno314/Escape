@@ -19,9 +19,9 @@ import com.mygdx.Escape;
 public class GameOverScreen implements Screen {
     private Viewport viewport;
     private Stage stage;
-    private Game game;
-    public GameOverScreen(){
-        this.game  = new Escape();
+    private Escape game;
+    public GameOverScreen(Escape game){
+        this.game  = game;
         viewport = new FitViewport(Escape.WIDTH, Escape.HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport);
         Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
@@ -50,7 +50,7 @@ public class GameOverScreen implements Screen {
     @Override
     public void render(float delta) {
         if(Gdx.input.justTouched()) {
-            game.setScreen(new PlayScreen());
+            game.setScreen(new PlayScreen(game));
             dispose();
         }
 

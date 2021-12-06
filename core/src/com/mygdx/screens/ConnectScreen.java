@@ -39,6 +39,7 @@ public class ConnectScreen implements Screen {
 
     private Socket socket;
 
+    private Escape game;
     private Viewport viewport;
     private OrthographicCamera camera;
     private Skin skin, textSkin;
@@ -55,7 +56,8 @@ public class ConnectScreen implements Screen {
     private int order;
 
     float labelWidth, labelHeight;
-    public ConnectScreen() {
+    public ConnectScreen(final Escape game) {
+        this.game = game;
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         viewport = new FitViewport(Escape.WIDTH, Escape.HEIGHT, camera);
@@ -77,9 +79,11 @@ public class ConnectScreen implements Screen {
                 Gdx.app.postRunnable(new Runnable() {
                     @Override
                     public void run() {
-                        Escape.getINSTANCE().setScreen(PlayScreen.getINSTANCE());
+                        connectSocket();
+                        configSocketEvents();
                     }
                 });
+
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
@@ -160,12 +164,15 @@ public class ConnectScreen implements Screen {
             @Override
             public void call(Object... args) {
                 Gdx.app.log("SocketIO", "Connected");
+
                 String username = usernameLabel.getText();
                 if (player1 == null) {
-
-                    player1 = new Steven(username, order);
+                    player1 = new Steven(username, order++);
                 }
-
+                System.out.println("Order: "+ order);
+                if (order == 2) {
+                    game.setScreen(new PlayScreen(game));
+                }
             }
         }).on("socketID", new Emitter.Listener() {
             @Override

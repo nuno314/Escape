@@ -33,8 +33,6 @@ import com.mygdx.sprites.Steven;
 import com.mygdx.handlers.B2WorldHandler;
 
 public class PlayScreen implements Screen {
-    private static final PlayScreen INSTANCE = new PlayScreen();
-
     private static World world;
     //Reference to our Game, used to set Screens
     private TextureAtlas atlas;
@@ -73,8 +71,8 @@ public class PlayScreen implements Screen {
     private Drawable touchKnob;
 
 
-    public PlayScreen() {
-        this.game = com.mygdx.Escape.getINSTANCE();
+    public PlayScreen(Escape game) {
+        this.game = game;
 
         this.camera = new OrthographicCamera();
 
@@ -146,7 +144,7 @@ public class PlayScreen implements Screen {
 
 
         // Steven
-        this.player = ConnectScreen.player1;
+        this.player = new Steven("NUNO", 2);
         batch = new SpriteBatch();
     }
 
@@ -204,7 +202,7 @@ public class PlayScreen implements Screen {
 
         if(gameOver()){
 
-            game.setScreen(new GameOverScreen());
+            game.setScreen(new GameOverScreen(game));
             dispose();
         }
         if(isPassLevel()){
@@ -277,11 +275,6 @@ public class PlayScreen implements Screen {
     public SpriteBatch getBatch() {
         return batch;
     }
-
-    public static PlayScreen getINSTANCE() {
-        return INSTANCE;
-    }
-
 
 }
 

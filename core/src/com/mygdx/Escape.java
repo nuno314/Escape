@@ -22,7 +22,6 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
 public class Escape extends Game {
-    private static final Escape INSTANCE = new Escape();
     public static final float WIDTH = 576;
     public static final float HEIGHT = 1056;
     public static final float PPM = 100;
@@ -50,7 +49,7 @@ public class Escape extends Game {
         manager.load("audio/sounds/PassLevel.mp3", Sound.class);
         manager.finishLoading();
 
-        setScreen(new ConnectScreen());
+        setScreen(new ConnectScreen(this));
     }
 
     @Override
@@ -62,7 +61,4 @@ public class Escape extends Game {
     public void dispose() {
     }
 
-    public static Escape getINSTANCE() {
-        return INSTANCE;
-    }
 }

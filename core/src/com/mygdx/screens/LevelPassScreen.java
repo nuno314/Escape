@@ -20,11 +20,11 @@ import com.mygdx.scenes.Hud;
 public class LevelPassScreen implements Screen {
     private Viewport viewport;
     private Stage stage;
-    private Game game;
+    private Escape game;
     private Hud hud;
     private SpriteBatch batch;
 
-    public LevelPassScreen(Game game, Integer point, Integer time) {
+    public LevelPassScreen(Escape game, Integer point, Integer time) {
 
         this.game = game;
         batch = new SpriteBatch();
@@ -69,7 +69,7 @@ public class LevelPassScreen implements Screen {
     public void render(float delta) {
         if (Gdx.input.justTouched()) {
             Hud.level++;
-            game.setScreen(PlayScreen.getINSTANCE());
+            game.setScreen(new PlayScreen(game));
             dispose();
         }
 
