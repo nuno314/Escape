@@ -19,7 +19,7 @@ public class B2WorldHandler {
     public B2WorldHandler(PlayScreen screen) {
         World world = screen.getWorld();
         TiledMap map = screen.getMap();
-        parseTiledObjectLayer(world, map.getLayers().get("Walls").getObjects());
+        //parseTiledObjectLayer(world, map.getLayers().get("Walls").getObjects());
     }
 
     private void parseTiledObjectLayer(World world, MapObjects objects) {

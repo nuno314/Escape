@@ -28,6 +28,7 @@ public class Escape extends Game {
 
 
     //add for collision
+
     public static final short DEFAULT_BIT=1;
     public  static final short STEVEN_BIT=2;
     public static final short TRAP_BIT=4;
@@ -35,6 +36,9 @@ public class Escape extends Game {
     public static final short STEVEN_DEAD=16;
     public static final short STEVEN_FOOT_BIT=32;
     public static final short DOOR_BITCH_BIT =64;
+    public static final short GROUND_BIT =128;
+
+
 
     public static AssetManager manager;
 
