@@ -160,6 +160,7 @@ public class PlayScreen implements Screen {
         world.step(1f/ 60f, 6, 2);
 
         player.update(dt);
+        player.updateTouchpad(dt, touchpad.getKnobPercentX(), touchpad.getKnobPercentY());
         hud.update(dt);
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
@@ -174,6 +175,7 @@ public class PlayScreen implements Screen {
         if(hud.getWorldTimer() <=0)
         if(player.player.getPosition().y >= 850 / com.mygdx.Escape.PPM && player.player.getPosition().x >= 430 / com.mygdx.Escape.PPM)
             player.currentState = Steven.State.DEAD;
+
 
 
     }
@@ -217,13 +219,15 @@ public class PlayScreen implements Screen {
             dispose();
         }
 
-        player.setX(player.getX() + touchpad.getKnobPercentX()*5);
-        player.setY(player.getY() + touchpad.getKnobPercentY()*5);
+
 
         stage.act(Gdx.graphics.getDeltaTime());
         touchpad.setPosition(515, 15);
         touchpad.setSize(180, 200);
         stage.draw();
+
+
+
     }
 
     public boolean gameOver(){
