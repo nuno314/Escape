@@ -11,10 +11,12 @@ import com.mygdx.sprites.Steven;
 import com.mygdx.utils.Interactive;
 
 public class WorldContactListener implements ContactListener {
+    Fixture fixA;
+    Fixture fixB;
     @Override
     public void beginContact(Contact contact) {
-        Fixture fixA=contact.getFixtureA();
-        Fixture fixB=contact.getFixtureB();
+         fixA=contact.getFixtureA();
+         fixB=contact.getFixtureB();
         Object f=fixA.getUserData(); //trap
         Object f1=fixB.getUserData();
 
@@ -50,7 +52,22 @@ public class WorldContactListener implements ContactListener {
 
     @Override
     public void endContact(Contact contact) {
-
+        int cdef= fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
+        switch (cdef){
+            case Escape.GROUND_BIT| Escape.STEVEN_FOOT_BIT:
+                if (fixA.getFilterData().categoryBits == Escape.STEVEN_FOOT_BIT) {
+                    ((Interactive) fixB.getUserData()).EndContact((Steven) fixA.getUserData());
+                } else {
+                    ((Interactive) fixA.getUserData()).EndContact((Steven) fixB.getUserData());
+                }
+                break;
+            case Escape.TRAP_BIT|Escape.STEVEN_FOOT_BIT:
+                Gdx.app.log("END: ","TRAP");
+                break;
+            default:
+                Gdx.app.log("defu end: ","");
+                break;
+        }
     }
 
     @Override

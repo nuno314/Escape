@@ -51,6 +51,7 @@ public abstract class Interactive {
 
     public abstract void OnFootHit(Steven steven);
     public abstract void OnBodyHit(Steven steven);
+    public abstract void EndContact(Steven steven);
 
     public void setCategoryFilter(short filterBit){
         Filter filter= new Filter();
