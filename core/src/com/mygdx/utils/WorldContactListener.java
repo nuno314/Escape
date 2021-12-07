@@ -24,6 +24,7 @@ public class WorldContactListener implements ContactListener {
 
         switch (cdef)
         {
+            case Escape.GROUND_BIT | Escape.STEVEN_FOOT_BIT:
             case Escape.TRAP_BIT | Escape.STEVEN_FOOT_BIT:
                 if (fixA.getFilterData().categoryBits == Escape.STEVEN_FOOT_BIT) {
                     ((Interactive) fixB.getUserData()).OnFootHit((Steven) fixA.getUserData());

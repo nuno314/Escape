@@ -34,6 +34,7 @@ public class Steven extends Sprite {
 
     public boolean isCollied=false;
     public boolean isPassed=false;
+    public boolean isGround=false;
 
     Vector2 previousPosition;
 
@@ -106,7 +107,8 @@ public class Steven extends Sprite {
         FixtureDef fdef = new FixtureDef();
 
         fdef.filter.categoryBits= Escape.STEVEN_BIT;
-        fdef.filter.maskBits= Escape.DEFAULT_BIT| Escape.DOOR_BITCH_BIT | Escape.TRAP_BIT; //bit co the va cham
+        fdef.filter.maskBits= Escape.DEFAULT_BIT| Escape.DOOR_BITCH_BIT | Escape.TRAP_BIT
+                    | Escape.GROUND_BIT; //bit co the va cham
         fdef.shape=shape;
         //  player.setLinearDamping(0.5f);
         player.createFixture(fdef).setUserData(this);
@@ -151,7 +153,8 @@ public class Steven extends Sprite {
         FixtureDef fdef=new FixtureDef();
 
         fdef.filter.categoryBits= Escape.STEVEN_BIT;
-        fdef.filter.maskBits= Escape.DEFAULT_BIT| Escape.DOOR_BITCH_BIT| Escape.TRAP_BIT; //bit co the va cham
+        fdef.filter.maskBits= Escape.DEFAULT_BIT| Escape.DOOR_BITCH_BIT| Escape.TRAP_BIT
+                        | Escape.GROUND_BIT; //bit co the va cham
         fdef.shape=shape;
         //  player.setLinearDamping(0.5f);
         player.createFixture(fdef).setUserData(this);

@@ -27,6 +27,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.Escape;
 import com.mygdx.handlers.InputHandler;
 import com.mygdx.scenes.Hud;
+import com.mygdx.sprites.Ground;
 import com.mygdx.sprites.OutDoor;
 import com.mygdx.sprites.Trap;
 import com.mygdx.utils.WorldContactListener;
@@ -90,7 +91,7 @@ public class PlayScreen implements Screen {
         world = new World(new Vector2(0, -10), false);
 
         b2dr = new Box2DDebugRenderer();
-        worldHandler = new B2WorldHandler(this);
+       worldHandler = new B2WorldHandler(this);
 
 
         //add for collision
@@ -101,6 +102,10 @@ public class PlayScreen implements Screen {
         for (MapObject object: map.getLayers().get("Door").getObjects()){
             new OutDoor(this,object);
         }
+        for (MapObject object: map.getLayers().get("Walls").getObjects()){
+            new Ground(this,object);
+        }
+
 
 
         batch = new SpriteBatch();
@@ -210,7 +215,7 @@ public class PlayScreen implements Screen {
 
         batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
-        b2dr.setDrawBodies(false);
+      //  b2dr.setDrawBodies(false);
 
         if(gameOver()){
 
