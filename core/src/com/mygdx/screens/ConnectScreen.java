@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Box2D;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -28,6 +30,7 @@ import com.mygdx.sprites.Steven;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import io.socket.client.IO;
@@ -38,12 +41,10 @@ public class ConnectScreen implements Screen {
 
     private Socket socket;
 
-    TextureRegion player;
-    TextureRegion friend;
-
+    private Escape game;
     private Viewport viewport;
     private OrthographicCamera camera;
-    private Skin skin;
+    private Skin skin, textSkin;
     private SpriteBatch batch;
 //
     private Stage stage;
@@ -52,29 +53,47 @@ public class ConnectScreen implements Screen {
     private TextField usernameLabel;
     private TextButton connectButton;
 
-    Steven player1;
-    Steven player2;
+    public static String player, teammate;
+    public static int order;
+    public static ArrayList<Object> players;
 
-    float labelWidth, labelHeight;
-    public ConnectScreen() {
-        connectSocket();
-        configSocketEvents();
+    public ConnectScreen(final Escape game) {
+        this.game = game;
+        batch = new SpriteBatch();
+        camera = new OrthographicCamera();
+        viewport = new FitViewport(Escape.WIDTH, Escape.HEIGHT, camera);
+        viewport.apply();
+        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+        camera.update();
+        stage = new Stage(viewport, batch);
+        skin = new Skin(Gdx.files.internal("skin/screen.json"), new TextureAtlas("skin/screen.pack"));
+        textSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        order = 0;
+        players = new ArrayList<>();
+        root = new Table();
+        usernameLabel = new TextField("Username", textSkin);
+        connectButton = new TextButton("Connect", textSkin);
+        connectButton.addListener(new ClickListener() {
 
-//        //skin = new Skin(Gdx.files.internal("skin/screen.json"), new TextureAtlas("skin/screen.pack"));
-//        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-//        batch = new SpriteBatch();
-//        camera = new OrthographicCamera();
-//        viewport = new FitViewport(Escape.WIDTH, Escape.HEIGHT, camera);
-//        viewport.apply();
-//
-//        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
-//        camera.update();
-//
-//        stage = new Stage(viewport, batch);
-//
-//        root = new Table();
-//        connectButton = new TextButton("Connect", skin);
-//        usernameLabel = new TextField("Username", skin);
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                        connectSocket();
+                        configSocketEvents();
+
+                    } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+
 //
 //        setToDefault();
     }
@@ -91,23 +110,31 @@ public class ConnectScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-
+        root.setBackground(skin.getDrawable("background"));
+        root.setFillParent(true);
+        root.top();
+        setToDefault();
+        stage.addActor(root);
     }
 
     @Override
     public void render(float delta) {
-//        Gdx.gl.glClearColor(0,0,0,1);
-//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//
-//        this.stage.draw();
-//        this.stage.act(delta);
+        Gdx.gl.glClearColor(0,0,0,1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        stage.draw();
+        stage.act(delta);
+        if (order == 1)
+            game.setScreen(new PlayScreen(game));
+//        if (order == 2)
+//            game.setScreen(new PlayScreen(game));
     }
 
     @Override
     public void resize(int width, int height) {
-//        viewport.update(width, height);
-//        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
-//        camera.update();
+        viewport.update(width, height);
+        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+        camera.update();
     }
 
     @Override
@@ -127,7 +154,7 @@ public class ConnectScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        skin.dispose();
     }
 
     void connectSocket() {
@@ -145,7 +172,15 @@ public class ConnectScreen implements Screen {
             @Override
             public void call(Object... args) {
                 Gdx.app.log("SocketIO", "Connected");
-                //player1 = new Steven();
+                String tmp = usernameLabel.getText();
+                if (order == 0) {
+                    player = tmp;
+                    order++;
+                    System.out.println("Welcome " + player);
+                    //players.push()
+                }
+
+                System.out.println("Order: "+ order);
             }
         }).on("socketID", new Emitter.Listener() {
             @Override
@@ -165,10 +200,23 @@ public class ConnectScreen implements Screen {
                 try {
                     String id = data.getString("id");
                     Gdx.app.log("SocketIO", "New Player Connect: " + id);
+                    if (order == 1)
+                        teammate = usernameLabel.getText();
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error getting New Player ID");
                 }
             }
+//        }).on("playerDisconnected", new Emitter.Listener() {
+//            @Override
+//            public void call(Object... args) {
+//                JSONObject data = (JSONObject) args[0];
+//                try {
+//                    String id = data.getString("id");
+//
+//                } catch (JSONException e) {
+//                    Gdx.app.log("SocketIO", "Error getting New Player ID");
+//                }
+//            }
         });
     }
 }

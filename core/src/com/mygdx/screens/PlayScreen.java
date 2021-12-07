@@ -14,15 +14,18 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import com.mygdx.Escape;
+import com.mygdx.handlers.InputHandler;
 import com.mygdx.scenes.Hud;
 import com.mygdx.sprites.OutDoor;
 import com.mygdx.sprites.Trap;
@@ -32,8 +35,6 @@ import com.mygdx.sprites.Steven;
 import com.mygdx.handlers.B2WorldHandler;
 
 public class PlayScreen implements Screen {
-    private static final PlayScreen INSTANCE = new PlayScreen();
-
     private static World world;
     //Reference to our Game, used to set Screens
     private TextureAtlas atlas;
@@ -57,7 +58,8 @@ public class PlayScreen implements Screen {
 
     // Sprites
     private SpriteBatch batch;
-    private Steven player;
+    private Steven player, teammate;
+    private Body playerBody;
 
     private final String[] pathMapGame={"","data/map_1.tmx","data/map_1.tmx"};
     int currentLevel;
@@ -72,12 +74,10 @@ public class PlayScreen implements Screen {
     private Drawable touchKnob;
 
 
-    public PlayScreen() {
-        this.game = com.mygdx.Escape.getINSTANCE();
-
-        this.camera = game.getCamera();
-
-        viewport = game.getViewport();
+    public PlayScreen(Escape game) {
+        this.game = game;
+        this.camera = new OrthographicCamera();
+        viewport = new FitViewport(Escape.WIDTH / Escape.PPM, Escape.HEIGHT / Escape.PPM, camera);
 
         mapLoader = new TmxMapLoader();
         currentLevel = Hud.level;
@@ -145,7 +145,11 @@ public class PlayScreen implements Screen {
 
 
         // Steven
-        player = new Steven("NUNO", 1);
+        if (ConnectScreen.player != null) {
+            player = new Steven(ConnectScreen.player, 1);
+            playerBody = player.getBody();
+        }
+
         batch = new SpriteBatch();
     }
 
@@ -156,6 +160,8 @@ public class PlayScreen implements Screen {
     }
 
     public void update(float dt) {
+        if (playerBody!=null)
+        InputHandler.inputUpdate(playerBody, dt);
 
         world.step(1f/ 60f, 6, 2);
 
@@ -186,23 +192,23 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        if (ConnectScreen.teammate != null)
+            teammate = new Steven(ConnectScreen.teammate, 2);
+
         renderer.render();
 
         b2dr.render(world, camera.combined);
 
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
-        player.draw(batch);
+        if (player != null)
+            player.draw(batch);
         //player.update(delta);
+        if (teammate != null)
+            teammate.draw(batch);
         batch.end();
 
         batch.setProjectionMatrix(camera.combined);
-
-
-        batch.begin();
-        player.draw(batch);
-
-        batch.end();
 
         batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
@@ -210,7 +216,7 @@ public class PlayScreen implements Screen {
 
         if(gameOver()){
 
-            game.setScreen(new GameOverScreen());
+            game.setScreen(new GameOverScreen(game));
             dispose();
         }
         if(isPassLevel()){
@@ -229,6 +235,8 @@ public class PlayScreen implements Screen {
 
 
     }
+
+
 
     public boolean gameOver(){
         return player.currentState == Steven.State.DEAD;
@@ -272,7 +280,6 @@ public class PlayScreen implements Screen {
         world.dispose();
         b2dr.dispose();
         music.dispose();
-
     }
 
     public static World getWorld() {
@@ -286,11 +293,6 @@ public class PlayScreen implements Screen {
     public SpriteBatch getBatch() {
         return batch;
     }
-
-    public static PlayScreen getINSTANCE() {
-        return INSTANCE;
-    }
-
 
 }
 

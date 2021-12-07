@@ -31,29 +31,32 @@ public class Steven extends Sprite {
     private TextureRegion stevenStand;
     private Animation<TextureRegion> stevenLeft;
     private Animation<TextureRegion> stevenRight;
-    private TextureRegion stevenJump;
-    private TextureRegion stevenDead;
-
-    private SpriteBatch batch;
-    private Texture texture;
-
-    private PlayScreen screen;
 
     public boolean isCollied=false;
     public boolean isPassed=false;
 
+    Vector2 previousPosition;
+
+    private int order;
+
     public Steven(final String username, int order) {
-        this.screen = PlayScreen.getINSTANCE();
         this.world = PlayScreen.getWorld();
         this.username = username;
+        this.order = order;
         currentState = State.STANDING;
         previousState = State.STANDING;
         stateTimer = 0;
 
+        previousPosition = new Vector2(getX(), getY());
         if (order == 1) {
             stevenLeft = ResourceHandler.left1;
             stevenRight = ResourceHandler.right1;
             stevenStand = ResourceHandler.stand1;
+        }
+        else if (order == 2) {
+            stevenLeft = ResourceHandler.left2;
+            stevenRight = ResourceHandler.right2;
+            stevenStand = ResourceHandler.stand2;
         }
         //else (order == 2)
 
@@ -63,7 +66,7 @@ public class Steven extends Sprite {
     }
 
     public void update(float dt) {
-        inputUpdate(dt);
+        //inputUpdate(dt);
 
         //add for collision
         if (isCollied==true){
@@ -107,8 +110,15 @@ public class Steven extends Sprite {
         player.setLinearVelocity(horizontalForce , player.getLinearVelocity().y);
     }
     public void defineSteven() {
-        int x = 120;
-        int y = 120;
+        int x = 0, y = 0;
+        if (order == 1) {
+            x = 120;
+            y = 120;
+        }
+        else if (order == 2) {
+            x = 300;
+            y = 300;
+        }
         int width = 20;
         int height = 26;
 
@@ -122,7 +132,7 @@ public class Steven extends Sprite {
         shape.setAsBox(width / com.mygdx.Escape.PPM, height / com.mygdx.Escape.PPM);
 
         //
-        FixtureDef fdef=new FixtureDef();
+        FixtureDef fdef = new FixtureDef();
 
         fdef.filter.categoryBits= Escape.STEVEN_BIT;
         fdef.filter.maskBits= Escape.DEFAULT_BIT| Escape.DOOR_BITCH_BIT | Escape.TRAP_BIT; //bit co the va cham
@@ -193,24 +203,22 @@ public class Steven extends Sprite {
         isCollied=false;
     }
 
-    public void inputUpdate(float delta) {
-        int horizontalForce = 0;
-
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            horizontalForce -= 2;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            horizontalForce += 2;
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-
-            player.applyForceToCenter(0,300, true);
-        }
-
-        player.setLinearVelocity(horizontalForce , player.getLinearVelocity().y);
-    }
-
-
+//    public void inputUpdate(float delta) {
+//        int horizontalForce = 0;
+//
+//        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+//            horizontalForce -= 2;
+//        }
+//        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+//            horizontalForce += 2;
+//        }
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+//
+//            player.applyForceToCenter(0,300, true);
+//        }
+//
+//        player.setLinearVelocity(horizontalForce , player.getLinearVelocity().y);
+//    }
 
     public TextureRegion getFrame(float dt) {
         currentState = getState();
@@ -246,9 +254,22 @@ public class Steven extends Sprite {
         return State.STANDING;
     }
 
+    public boolean hasMoved() {
+        if (previousPosition.x != getX() || previousPosition.y != getY()) {
+            previousPosition.x = getX();
+            previousPosition.y = getY();
+            return true;
+        }
+        return false;
+    }
+
     public void draw(Batch batch) {
 
         super.draw(batch);
+    }
+
+    public Body getBody() {
+        return player;
     }
 
     public String getUsername() {
