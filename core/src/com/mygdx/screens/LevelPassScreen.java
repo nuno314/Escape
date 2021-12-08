@@ -9,8 +9,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -23,6 +25,8 @@ public class LevelPassScreen implements Screen {
     private Escape game;
     private Hud hud;
     private SpriteBatch batch;
+    private Skin skin;
+
 
     public LevelPassScreen(Escape game, Integer point, Integer time) {
 
@@ -30,17 +34,22 @@ public class LevelPassScreen implements Screen {
         batch = new SpriteBatch();
         viewport = new FitViewport(Escape.WIDTH, Escape.HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, batch);
+        skin = new Skin(Gdx.files.internal("skin/screen.json"), new TextureAtlas("skin/screen.pack"));
 
         Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
+        Label.LabelStyle font2 = new Label.LabelStyle(new BitmapFont(), Color.PURPLE);
+
         Table table = new Table();
 //            table.center();
         table.setFillParent(true);
-        Label gameOverLabel = new Label("CONGRATULATION!!!!", font);
-        Label continueLabel = new Label("Click to CONTINUE", font);
+        Label gameOverLabel = new Label("CONGRATULATION!!!!", font2);
+        gameOverLabel.setFontScale(3);
+        Label continueLabel = new Label("Click to CONTINUE", font2);
         Label score = new Label("Current Score: " + point.toString(), font);
         Label bonus = new Label("Remaining time: " + time.toString(), font);
         int finalScore = point + time * 10;
         Label totalScore = new Label("TOTAL SCORE: " + finalScore, font);
+        totalScore.setFontScale(2);
         Hud.addScore(finalScore);
 
         table.add(gameOverLabel).expandX();
@@ -53,6 +62,7 @@ public class LevelPassScreen implements Screen {
         table.row();
         table.add(continueLabel).expandX().padTop(10f);
         stage.addActor(table);
+        table.setBackground(skin.getDrawable("background"));
 
         Escape.manager.get("audio/sounds/PassLevel.mp3", Sound.class).play();
 

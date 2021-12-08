@@ -15,11 +15,11 @@ public class Hud {
     public Stage stage;
     public Viewport viewport;
 
-    private Integer worldTimer;
+    private static Integer worldTimer;
     private  float timeCount;
     private  static Integer score=0;
 
-    private Label countDownLabel;
+    private  Label countDownLabel;
     private static Label scoreLabel;
     private Label timeLabel;
     private Label levelLabel;
@@ -84,6 +84,7 @@ public class Hud {
     public static void setScore(int x){
         score=x;
     }
+    public static void  minusTime(int value){ worldTimer-=value;};
 
     public boolean isLastLevel() {
         return level==MAX_LEVEL;

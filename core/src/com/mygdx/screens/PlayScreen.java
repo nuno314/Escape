@@ -58,7 +58,11 @@ public class PlayScreen implements Screen {
     private SpriteBatch batch;
     private Steven player, teammate;
 
-    private final String[] pathMapGame={"","data/map_1.tmx","data/map_1.tmx"};
+    private final String[] pathMapGame={"", "data/map_1.tmx","data/map_2.tmx",
+                                            "data/map_3.tmx","data/map_4.tmx"
+                                            ,"data/map_5.tmx","data/map_6.tmx","data/map_7.tmx"
+                                            ,"data/map_8.tmx","data/map_9.tmx","data/map_10.tmx"};
+//    private final String[] pathMapGame={"", "data/map_1.tmx"};
     int currentLevel;
     private Music music;
 
@@ -81,7 +85,6 @@ public class PlayScreen implements Screen {
         mapLoader = new TmxMapLoader();
         currentLevel = Hud.level;
 //          currentLevel = (Hud.level+1)%2 +1;
-
         map = mapLoader.load(pathMapGame[currentLevel]);
         renderer = new OrthogonalTiledMapRenderer(map, 1 / com.mygdx.Escape.PPM);
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
@@ -113,7 +116,7 @@ public class PlayScreen implements Screen {
 //      music = Escape.manager.get("audio/sounds/Trap.mp3",Music.class);
 
         music.setLooping(true);
-        music.setVolume(0.7f);
+        music.setVolume(0.1f);
         music.play();
 
 
@@ -168,14 +171,10 @@ public class PlayScreen implements Screen {
         camera.update();
         renderer.setView(camera);
 
-//        if(player.player.getPosition().y >= 850 / Escape.PPM && player.player.getPosition().x >= 430 / Escape.PPM)
-//            player.currentState = Steven.State.PASS;
         if(player.isPassed)
             player.currentState = Steven.State.PASS;
-        if(hud.getWorldTimer() <=0)
-        if(player.player.getPosition().y >= 850 / com.mygdx.Escape.PPM && player.player.getPosition().x >= 430 / com.mygdx.Escape.PPM)
+        if( hud.getWorldTimer() <=0)
             player.currentState = Steven.State.DEAD;
-
 
     }
 
@@ -205,18 +204,28 @@ public class PlayScreen implements Screen {
 
         batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
-        b2dr.setDrawBodies(false);
+//        b2dr.setDrawBodies(false);
 
-        if(gameOver()){
+        if (gameOver()){
 
             game.setScreen(new GameOverScreen(game));
             dispose();
         }
-        if(isPassLevel()){
-
-            game.setScreen(new LevelPassScreen(game,hud.getScore(),hud.getWorldTimer()));
+        else if(isFinish()){
+            game.setScreen(new FinishGameScreen(game,Hud.getScore(),hud.getWorldTimer()));
             dispose();
         }
+        else if(isPassLevel()){
+            game.setScreen(new LevelPassScreen(game,Hud.getScore(),hud.getWorldTimer()));
+            dispose();
+        }
+
+
+        else{
+            player.currentState= Steven.State.STANDING;
+        }
+
+
 
         player.setX(player.getX() + touchpad.getKnobPercentX()*5);
         player.setY(player.getY() + touchpad.getKnobPercentY()*5);
@@ -235,8 +244,12 @@ public class PlayScreen implements Screen {
         return player.isPassed;
     }
     public boolean isFinish(){
-        return player.currentState == Steven.State.FINISH ;
+        return hud.isLastLevel() && player.isPassed;
     }
+    public boolean onGround(){return player.isOnGround;}
+    public boolean onTrap(){return player.isCollied;}
+
+
 
     @Override
     public void resize(int width, int height) {
