@@ -270,7 +270,7 @@ public class PlayScreen implements Screen {
         renderer.dispose();
         world.dispose();
         b2dr.dispose();
-        music.dispose();
+        music.stop();
     }
 
     public static World getWorld() {
