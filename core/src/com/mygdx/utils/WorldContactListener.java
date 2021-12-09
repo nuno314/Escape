@@ -8,7 +8,6 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.mygdx.Escape;
 import com.mygdx.sprites.Steven;
-import com.mygdx.utils.Interactive;
 
 public class WorldContactListener implements ContactListener {
     Fixture fixA;
@@ -39,6 +38,7 @@ public class WorldContactListener implements ContactListener {
                 Gdx.app.log("door", "collide");
                 if (fixA.getFilterData().categoryBits == Escape.STEVEN_BIT) {
                     Gdx.app.log("steven", "");
+                    ((Interactive)fixB.getUserData()).OnBodyHit((Steven) fixA.getUserData());
                 } else if (fixA.getFilterData().categoryBits== Escape.DOOR_BITCH_BIT){
                     ((Interactive)fixA.getUserData()).OnBodyHit((Steven) fixB.getUserData());
                     Gdx.app.log("steven", "is door");

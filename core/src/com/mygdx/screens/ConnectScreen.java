@@ -7,31 +7,21 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.Box2D;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.Escape;
-import com.mygdx.handlers.ResourceHandler;
-import com.mygdx.sprites.Steven;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -42,16 +32,14 @@ public class ConnectScreen implements Screen {
     private Socket socket;
 
     private Escape game;
-    private Viewport viewport;
-    private OrthographicCamera camera;
-    private Skin skin, textSkin;
-    private SpriteBatch batch;
-//
-    private Stage stage;
-    private Table root;
 
-    private TextField usernameLabel;
-    private TextButton connectButton;
+    private SpriteBatch batch;
+    private Stage stage;
+    private Skin skin;
+    private OrthographicCamera camera;
+    private Viewport viewport;
+
+    TextField name;
 
     public static String player, teammate;
     public static int order;
@@ -59,61 +47,99 @@ public class ConnectScreen implements Screen {
 
     public ConnectScreen(final Escape game) {
         this.game = game;
+
+        skin = new Skin(Gdx.files.internal("skin/screen.json"), new TextureAtlas("skin/screen.pack"));
+
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         viewport = new FitViewport(Escape.WIDTH, Escape.HEIGHT, camera);
+
         viewport.apply();
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
         camera.update();
+
         stage = new Stage(viewport, batch);
-        skin = new Skin(Gdx.files.internal("skin/screen.json"), new TextureAtlas("skin/screen.pack"));
-        textSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+
         order = 0;
         players = new ArrayList<>();
-        root = new Table();
-        usernameLabel = new TextField("Username", textSkin);
-        connectButton = new TextButton("Connect", textSkin);
-        connectButton.addListener(new ClickListener() {
+    }
 
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(stage);
+
+        Button how_to_play = new Button(skin, "how_to_play");
+        name = new TextField("Name", skin);
+        Button create = new Button(skin, "create");
+        Button find = new Button(skin, "find");
+
+        Button home = new Button(skin, "home");
+        Button rank = new Button(skin, "rank_off");
+        Button setting = new Button(skin, "setting_off");
+
+        how_to_play.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new HowToPlayScreen());
+            }
+        });
+
+        create.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 Gdx.app.postRunnable(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                        connectSocket();
-                        configSocketEvents();
+                            connectSocket();
+                            configSocketEvents();
 
-                    } catch (Exception e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
                 });
-
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
 
-//
-//        setToDefault();
-    }
+        find.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new UpdateLaterScreen());
+            }
+        });
 
-    public void setToDefault() {
-        this.root.clear();
-        this.root.add(this.usernameLabel).width(250).padTop(25).row();
-        this.root.add(this.connectButton).size(250, 50 ).padTop(100 ).row();
-//        this.root.add(this.errorLabel).padTop(50);
-    }
+        rank.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new RankScreen());
+            }
+        });
 
+        setting.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new SettingScreen());
+            }
+        });
 
+        Table menu = new Table();
+        menu.left();
+        menu.add(home);
+        menu.add(rank);
+        menu.add(setting);
 
-    @Override
-    public void show() {
-        Gdx.input.setInputProcessor(stage);
+        Table root = new Table();
         root.setBackground(skin.getDrawable("background"));
         root.setFillParent(true);
         root.top();
-        setToDefault();
+        root.add(how_to_play).padTop(150).row();
+        root.add(name).size(300,60).padTop(100).row();
+        root.add(create).padTop(100).row();
+        root.add(find).padTop(100).row();
+        root.add(menu).expand().bottom();
+
         stage.addActor(root);
     }
 
@@ -124,6 +150,7 @@ public class ConnectScreen implements Screen {
 
         stage.draw();
         stage.act(delta);
+
         if (order == 1)
             game.setScreen(new PlayScreen(game));
 //        if (order == 2)
@@ -149,7 +176,7 @@ public class ConnectScreen implements Screen {
 
     @Override
     public void hide() {
-
+        dispose();
     }
 
     @Override
@@ -172,7 +199,7 @@ public class ConnectScreen implements Screen {
             @Override
             public void call(Object... args) {
                 Gdx.app.log("SocketIO", "Connected");
-                String tmp = usernameLabel.getText();
+                String tmp = name.getText();
                 if (order == 0) {
                     player = tmp;
                     order++;
@@ -201,7 +228,7 @@ public class ConnectScreen implements Screen {
                     String id = data.getString("id");
                     Gdx.app.log("SocketIO", "New Player Connect: " + id);
                     if (order == 1)
-                        teammate = usernameLabel.getText();
+                        teammate = name.getText();
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error getting New Player ID");
                 }
