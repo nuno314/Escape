@@ -17,7 +17,7 @@ public class Hud {
 
     private static Integer worldTimer;
     private  float timeCount;
-    private  static Integer score=0;
+    private static Integer score=0;
 
     private  Label countDownLabel;
     private static Label scoreLabel;
@@ -56,8 +56,6 @@ public class Hud {
         table.add(countDownLabel).expandX();
 
         stage.addActor(table);
-
-
     }
     public void update(float dt){
         timeCount+=dt;
@@ -66,14 +64,11 @@ public class Hud {
             countDownLabel.setText(String.format("%03d",worldTimer));
             timeCount=0;
         }
-
-
     }
     public static void addScore(int value){
         score+=value;
         scoreLabel.setText(String.format("%06d",score));
     }
-
 
     public Integer getWorldTimer() {
         return worldTimer;
@@ -84,7 +79,9 @@ public class Hud {
     public static void setScore(int x){
         score=x;
     }
-    public static void  minusTime(int value){ worldTimer-=value;};
+    public static void  minusTime(int value){
+        worldTimer-=value;
+    }
 
     public boolean isLastLevel() {
         return level==MAX_LEVEL;

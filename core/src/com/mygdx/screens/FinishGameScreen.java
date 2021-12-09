@@ -29,7 +29,7 @@ public class FinishGameScreen implements Screen {
     private Skin skin;
 
 
-    public FinishGameScreen(Escape game, Integer point, Integer time) {
+    public  FinishGameScreen(Escape game, Integer point, Integer time) {
 
         this.game = game;
         batch = new SpriteBatch();

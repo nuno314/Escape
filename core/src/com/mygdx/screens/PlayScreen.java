@@ -172,7 +172,7 @@ public class PlayScreen implements Screen {
 
     public void update(float dt) {
         if (playerBody!=null)
-        InputHandler.inputUpdate(playerBody, dt);
+        InputHandler.inputUpdate(player.getBody(), dt);
 
         world.step(1f/ 60f, 6, 2);
 
@@ -212,8 +212,7 @@ public class PlayScreen implements Screen {
         if (player != null)
             player.draw(batch);
         //player.update(delta);
-        if (teammate != null)
-            teammate.draw(batch);
+
         batch.end();
 
         batch.setProjectionMatrix(camera.combined);
@@ -223,7 +222,6 @@ public class PlayScreen implements Screen {
 //        b2dr.setDrawBodies(false);
 
         if (gameOver()){
-
             game.setScreen(new GameOverScreen(game));
             dispose();
         }

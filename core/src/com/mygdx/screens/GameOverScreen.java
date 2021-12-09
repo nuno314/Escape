@@ -48,8 +48,6 @@ public class GameOverScreen implements Screen {
 //        table.setBackground(skin.getDrawable("background"));
 
         Escape.manager.get("audio/sounds/GameOver.mp3", Sound.class).play();
-
-
     }
     @Override
     public void show() {
