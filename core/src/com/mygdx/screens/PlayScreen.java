@@ -189,7 +189,7 @@ public class PlayScreen implements Screen {
 
         if(player.isPassed)
             player.currentState = Steven.State.PASS;
-        if( hud.getWorldTimer() <=0)
+        if( hud.getWorldTimer() <= 0 || isOutOfMap())
             player.currentState = Steven.State.DEAD;
 
     }
@@ -220,7 +220,7 @@ public class PlayScreen implements Screen {
 
         batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
-//        b2dr.setDrawBodies(false);
+        b2dr.setDrawBodies(false);
 
         if (gameOver()){
 
@@ -266,6 +266,10 @@ public class PlayScreen implements Screen {
     }
     public boolean isFinish(){
         return hud.isLastLevel() && player.isPassed;
+    }
+
+    public boolean isOutOfMap(){
+        return  player.player.getPosition().x <0 || player.player.getPosition().x >5.053051;
     }
     public boolean onGround(){return player.isOnGround;}
     public boolean onTrap(){return player.isCollied;}
