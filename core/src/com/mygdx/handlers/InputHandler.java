@@ -24,4 +24,22 @@ public class InputHandler {
 
         player.setLinearVelocity(horizontalForce , player.getLinearVelocity().y);
     }
+
+    public static void inputUpdateTouchpad(Steven player, float dt, float knobX, float knobY) {
+        int horizontalForce = 0;
+        System.out.println("X" + knobX);
+        System.out.println("Y" + knobY);
+
+        if (knobX < -0.4){
+            horizontalForce -= 2;
+        }
+        if (knobX > 0.4) {
+            horizontalForce += 2;
+        }
+        if (knobY > 0.4 && player.getIsGround() == true) {
+            player.getBody().applyForceToCenter(0,150, true);
+        }
+
+        player.getBody().setLinearVelocity(horizontalForce , player.getBody().getLinearVelocity().y);
+    }
 }

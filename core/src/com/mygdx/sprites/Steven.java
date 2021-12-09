@@ -85,8 +85,8 @@ public class Steven extends Sprite {
         setPosition(player.getPosition().x - getWidth() / 2, player.getPosition().y - getHeight()/2);
     }
 
-    public void updateTouchpad(float dt, float knobX, float knobY) {
-        inputUpdateTouchpad(dt, knobX, knobY);
+    public void updateTouchpad(float dt) {
+//        inputUpdateTouchpad(dt, knobX, knobY);
 
         //add for collision
 //        if (isCollied==true){
@@ -101,20 +101,24 @@ public class Steven extends Sprite {
 
 
     }
-    public void inputUpdateTouchpad(float dt, float knobX, float knobY) {
-        int horizontalForce = 0;
+//    public void inputUpdateTouchpad(float dt, float knobX, float knobY) {
+//        int horizontalForce = 0;
+//
+//        if (knobX < -0.01){
+//            horizontalForce -= 2;
+//        }
+//        if (knobX > 0.01) {
+//            horizontalForce += 2;
+//        }
+//        if (knobY > 0.01 && isGround == true) {
+//            player.applyForceToCenter(0,150, true);
+//        }
+//
+//        player.setLinearVelocity(horizontalForce , player.getLinearVelocity().y);
+//    }
 
-        if (knobX < -0.01){
-            horizontalForce -= 2;
-        }
-        if (knobX > 0.01) {
-            horizontalForce += 2;
-        }
-        if (knobY > 0.01) {
-            player.applyForceToCenter(0,10, true);
-        }
-
-        player.setLinearVelocity(horizontalForce , player.getLinearVelocity().y);
+    public boolean getIsGround() {
+        return isGround;
     }
     public void defineSteven() {
         int x = 0, y = 0;

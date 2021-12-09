@@ -161,6 +161,7 @@ public class PlayScreen implements Screen {
         }
 
         batch = new SpriteBatch();
+        this.player = new Steven("NUNO", 1);
     }
 
 
@@ -176,7 +177,9 @@ public class PlayScreen implements Screen {
         world.step(1f/ 60f, 6, 2);
 
         player.update(dt);
-        player.updateTouchpad(dt, touchpad.getKnobPercentX(), touchpad.getKnobPercentY());
+
+        InputHandler.inputUpdateTouchpad(player, dt, touchpad.getKnobPercentX(), touchpad.getKnobPercentY());
+        player.updateTouchpad(dt);
         hud.update(dt);
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);

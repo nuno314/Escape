@@ -54,7 +54,9 @@ public class Escape extends Game {
         manager.load("audio/sounds/FinishGame.mp3", Music.class);
         manager.finishLoading();
 
-        setScreen(new ConnectScreen(this));
+//        setScreen(new ConnectScreen(this));
+        setScreen(new PlayScreen(this));
+
     }
 
     @Override
