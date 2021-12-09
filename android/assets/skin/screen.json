@@ -1,7 +1,7 @@
 {
   com.badlogic.gdx.graphics.g2d.BitmapFont: {
-    carterone-font: {
-      file: carterone.fnt
+    default-font: {
+      file: default.fnt
     }
   },
   com.badlogic.gdx.graphics.Color: {
@@ -66,6 +66,23 @@
     find: {
       down: find_off,
       up: find
+    },
+    how_to_play: {
+      down: how_to_play_off,
+      up: how_to_play
+    },
+    text_field: {
+      down: text_field_off,
+      up: text_field
+    }
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
+    default: {
+      selection: text_field_off,
+      background: text_field,
+      font: default-font,
+      fontColor: white,
+      cursor: cursor
     }
   }
 }
