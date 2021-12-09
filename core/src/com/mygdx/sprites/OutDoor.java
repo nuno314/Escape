@@ -24,4 +24,9 @@ public class OutDoor extends Interactive {
         steven.isPassed=true;
 
     }
+
+    @Override
+    public void EndContact(Steven steven) {
+
+    }
 }

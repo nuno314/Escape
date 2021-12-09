@@ -17,10 +17,16 @@ public class Ground extends Interactive {
     public void OnFootHit(Steven steven) {
         Gdx.app.log("GROUND: ","COLLISION");
         steven.isGround=true;
+        steven.isCollision=true;
     }
 
     @Override
     public void OnBodyHit(Steven steven) {
 
+    }
+
+    @Override
+    public void EndContact(Steven steven) {
+        steven.isGround=false;
     }
 }

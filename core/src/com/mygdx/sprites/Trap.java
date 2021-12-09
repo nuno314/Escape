@@ -32,4 +32,9 @@ public class Trap extends Interactive {
     public void OnBodyHit(Steven steven) {
 
     }
+
+    @Override
+    public void EndContact(Steven steven) {
+        //steven.isGround=false;
+    }
 }

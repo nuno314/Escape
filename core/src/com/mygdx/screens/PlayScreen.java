@@ -73,6 +73,8 @@ public class PlayScreen implements Screen {
     private Skin touchpadSkin;
     private Drawable touchBackground;
     private Drawable touchKnob;
+    String check;
+    String check1;
 
 
     public PlayScreen(Escape game) {
@@ -236,9 +238,10 @@ public class PlayScreen implements Screen {
         touchpad.setPosition(515, 15);
         touchpad.setSize(180, 200);
         stage.draw();
+        check=player.isGround+"";
 
-
-
+        Gdx.app.log("check ground",check);
+       // Gdx.app.log("check trap: ", check1);
     }
 
 

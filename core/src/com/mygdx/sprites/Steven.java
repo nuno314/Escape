@@ -34,7 +34,8 @@ public class Steven extends Sprite {
 
     public boolean isCollied=false;
     public boolean isPassed=false;
-    public boolean isGround=false;
+    public boolean isGround;
+    public boolean isCollision=false;
 
     Vector2 previousPosition;
 
@@ -76,7 +77,9 @@ public class Steven extends Sprite {
         if (isCollied==false){
             //nothing
         }
+
         //
+       // isCollision=false;
         setRegion(getFrame(dt));
         setPosition(player.getPosition().x - getWidth() / 2, player.getPosition().y - getHeight()/2);
     }
