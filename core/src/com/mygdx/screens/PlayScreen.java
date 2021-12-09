@@ -64,7 +64,7 @@ public class PlayScreen implements Screen {
                                             "data/map_3.tmx","data/map_4.tmx"
                                             ,"data/map_5.tmx","data/map_6.tmx","data/map_7.tmx"
                                             ,"data/map_8.tmx","data/map_9.tmx","data/map_10.tmx"};
-//    private final String[] pathMapGame={"", "data/map_1.tmx"};
+
     int currentLevel;
     private Music music;
 
@@ -76,7 +76,6 @@ public class PlayScreen implements Screen {
     private Drawable touchBackground;
     private Drawable touchKnob;
     String check;
-    String check1;
 
 
     public PlayScreen(Escape game) {
@@ -86,7 +85,7 @@ public class PlayScreen implements Screen {
 
         mapLoader = new TmxMapLoader();
         currentLevel = Hud.level;
-//          currentLevel = (Hud.level+1)%2 +1;
+
         map = mapLoader.load(pathMapGame[currentLevel]);
         renderer = new OrthogonalTiledMapRenderer(map, 1 / com.mygdx.Escape.PPM);
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
@@ -94,22 +93,19 @@ public class PlayScreen implements Screen {
         world = new World(new Vector2(0, -10), false);
 
         b2dr = new Box2DDebugRenderer();
-       worldHandler = new B2WorldHandler(this);
-
+        worldHandler = new B2WorldHandler(this);
 
         //add for collision
         for (MapObject object: map.getLayers().get("Traps").getObjects()){
-            new Trap(this ,object);
+            new Trap(this, object);
         }
 
         for (MapObject object: map.getLayers().get("Door").getObjects()){
-            new OutDoor(this,object);
+            new OutDoor(this, object);
         }
         for (MapObject object: map.getLayers().get("Walls").getObjects()){
-            new Ground(this,object);
+            new Ground(this, object);
         }
-
-
 
         batch = new SpriteBatch();
         //add for collision
@@ -152,7 +148,7 @@ public class PlayScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         batch = new SpriteBatch();
-        player = new Steven("NUNO", 1);
+        player = new Steven("NUNO");
     }
 
 
@@ -189,22 +185,29 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        // B2 World
         renderer.render();
         b2dr.render(world, camera.combined);
-
-        batch.begin();
-        batch.setProjectionMatrix(camera.combined);
-        //if (player != null)
-        player.draw(batch);
-        batch.setProjectionMatrix(hud.stage.getCamera().combined);
-        hud.stage.draw();
-        batch.end();
-
-        //batch.setProjectionMatrix(camera.combined);
-
-
         b2dr.setDrawBodies(false);
 
+        // Player
+        batch.begin();
+        batch.setProjectionMatrix(camera.combined);
+        player.draw(batch);
+        batch.end();
+
+        // Hud
+        batch.setProjectionMatrix(hud.stage.getCamera().combined);
+        hud.stage.draw();
+
+        // Touchpad
+        stage.act(Gdx.graphics.getDeltaTime());
+        touchpad.setPosition(515, 15);
+        touchpad.setSize(180, 200);
+        stage.draw();
+        check=player.isGround+"";
+
+        // Event
         if (gameOver()){
             game.setScreen(new GameOverScreen(game));
             dispose();
@@ -220,22 +223,7 @@ public class PlayScreen implements Screen {
         else{
             player.currentState= Steven.State.STANDING;
         }
-
-
-
-
-
-        stage.act(Gdx.graphics.getDeltaTime());
-        touchpad.setPosition(515, 15);
-        touchpad.setSize(180, 200);
-        stage.draw();
-        check=player.isGround+"";
-
-        Gdx.app.log("check ground",check);
-       // Gdx.app.log("check trap: ", check1);
     }
-
-
 
     public boolean gameOver(){
         return player.currentState == Steven.State.DEAD;
@@ -254,15 +242,11 @@ public class PlayScreen implements Screen {
     public boolean onGround(){return player.isOnGround;}
     public boolean onTrap(){return player.isCollied;}
 
-
-
     @Override
     public void resize(int width, int height) {
         camera.setToOrtho(false);
         viewport.update(width, height);
     }
-
-
 
     @Override
     public void pause() {
@@ -296,10 +280,5 @@ public class PlayScreen implements Screen {
     public TiledMap getMap() {
         return map;
     }
-
-    public SpriteBatch getBatch() {
-        return batch;
-    }
-
 }
 

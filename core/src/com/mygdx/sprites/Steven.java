@@ -42,26 +42,18 @@ public class Steven extends Sprite {
 
     private int order;
 
-    public Steven(final String username, int order) {
+    public Steven(final String username) {
         this.world = PlayScreen.getWorld();
         this.username = username;
-        this.order = order;
         currentState = State.STANDING;
         previousState = State.STANDING;
         stateTimer = 0;
 
         previousPosition = new Vector2(getX(), getY());
-        if (order == 1) {
-            stevenLeft = ResourceHandler.left1;
-            stevenRight = ResourceHandler.right1;
-            stevenStand = ResourceHandler.stand1;
-        }
-        else if (order == 2) {
-            stevenLeft = ResourceHandler.left2;
-            stevenRight = ResourceHandler.right2;
-            stevenStand = ResourceHandler.stand2;
-        }
-        //else (order == 2)
+
+        stevenLeft = ResourceHandler.left1;
+        stevenRight = ResourceHandler.right1;
+        stevenStand = ResourceHandler.stand1;
 
         defineSteven();
         setBounds(0,0, 40 / com.mygdx.Escape.PPM, 52 / com.mygdx.Escape.PPM);
@@ -69,24 +61,16 @@ public class Steven extends Sprite {
     }
 
     public void update(float dt) {
-        //inputUpdate(dt);
-
         //add for collision
         if (isCollied==true){
             reDefineSteven();
         }
-        if (isCollied==false){
-            //nothing
-        }
 
-        //
-       // isCollision=false;
         setRegion(getFrame(dt));
         setPosition(player.getPosition().x - getWidth() / 2, player.getPosition().y - getHeight()/2);
     }
 
     public void updateTouchpad(float dt) {
-//        inputUpdateTouchpad(dt, knobX, knobY);
 
         //add for collision
         if (isCollied){
@@ -95,23 +79,13 @@ public class Steven extends Sprite {
 
         setRegion(getFrame(dt));
         setPosition(player.getPosition().x - getWidth() / 2, player.getPosition().y - getHeight()/2);
-
-
     }
 
     public boolean getIsGround() {
         return isGround;
     }
     public void defineSteven() {
-        int x = 0, y = 0;
-        if (order == 1) {
-            x = 250;
-            y = 120;
-        }
-        else if (order == 2) {
-            x = 290;
-            y = 120;
-        }
+        int x = 250, y = 120;
         int width = 20;
         int height = 26;
 
@@ -124,17 +98,15 @@ public class Steven extends Sprite {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width / com.mygdx.Escape.PPM, height / com.mygdx.Escape.PPM);
 
-        //
         FixtureDef fdef = new FixtureDef();
 
         fdef.filter.categoryBits= Escape.STEVEN_BIT;
         fdef.filter.maskBits= Escape.DEFAULT_BIT| Escape.DOOR_BITCH_BIT | Escape.TRAP_BIT
                     | Escape.GROUND_BIT; //bit co the va cham
         fdef.shape=shape;
-        //  player.setLinearDamping(0.5f);
+        player.setLinearDamping(0.5f);
         player.createFixture(fdef).setUserData(this);
         shape.dispose();
-
 
         //CREATE FOOT:
         PolygonShape foot=new PolygonShape();
@@ -147,9 +119,7 @@ public class Steven extends Sprite {
         fdef.shape=foot;
         fdef.filter.categoryBits= Escape.STEVEN_FOOT_BIT;
 
-
         player.createFixture(fdef).setUserData(this);
-        // foot.dispose();
     }
 
     //add for collision
@@ -158,15 +128,12 @@ public class Steven extends Sprite {
         world.destroyBody(player);
         int width = 20;
         int height = 26;
-        //float x=player.getPosition().x-1f;
-        // float y=player.getPosition().y;
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(currentPos.sub(0.1f, 0));
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.fixedRotation = true;
         player = world.createBody(bodyDef);
-
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width/ Escape.PPM, height/ Escape.PPM);
@@ -177,7 +144,7 @@ public class Steven extends Sprite {
         fdef.filter.maskBits= Escape.DEFAULT_BIT| Escape.DOOR_BITCH_BIT| Escape.TRAP_BIT
                         | Escape.GROUND_BIT; //bit co the va cham
         fdef.shape=shape;
-        //  player.setLinearDamping(0.5f);
+        player.setLinearDamping(0.5f);
         player.createFixture(fdef).setUserData(this);
         shape.dispose();
 
@@ -193,27 +160,9 @@ public class Steven extends Sprite {
         fdef.filter.categoryBits= Escape.STEVEN_FOOT_BIT;
 
         player.createFixture(fdef).setUserData(this);
-        //  foot.dispose();
 
         isCollied=false;
     }
-
-//    public void inputUpdate(float delta) {
-//        int horizontalForce = 0;
-//
-//        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-//            horizontalForce -= 2;
-//        }
-//        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-//            horizontalForce += 2;
-//        }
-//        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-//
-//            player.applyForceToCenter(0,300, true);
-//        }
-//
-//        player.setLinearVelocity(horizontalForce , player.getLinearVelocity().y);
-//    }
 
     public TextureRegion getFrame(float dt) {
         currentState = getState();
@@ -250,6 +199,7 @@ public class Steven extends Sprite {
     }
 
     public boolean hasMoved() {
+
         if (previousPosition.x != getX() || previousPosition.y != getY()) {
             previousPosition.x = getX();
             previousPosition.y = getY();

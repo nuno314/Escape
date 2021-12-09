@@ -22,12 +22,12 @@ public class GameOverScreen implements Screen {
     private Viewport viewport;
     private Stage stage;
     private Escape game;
-//    private Skin skin;
     public GameOverScreen(Escape game){
+
         this.game  = game;
         viewport = new FitViewport(Escape.WIDTH, Escape.HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport);
-//        skin = new Skin(Gdx.files.internal("skin/screen.json"), new TextureAtlas("skin/screen.pack"));
+
         Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
         Label.LabelStyle font2 = new Label.LabelStyle(new BitmapFont(), Color.RED);
 
@@ -45,7 +45,6 @@ public class GameOverScreen implements Screen {
         table.add(playAgainLabel).expandX().padTop(10f);
 
         stage.addActor(table);
-//        table.setBackground(skin.getDrawable("background"));
 
         Escape.manager.get("audio/sounds/GameOver.mp3", Sound.class).play();
     }
@@ -89,6 +88,5 @@ public class GameOverScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-
     }
 }

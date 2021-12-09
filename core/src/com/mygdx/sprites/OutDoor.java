@@ -20,9 +20,7 @@ public class OutDoor extends Interactive {
 
     @Override
     public void OnBodyHit(Steven steven) {
-        Gdx.app.log("DOOR: ","COLLISION");
         steven.isPassed=true;
-
     }
 
     @Override

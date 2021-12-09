@@ -58,15 +58,15 @@ public class Hud {
         stage.addActor(table);
     }
     public void update(float dt){
-        timeCount+=dt;
-        if(timeCount>=1){
+        timeCount += dt;
+        if(timeCount >= 1){
             worldTimer--;
             countDownLabel.setText(String.format("%03d",worldTimer));
-            timeCount=0;
+            timeCount = 0;
         }
     }
     public static void addScore(int value){
-        score+=value;
+        score += value;
         scoreLabel.setText(String.format("%06d",score));
     }
 
@@ -83,7 +83,7 @@ public class Hud {
     }
 
     public static void  minusTime(int value){
-        worldTimer-=value;
+        worldTimer -= value;
     }
 
     public boolean isLastLevel() {

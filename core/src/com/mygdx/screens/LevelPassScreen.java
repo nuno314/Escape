@@ -1,6 +1,5 @@
 package com.mygdx.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
@@ -23,7 +22,6 @@ public class LevelPassScreen implements Screen {
     private Viewport viewport;
     private Stage stage;
     private Escape game;
-    private Hud hud;
     private SpriteBatch batch;
     private Skin skin;
 
@@ -40,7 +38,6 @@ public class LevelPassScreen implements Screen {
         Label.LabelStyle font2 = new Label.LabelStyle(new BitmapFont(), Color.PURPLE);
 
         Table table = new Table();
-//            table.center();
         table.setFillParent(true);
         Label gameOverLabel = new Label("CONGRATULATION!!!!", font2);
         gameOverLabel.setFontScale(3);
@@ -65,8 +62,6 @@ public class LevelPassScreen implements Screen {
         table.setBackground(skin.getDrawable("background"));
 
         Escape.manager.get("audio/sounds/PassLevel.mp3", Sound.class).play();
-
-
     }
 
 
@@ -112,7 +107,5 @@ public class LevelPassScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-
     }
-
 }

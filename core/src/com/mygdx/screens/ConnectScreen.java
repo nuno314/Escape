@@ -42,8 +42,6 @@ public class ConnectScreen implements Screen {
     TextField name;
 
     public static String player, teammate;
-    public static int order;
-    public static ArrayList<Object> players;
 
     public ConnectScreen(final Escape game) {
         this.game = game;
@@ -59,9 +57,6 @@ public class ConnectScreen implements Screen {
         camera.update();
 
         stage = new Stage(viewport, batch);
-
-        order = 0;
-        players = new ArrayList<>();
     }
 
     @Override
@@ -69,7 +64,7 @@ public class ConnectScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         Button how_to_play = new Button(skin, "how_to_play");
-        name = new TextField("", skin);
+        TextField name = new TextField("", skin);
         name.setMessageText("Name");
         Button create = new Button(skin, "create");
         Button find = new Button(skin, "find");
@@ -204,15 +199,6 @@ public class ConnectScreen implements Screen {
             @Override
             public void call(Object... args) {
                 Gdx.app.log("SocketIO", "Connected");
-                String tmp = name.getText();
-                if (order == 0) {
-                    player = tmp;
-                    order++;
-                    System.out.println("Welcome " + player);
-                    //players.push()
-                }
-
-                System.out.println("Order: "+ order);
             }
         }).on("socketID", new Emitter.Listener() {
             @Override
@@ -232,8 +218,6 @@ public class ConnectScreen implements Screen {
                 try {
                     String id = data.getString("id");
                     Gdx.app.log("SocketIO", "New Player Connect: " + id);
-                    if (order == 1)
-                        teammate = name.getText();
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error getting New Player ID");
                 }
