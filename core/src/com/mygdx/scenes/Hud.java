@@ -19,13 +19,13 @@ public class Hud {
     private  float timeCount;
     private static Integer score=0;
 
-    private  Label countDownLabel;
+    private Label countDownLabel;
     private static Label scoreLabel;
     private Label timeLabel;
     private Label levelLabel;
     private Label worldLabel;
     private Label stevenLabel;
-    private  final Integer LIMIT_TIME = 60;
+    private final Integer LIMIT_TIME = 60;
     public static int level=1;
     private final int MAX_LEVEL = 10;
 
@@ -73,12 +73,15 @@ public class Hud {
     public Integer getWorldTimer() {
         return worldTimer;
     }
+
     public static Integer getScore(){
         return score;
     }
+
     public static void setScore(int x){
         score=x;
     }
+
     public static void  minusTime(int value){
         worldTimer-=value;
     }

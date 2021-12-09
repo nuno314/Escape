@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -36,12 +35,12 @@ import com.mygdx.sprites.Steven;
 import com.mygdx.handlers.B2WorldHandler;
 
 public class PlayScreen implements Screen {
+
     private static World world;
-    //Reference to our Game, used to set Screens
-    private TextureAtlas atlas;
+
     private static Hud hud;
 
-    private final com.mygdx.Escape game;
+    private final Escape game;
 
     // Basic playscreen variables
     private final OrthographicCamera camera;
@@ -59,8 +58,7 @@ public class PlayScreen implements Screen {
 
     // Sprites
     private SpriteBatch batch;
-    private Steven player, teammate;
-    private Body playerBody;
+    private Steven player;
 
     private final String[] pathMapGame={"", "data/map_1.tmx","data/map_2.tmx",
                                             "data/map_3.tmx","data/map_4.tmx"
@@ -153,15 +151,8 @@ public class PlayScreen implements Screen {
         stage.addActor(touchpad);
         Gdx.input.setInputProcessor(stage);
 
-
-        // Steven
-        if (ConnectScreen.player != null) {
-            player = new Steven(ConnectScreen.player, 1);
-            playerBody = player.getBody();
-        }
-
         batch = new SpriteBatch();
-        this.player = new Steven("NUNO", 1);
+        player = new Steven("NUNO", 1);
     }
 
 
@@ -198,25 +189,20 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (ConnectScreen.teammate != null)
-            teammate = new Steven(ConnectScreen.teammate, 2);
-
         renderer.render();
-
         b2dr.render(world, camera.combined);
 
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
-        if (player != null)
-            player.draw(batch);
-        //player.update(delta);
-
-        batch.end();
-
-        batch.setProjectionMatrix(camera.combined);
-
+        //if (player != null)
+        player.draw(batch);
         batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
+        batch.end();
+
+        //batch.setProjectionMatrix(camera.combined);
+
+
         b2dr.setDrawBodies(false);
 
         if (gameOver()){
@@ -231,8 +217,6 @@ public class PlayScreen implements Screen {
             game.setScreen(new LevelPassScreen(game,Hud.getScore(),hud.getWorldTimer()));
             dispose();
         }
-
-
         else{
             player.currentState= Steven.State.STANDING;
         }
