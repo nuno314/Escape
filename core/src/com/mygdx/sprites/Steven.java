@@ -36,6 +36,7 @@ public class Steven extends Sprite {
     public boolean isPassed=false;
     public boolean isGround;
     public boolean isCollision=false;
+    public boolean isOnGround =false;
 
     Vector2 previousPosition;
 
@@ -88,15 +89,17 @@ public class Steven extends Sprite {
         inputUpdateTouchpad(dt, knobX, knobY);
 
         //add for collision
-        if (isCollied==true){
-            reDefineSteven();
-        }
-        if (isCollied==false){
-            //nothing
-        }
+//        if (isCollied==true){
+//            reDefineSteven();
+//        }
+//        if (isCollied==false){
+//            //nothing
+//        }
         //
         setRegion(getFrame(dt));
         setPosition(player.getPosition().x - getWidth() / 2, player.getPosition().y - getHeight()/2);
+
+
     }
     public void inputUpdateTouchpad(float dt, float knobX, float knobY) {
         int horizontalForce = 0;
@@ -116,12 +119,12 @@ public class Steven extends Sprite {
     public void defineSteven() {
         int x = 0, y = 0;
         if (order == 1) {
-            x = 120;
+            x = 250;
             y = 120;
         }
         else if (order == 2) {
-            x = 300;
-            y = 300;
+            x = 290;
+            y = 120;
         }
         int width = 20;
         int height = 26;
@@ -152,8 +155,8 @@ public class Steven extends Sprite {
         Vector2[] vertices=new Vector2[4];
         vertices[0]= new Vector2(-17,-20).scl(1/ Escape.PPM);
         vertices[1]=new Vector2(17,-20).scl(1/ Escape.PPM);
-        vertices[2]= new Vector2(-22,-28).scl(1/ Escape.PPM);
-        vertices[3]=new Vector2(22,-28).scl(1/ Escape.PPM);
+        vertices[2]= new Vector2(-17,-28).scl(1/ Escape.PPM);
+        vertices[3]=new Vector2(17,-28).scl(1/ Escape.PPM);
         foot.set(vertices);
         fdef.shape=foot;
         fdef.filter.categoryBits= Escape.STEVEN_FOOT_BIT;
@@ -173,7 +176,7 @@ public class Steven extends Sprite {
         // float y=player.getPosition().y;
 
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(currentPos.sub(0.2f, 0));
+        bodyDef.position.set(currentPos.sub(0.1f, 0));
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.fixedRotation = true;
         player = world.createBody(bodyDef);

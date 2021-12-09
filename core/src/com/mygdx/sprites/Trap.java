@@ -23,9 +23,11 @@ public class Trap extends Interactive {
         Gdx.app.log("TRAP: ","COLLISION");
         steven.isCollied=true;
         Escape.manager.get("audio/sounds/Trap.mp3", Sound.class).play();
+//
+//        if(Hud.getScore()>=10)
+//            Hud.addScore(-10);
 
-        if(Hud.getScore()>=10)
-            Hud.addScore(-10);
+        Hud.minusTime(2);
     }
 
     @Override
