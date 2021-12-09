@@ -39,26 +39,19 @@ public class Steven extends Sprite {
 
     private int order;
 
-    public Steven(final String username, int order) {
+    public Steven(final String username) {
         this.world = PlayScreen.getWorld();
         this.username = username;
-        this.order = order;
+
         currentState = State.STANDING;
         previousState = State.STANDING;
         stateTimer = 0;
 
         previousPosition = new Vector2(getX(), getY());
-        if (order == 1) {
-            stevenLeft = ResourceHandler.left1;
-            stevenRight = ResourceHandler.right1;
-            stevenStand = ResourceHandler.stand1;
-        }
-        else if (order == 2) {
-            stevenLeft = ResourceHandler.left2;
-            stevenRight = ResourceHandler.right2;
-            stevenStand = ResourceHandler.stand2;
-        }
-        //else (order == 2)
+
+        stevenLeft = ResourceHandler.left1;
+        stevenRight = ResourceHandler.right1;
+        stevenStand = ResourceHandler.stand1;
 
         defineSteven();
         setBounds(0,0, 40 / com.mygdx.Escape.PPM, 52 / com.mygdx.Escape.PPM);
@@ -66,8 +59,6 @@ public class Steven extends Sprite {
     }
 
     public void update(float dt) {
-        //inputUpdate(dt);
-
         //add for collision
         if (isCollied==true){
             reDefineSteven();
@@ -173,23 +164,6 @@ public class Steven extends Sprite {
 
         isCollied=false;
     }
-
-//    public void inputUpdate(float delta) {
-//        int horizontalForce = 0;
-//
-//        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-//            horizontalForce -= 2;
-//        }
-//        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-//            horizontalForce += 2;
-//        }
-//        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-//
-//            player.applyForceToCenter(0,300, true);
-//        }
-//
-//        player.setLinearVelocity(horizontalForce , player.getLinearVelocity().y);
-//    }
 
     public TextureRegion getFrame(float dt) {
         currentState = getState();

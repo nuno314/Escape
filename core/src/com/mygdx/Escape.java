@@ -6,6 +6,8 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.screens.ConnectScreen;
@@ -22,6 +24,9 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
 public class Escape extends Game {
+
+    private static final Escape INSTANCE = new Escape();
+
     public static final float WIDTH = 576;
     public static final float HEIGHT = 1056;
     public static final float PPM = 100;
@@ -47,7 +52,10 @@ public class Escape extends Game {
         manager.load("audio/sounds/Trap.mp3", Sound.class);
         manager.load("audio/sounds/GameOver.mp3", Sound.class);
         manager.load("audio/sounds/PassLevel.mp3", Sound.class);
+        manager.load("data/steven.atlas", TextureAtlas.class);
+        manager.load("data/steven2.atlas", TextureAtlas.class);
         manager.finishLoading();
+
 
         setScreen(new ConnectScreen(this));
     }
@@ -61,4 +69,7 @@ public class Escape extends Game {
     public void dispose() {
     }
 
+    public static Escape getINSTANCE() {
+        return (Escape) Gdx.app.getApplicationListener();
+    }
 }

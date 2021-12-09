@@ -1,36 +1,38 @@
 package com.mygdx.handlers;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.mygdx.Escape;
 
 public class ResourceHandler {
 
 
-    public final static ResourceHandler INSTANCE = new ResourceHandler();
+    private final static ResourceHandler INSTANCE = new ResourceHandler();
 
-//    Texture walkSheet = new Texture(Gdx.files.internal("steven2.png"));
-//
-//    TextureRegion[][] tmp = TextureRegion.split(walkSheet,walkSheet.getWidth()/9, walkSheet.getHeight());
-//
-//    TextureRegion[] walkFrames = new TextureRegion[4];
-//    int index = 0;
-//    for (int i = 0; i < 1;i++) {
-//        for (int j = 0; j <  4; j++) {
-//            walkFrames[index++] = tmp[i][j];
-//        }
-//    }
+    public static TextureAtlas atlas1, atlas2;
 
-    public final static TextureAtlas atlas1 = new TextureAtlas("data/steven.atlas");
-    public final static TextureAtlas atlas2 = new TextureAtlas("data/steven2.atlas");
-    public final static Animation<TextureRegion> left1 = new Animation(0.333f, atlas1.findRegion("left"));
-    public final static Animation<TextureRegion> right1 = new Animation(0.1f, atlas1.findRegion("right"));
-    public final static TextureRegion stand1 = new TextureRegion(atlas1.findRegion("stand"));
+    public static TextureRegion stand1, stand2;
 
-    public final static Animation<TextureRegion> left2 = new Animation(0.333f, atlas2.findRegion("left"));
-    public final static Animation<TextureRegion> right2 = new Animation(0.1f, atlas2.findRegion("right"));
-    public final static TextureRegion stand2 = new TextureRegion(atlas2.findRegion("stand"));
+    public static Animation<TextureRegion> left1, left2, right1, right2;
 
+    public ResourceHandler() {
+        atlas1 = Escape.manager.get("data/steven.atlas");
+        atlas2 = Escape.manager.get("data/steven2.atlas");
+
+        stand1 = new TextureRegion(atlas1.findRegion("stand"));
+        stand2 = new TextureRegion(atlas1.findRegion("stand"));
+
+        left1 = new Animation(0.333f, atlas1.findRegion("left"));
+        right1 = new Animation(0.1f, atlas1.findRegion("right"));
+        stand1 = new TextureRegion(atlas1.findRegion("stand"));
+
+        left2 = new Animation(0.333f, atlas2.findRegion("left"));
+        right2 = new Animation(0.1f, atlas2.findRegion("right"));
+        stand2 = new TextureRegion(atlas2.findRegion("stand"));
+    }
+
+    public static ResourceHandler getINSTANCE() {
+        return INSTANCE;
+    }
 }

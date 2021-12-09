@@ -26,6 +26,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import com.mygdx.Escape;
 import com.mygdx.handlers.InputHandler;
+import com.mygdx.handlers.PlayerHandler;
 import com.mygdx.scenes.Hud;
 import com.mygdx.sprites.OutDoor;
 import com.mygdx.sprites.Trap;
@@ -36,8 +37,9 @@ import com.mygdx.handlers.B2WorldHandler;
 
 public class PlayScreen implements Screen {
     private static World world;
+
+    public static final PlayScreen INSTANCE = new PlayScreen();
     //Reference to our Game, used to set Screens
-    private TextureAtlas atlas;
     private static Hud hud;
 
     private final com.mygdx.Escape game;
@@ -58,8 +60,7 @@ public class PlayScreen implements Screen {
 
     // Sprites
     private SpriteBatch batch;
-    private Steven player, teammate;
-    private Body playerBody;
+    private Steven player;
 
     private final String[] pathMapGame={"","data/map_1.tmx","data/map_1.tmx"};
     int currentLevel;
@@ -74,8 +75,9 @@ public class PlayScreen implements Screen {
     private Drawable touchKnob;
 
 
-    public PlayScreen(Escape game) {
-        this.game = game;
+    public PlayScreen() {
+
+        this.game = Escape.getINSTANCE();
         this.camera = new OrthographicCamera();
         viewport = new FitViewport(Escape.WIDTH / Escape.PPM, Escape.HEIGHT / Escape.PPM, camera);
 
@@ -144,12 +146,6 @@ public class PlayScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
 
-        // Steven
-        if (ConnectScreen.player != null) {
-            player = new Steven(ConnectScreen.player, 1);
-            playerBody = player.getBody();
-        }
-
         batch = new SpriteBatch();
     }
 
@@ -160,8 +156,14 @@ public class PlayScreen implements Screen {
     }
 
     public void update(float dt) {
-        if (playerBody!=null)
-        InputHandler.inputUpdate(playerBody, dt);
+
+        if (PlayerHandler.INSTANCE.getPlayers().size() > 0) {
+            player = PlayerHandler.INSTANCE.getPlayers().get(0);
+
+        }
+
+        if (player!=null)
+        InputHandler.inputUpdate(player.getBody(), dt);
 
         world.step(1f/ 60f, 6, 2);
 
@@ -190,20 +192,16 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (ConnectScreen.teammate != null)
-            teammate = new Steven(ConnectScreen.teammate, 2);
-
         renderer.render();
 
         b2dr.render(world, camera.combined);
 
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
-        if (player != null)
-            player.draw(batch);
+        PlayerHandler.INSTANCE.render(batch);
+//        if (player != null)
+//            player.draw(batch);
         //player.update(delta);
-        if (teammate != null)
-            teammate.draw(batch);
         batch.end();
 
         batch.setProjectionMatrix(camera.combined);

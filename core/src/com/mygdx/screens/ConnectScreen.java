@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Box2D;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -25,6 +24,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.Escape;
 import com.mygdx.handlers.ResourceHandler;
+import com.mygdx.network.EventListener;
 import com.mygdx.sprites.Steven;
 
 import org.json.JSONException;
@@ -50,8 +50,8 @@ public class ConnectScreen implements Screen {
     private Stage stage;
     private Table root;
 
-    private TextField usernameLabel;
-    private TextButton connectButton;
+    public static TextField usernameLabel;
+    public static TextButton connectButton;
 
     public static String player, teammate;
     public static int order;
@@ -81,12 +81,11 @@ public class ConnectScreen implements Screen {
                     @Override
                     public void run() {
                         try {
-                        connectSocket();
-                        configSocketEvents();
-
-                    } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                            EventListener.connectSocket();
+                            EventListener.configSocketEvents();
+                        } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                     }
                 });
 
@@ -124,10 +123,8 @@ public class ConnectScreen implements Screen {
 
         stage.draw();
         stage.act(delta);
-        if (order == 1)
-            game.setScreen(new PlayScreen(game));
-//        if (order == 2)
-//            game.setScreen(new PlayScreen(game));
+
+
     }
 
     @Override
@@ -157,66 +154,4 @@ public class ConnectScreen implements Screen {
         skin.dispose();
     }
 
-    void connectSocket() {
-        try {
-            System.out.println("Success");
-            socket = IO.socket("http://localhost:8080");
-            socket.connect();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-
-    void configSocketEvents() {
-        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener()  {
-            @Override
-            public void call(Object... args) {
-                Gdx.app.log("SocketIO", "Connected");
-                String tmp = usernameLabel.getText();
-                if (order == 0) {
-                    player = tmp;
-                    order++;
-                    System.out.println("Welcome " + player);
-                    //players.push()
-                }
-
-                System.out.println("Order: "+ order);
-            }
-        }).on("socketID", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                JSONObject data = (JSONObject) args[0];
-                try {
-                    String id = data.getString("id");
-                    Gdx.app.log("SocketIO", "My ID: " + id);
-                } catch (JSONException e) {
-                    Gdx.app.log("SocketIO", "Error getting ID");
-                }
-            }
-        }).on("newPlayer", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                JSONObject data = (JSONObject) args[0];
-                try {
-                    String id = data.getString("id");
-                    Gdx.app.log("SocketIO", "New Player Connect: " + id);
-                    if (order == 1)
-                        teammate = usernameLabel.getText();
-                } catch (JSONException e) {
-                    Gdx.app.log("SocketIO", "Error getting New Player ID");
-                }
-            }
-//        }).on("playerDisconnected", new Emitter.Listener() {
-//            @Override
-//            public void call(Object... args) {
-//                JSONObject data = (JSONObject) args[0];
-//                try {
-//                    String id = data.getString("id");
-//
-//                } catch (JSONException e) {
-//                    Gdx.app.log("SocketIO", "Error getting New Player ID");
-//                }
-//            }
-        });
-    }
 }

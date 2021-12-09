@@ -69,7 +69,7 @@ public class LevelPassScreen implements Screen {
     public void render(float delta) {
         if (Gdx.input.justTouched()) {
             Hud.level++;
-            game.setScreen(new PlayScreen(game));
+            game.setScreen(PlayScreen.INSTANCE);
             dispose();
         }
 
