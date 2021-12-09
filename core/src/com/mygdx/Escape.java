@@ -22,13 +22,12 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
 public class Escape extends Game {
+
     public static final float WIDTH = 576;
     public static final float HEIGHT = 1056;
     public static final float PPM = 100;
 
-
     //add for collision
-
     public static final short DEFAULT_BIT=1;
     public  static final short STEVEN_BIT=2;
     public static final short TRAP_BIT=4;

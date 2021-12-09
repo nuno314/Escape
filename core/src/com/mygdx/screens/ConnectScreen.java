@@ -72,6 +72,7 @@ public class ConnectScreen implements Screen {
         name = new TextField("Name", skin);
         Button create = new Button(skin, "create");
         Button find = new Button(skin, "find");
+        Button play_now = new Button(skin, "play");
 
         Button home = new Button(skin, "home");
         Button rank = new Button(skin, "rank_off");
@@ -81,6 +82,13 @@ public class ConnectScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new HowToPlayScreen());
+            }
+        });
+
+        play_now.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new PlayScreen(game));
             }
         });
 
@@ -135,9 +143,10 @@ public class ConnectScreen implements Screen {
         root.setFillParent(true);
         root.top();
         root.add(how_to_play).padTop(150).row();
-        root.add(name).size(300,60).padTop(100).row();
-        root.add(create).padTop(100).row();
-        root.add(find).padTop(100).row();
+        root.add(name).size(300,60).padTop(50).row();
+        root.add(play_now).padTop(50).row();
+        root.add(create).padTop(50).row();
+        root.add(find).padTop(50).row();
         root.add(menu).expand().bottom();
 
         stage.addActor(root);
