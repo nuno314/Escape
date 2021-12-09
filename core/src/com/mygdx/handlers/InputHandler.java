@@ -8,23 +8,6 @@ import com.mygdx.sprites.Steven;
 public class InputHandler {
     public static final InputHandler INSTANCE = new InputHandler();
 
-    public static void inputUpdate(Body player, float delta) {
-        int horizontalForce = 0;
-
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            horizontalForce -= 2;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            horizontalForce += 2;
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-
-            player.applyForceToCenter(0,300, true);
-        }
-
-        player.setLinearVelocity(horizontalForce , player.getLinearVelocity().y);
-    }
-
     public static void inputUpdateTouchpad(Steven player, float dt, float knobX, float knobY) {
         int horizontalForce = 0;
         System.out.println("X" + knobX);

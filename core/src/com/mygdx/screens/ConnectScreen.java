@@ -69,7 +69,8 @@ public class ConnectScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         Button how_to_play = new Button(skin, "how_to_play");
-        name = new TextField("Name", skin);
+        name = new TextField("", skin);
+        name.setMessageText("Name");
         Button create = new Button(skin, "create");
         Button find = new Button(skin, "find");
         Button play_now = new Button(skin, "play");
@@ -159,11 +160,6 @@ public class ConnectScreen implements Screen {
 
         stage.draw();
         stage.act(delta);
-
-        if (order == 1)
-            game.setScreen(new PlayScreen(game));
-//        if (order == 2)
-//            game.setScreen(new PlayScreen(game));
     }
 
     @Override

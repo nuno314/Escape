@@ -171,8 +171,6 @@ public class PlayScreen implements Screen {
     }
 
     public void update(float dt) {
-        if (playerBody!=null)
-        InputHandler.inputUpdate(player.getBody(), dt);
 
         world.step(1f/ 60f, 6, 2);
 
