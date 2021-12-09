@@ -20,7 +20,7 @@ public class InputHandler {
             horizontalForce += 2;
         }
         if (knobY > 0.4 && player.getIsGround() == true) {
-            player.getBody().applyForceToCenter(0,150, true);
+            player.getBody().applyForceToCenter(0,180, true);
         }
 
         player.getBody().setLinearVelocity(horizontalForce , player.getBody().getLinearVelocity().y);
