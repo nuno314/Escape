@@ -1,6 +1,5 @@
 package com.mygdx.sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.mygdx.Escape;
 import com.mygdx.screens.PlayScreen;
@@ -10,7 +9,7 @@ public class OutDoor extends Interactive {
     public OutDoor(PlayScreen screen, MapObject object) {
         super(screen, object);
         fixture.setUserData(this);
-        setCategoryFilter(Escape.DOOR_BITCH_BIT);
+        setCategoryFilter(Escape.DOOR_BIT);
     }
 
     @Override

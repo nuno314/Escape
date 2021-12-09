@@ -34,7 +34,7 @@ public class Escape extends Game {
     public static final short DESTROYED_BIT=8;
     public static final short STEVEN_DEAD=16;
     public static final short STEVEN_FOOT_BIT=32;
-    public static final short DOOR_BITCH_BIT =64;
+    public static final short DOOR_BIT =64;
     public static final short GROUND_BIT =128;
 
 

@@ -1,12 +1,8 @@
 package com.mygdx.sprites;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -101,7 +97,7 @@ public class Steven extends Sprite {
         FixtureDef fdef = new FixtureDef();
 
         fdef.filter.categoryBits= Escape.STEVEN_BIT;
-        fdef.filter.maskBits= Escape.DEFAULT_BIT| Escape.DOOR_BITCH_BIT | Escape.TRAP_BIT
+        fdef.filter.maskBits= Escape.DEFAULT_BIT| Escape.DOOR_BIT | Escape.TRAP_BIT
                     | Escape.GROUND_BIT; //bit co the va cham
         fdef.shape=shape;
         player.setLinearDamping(0.5f);
@@ -141,7 +137,7 @@ public class Steven extends Sprite {
         FixtureDef fdef=new FixtureDef();
 
         fdef.filter.categoryBits= Escape.STEVEN_BIT;
-        fdef.filter.maskBits= Escape.DEFAULT_BIT| Escape.DOOR_BITCH_BIT| Escape.TRAP_BIT
+        fdef.filter.maskBits= Escape.DEFAULT_BIT| Escape.DOOR_BIT | Escape.TRAP_BIT
                         | Escape.GROUND_BIT; //bit co the va cham
         fdef.shape=shape;
         player.setLinearDamping(0.5f);

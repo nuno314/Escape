@@ -34,12 +34,12 @@ public class WorldContactListener implements ContactListener {
                 }
 
                 break;
-            case Escape.DOOR_BITCH_BIT | Escape.STEVEN_BIT:
+            case Escape.DOOR_BIT | Escape.STEVEN_BIT:
                 Gdx.app.log("door", "collide");
                 if (fixA.getFilterData().categoryBits == Escape.STEVEN_BIT) {
                     Gdx.app.log("steven", "");
                     ((Interactive)fixB.getUserData()).OnBodyHit((Steven) fixA.getUserData());
-                } else if (fixA.getFilterData().categoryBits== Escape.DOOR_BITCH_BIT){
+                } else if (fixA.getFilterData().categoryBits== Escape.DOOR_BIT){
                     ((Interactive)fixA.getUserData()).OnBodyHit((Steven) fixB.getUserData());
                     Gdx.app.log("steven", "is door");
                 }
