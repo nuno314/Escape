@@ -126,12 +126,43 @@ public class ConnectScreen implements Screen {
             }
         });
 
+
         find.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(Escape.ScreenKey.ROOM_LIST);
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            EventHandler.socket.emit("find_room");
+
+                            game.setScreen(Escape.ScreenKey.ROOM_LIST);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                return super.touchDown(event, x, y, pointer, button);
             }
         });
+//        find.addListener(new ClickListener() {
+//            @Override
+//            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+//                Gdx.app.postRunnable(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            game.setScreen(Escape.ScreenKey.ROOM_LIST);
+//
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                });
+//                return super.touchDown(event, x, y, pointer, button);
+//            }
+//        });
 
         rank.addListener(new ClickListener() {
             @Override

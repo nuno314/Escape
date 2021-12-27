@@ -1,7 +1,10 @@
 package com.mygdx.handlers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Array;
+import com.mygdx.utils.RoomItem;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,7 +14,6 @@ import io.socket.emitter.Emitter;
 
 public class EventHandler {
 
-    public static final EventHandler INSTANCE = new EventHandler();
     public static Socket socket;
 
     public static String id;
@@ -68,4 +70,5 @@ public class EventHandler {
 //            }
         });
     }
+
 }

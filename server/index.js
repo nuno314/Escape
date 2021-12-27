@@ -11,8 +11,8 @@ server.listen(8080, () => {
 io.on('connection', (socket) => {
     console.log("Player Connected");
     socket.emit('socketID', { id: socket.id });
-//    socket.emit('getPlayers', players);
     socket.broadcast.emit('newPlayer', { id: socket.id });
+    socket.broadcast.emit('room_list', rooms);
     socket.on('disconnect', () => {
 
         console.log("Player Disconnected");
@@ -44,6 +44,11 @@ io.on('connection', (socket) => {
         rooms.push(newRoom);
         console.log(rooms);
     })
+    socket.on('find_room', () => {
+        socket.emit('room_list', rooms)
+        console.log('FIND_ROOM, ROOM_LIST');
+    })
+    
   //  players.push(new player(socket.id, 0, 0));
 })
 

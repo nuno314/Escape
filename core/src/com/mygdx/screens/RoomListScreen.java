@@ -13,9 +13,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.Escape;
+import com.mygdx.handlers.EventHandler;
+import com.mygdx.utils.RoomItem;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import io.socket.emitter.Emitter;
 
 public class RoomListScreen implements Screen {
 
@@ -24,6 +33,8 @@ public class RoomListScreen implements Screen {
     private final Skin skin;
     private final OrthographicCamera camera;
     private final Viewport viewport;
+
+    private final Array<RoomItem> roomList;
 
     public RoomListScreen(Escape game) {
         this.game = game;
@@ -38,11 +49,17 @@ public class RoomListScreen implements Screen {
         camera.update();
 
         stage = new Stage(viewport, batch);
+
+        roomList = new Array<>();
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+
+        Gdx.app.log("FIND BUTTON", "CLICKED");
+
+        EventHandler.socket.on("room_list", onRoomList);
 
         Button back = new Button(skin, "home_off");
         back.addListener(new ClickListener() {
@@ -65,6 +82,9 @@ public class RoomListScreen implements Screen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+
+
+
         stage.act();
         stage.draw();
     }
@@ -86,11 +106,36 @@ public class RoomListScreen implements Screen {
 
     @Override
     public void hide() {
-        dispose();
     }
 
     @Override
     public void dispose() {
         skin.dispose();
     }
+
+    private final Emitter.Listener onRoomList = new Emitter.Listener() {
+        final Array<RoomItem> roomList = new Array<>();
+
+        @Override
+        public void call(Object... args) {
+            JSONArray data = (JSONArray) args[0];
+
+            try {
+                for (int i = 0; i < data.length(); i++) {
+                    JSONObject room = data.getJSONObject(i);
+                    String roomID = room.getString("roomID");
+                    String p1ID = room.getString("p1ID");
+                    String p2ID = room.getString("p2ID");
+                    String p1Name = room.getString("p1Name");
+                    String p2Name = room.getString("p2Name");
+                    RoomItem newRoom = new RoomItem(roomID,p1Name, p2Name, p1ID, p2ID);
+                    roomList.add(newRoom);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
 }
