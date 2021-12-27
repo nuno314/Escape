@@ -17,15 +17,15 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.Escape;
 
-public class UpdateLaterScreen implements Screen {
+public class RoomListScreen implements Screen {
 
-    private Escape game;
+    private final Escape game;
     private final Stage stage;
     private final Skin skin;
     private final OrthographicCamera camera;
     private final Viewport viewport;
 
-    public UpdateLaterScreen(Escape game) {
+    public RoomListScreen(Escape game) {
         this.game = game;
         skin = new Skin(Gdx.files.internal("skin/screen.json"), new TextureAtlas("skin/screen.pack"));
 
@@ -48,12 +48,12 @@ public class UpdateLaterScreen implements Screen {
         back.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new ConnectScreen(game));
+                game.setScreen(Escape.ScreenKey.CONNECT);
             }
         });
 
         Table root = new Table();
-        root.setBackground(skin.getDrawable("update_later"));
+        root.setBackground(skin.getDrawable("background"));
         root.setFillParent(true);
         root.add(back).expand().bottom();
 

@@ -25,17 +25,15 @@ public class FinishGameScreen implements Screen {
     private Stage stage;
     private Escape game;
     private Hud hud;
-    private SpriteBatch batch;
-    private Skin skin;
 
 
     public  FinishGameScreen(Escape game, Integer point, Integer time) {
 
         this.game = game;
-        batch = new SpriteBatch();
+        SpriteBatch batch = new SpriteBatch();
         viewport = new FitViewport(Escape.WIDTH, Escape.HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, batch);
-        skin = new Skin(Gdx.files.internal("skin/screen.json"), new TextureAtlas("skin/screen.pack"));
+        Skin skin = new Skin(Gdx.files.internal("skin/screen.json"), new TextureAtlas("skin/screen.pack"));
 
         Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.PURPLE);
         Label.LabelStyle font2 = new Label.LabelStyle(new BitmapFont(), Color.WHITE);

@@ -11,21 +11,24 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.Escape;
 
-public class UpdateLaterScreen implements Screen {
+public class InputNameScreen implements Screen {
 
-    private Escape game;
+    private String name;
+
+    private final Escape game;
     private final Stage stage;
     private final Skin skin;
     private final OrthographicCamera camera;
     private final Viewport viewport;
 
-    public UpdateLaterScreen(Escape game) {
+    public InputNameScreen(Escape game) {
         this.game = game;
         skin = new Skin(Gdx.files.internal("skin/screen.json"), new TextureAtlas("skin/screen.pack"));
 
@@ -44,18 +47,24 @@ public class UpdateLaterScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        Button back = new Button(skin, "home_off");
-        back.addListener(new ClickListener() {
+        final TextField lblName = new TextField("", skin);
+        lblName.setMessageText("Name");
+
+        final Button play = new Button(skin, "play");
+        play.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new ConnectScreen(game));
+               name = lblName.getText();
+               game.setPlayerName(name);
+               Gdx.app.log("InputNameScreen", name);
+               game.setScreen(Escape.ScreenKey.CONNECT);
             }
         });
-
         Table root = new Table();
-        root.setBackground(skin.getDrawable("update_later"));
+        root.setBackground(skin.getDrawable("background"));
         root.setFillParent(true);
-        root.add(back).expand().bottom();
+        root.add(lblName).size(300,60).padTop(50).row();
+        root.add(play).padTop(50).row();
 
         stage.addActor(root);
     }
@@ -92,5 +101,9 @@ public class UpdateLaterScreen implements Screen {
     @Override
     public void dispose() {
         skin.dispose();
+    }
+
+    public String getName() {
+        return name;
     }
 }

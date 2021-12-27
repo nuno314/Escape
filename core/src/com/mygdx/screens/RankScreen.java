@@ -20,16 +20,16 @@ import com.mygdx.Escape;
 public class RankScreen implements Screen {
 
     private Escape game;
-    private SpriteBatch batch;
-    private Stage stage;
-    private Skin skin;
-    private OrthographicCamera camera;
-    private Viewport viewport;
+    private final Stage stage;
+    private final Skin skin;
+    private final OrthographicCamera camera;
+    private final Viewport viewport;
 
-    public RankScreen() {
+    public RankScreen(Escape game) {
+        this.game = game;
         skin = new Skin(Gdx.files.internal("skin/screen.json"), new TextureAtlas("skin/screen.pack"));
 
-        batch = new SpriteBatch();
+        SpriteBatch batch = new SpriteBatch();
         camera = new OrthographicCamera();
         viewport = new FitViewport(Escape.WIDTH, Escape.HEIGHT, camera);
 
@@ -51,14 +51,14 @@ public class RankScreen implements Screen {
         home.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new ConnectScreen(game));
+                game.setScreen(Escape.ScreenKey.CONNECT);
             }
         });
 
         setting.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new SettingScreen());
+                game.setScreen(Escape.ScreenKey.SETTING);
             }
         });
 

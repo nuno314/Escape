@@ -48,7 +48,7 @@ public class HowToPlayScreen implements Screen {
         back.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new ConnectScreen(game));
+                game.setScreen(Escape.ScreenKey.CONNECT);
             }
         });
 
