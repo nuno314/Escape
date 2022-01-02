@@ -22,7 +22,7 @@ public class EventHandler {
     public static void connectSocket() {
         try {
             System.out.println("Success");
-            socket = IO.socket("http://localhost:8080");
+            socket = IO.socket("https://escape-nodejs-server.herokuapp.com/");
             socket.connect();
         } catch (Exception e) {
             System.out.println(e);

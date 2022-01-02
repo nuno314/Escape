@@ -1,19 +1,32 @@
 package com.mygdx.utils;
 
-public class RoomItem {
-    private String roomID;
-    private String player1;
-    private String player2;
-    private String p1ID;
-    private String p2ID;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+
+public class RoomItem extends Table {
+    private final String roomID;
+    private final String player1;
+    private final String player2;
+    private final String p1ID;
+    private final String p2ID;
 
 
-    public RoomItem(String roomID, String player1, String player2, String p1ID, String p2ID) {
+    public RoomItem(String roomID, String player1, String player2, String p1ID, String p2ID, Skin skin) {
         this.roomID = roomID;
         this.player1 = player1;
         this.player2 = player2;
         this.p1ID = p1ID;
         this.p2ID = p2ID;
+
+        Label roomIDlbl = new Label(roomID, skin);
+        Label player1lbl = new Label(player1, skin);
+        this.add(roomIDlbl).pad(20).size(40);
+        this.add(player1lbl).height(40).width(150);
+//        this.setWidth(320f);
+//        this.setHeight(300f);
+//        super.add(new Label(player1, skin));
     }
 
 

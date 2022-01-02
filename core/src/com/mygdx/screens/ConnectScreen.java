@@ -53,6 +53,7 @@ public class ConnectScreen implements Screen {
     public String playerName;
 
     public ConnectScreen(final Escape game) {
+
         this.game = game;
 
         skin = new Skin(Gdx.files.internal("skin/screen.json"), new TextureAtlas("skin/screen.pack"));
@@ -69,6 +70,7 @@ public class ConnectScreen implements Screen {
 
         EventHandler.connectSocket();
         EventHandler.configSocketEvents();
+
     }
 
     @Override

@@ -4,8 +4,10 @@ var io = require('socket.io')(server);
 var rooms = []
 var players = [];
 let ID = 0;
-server.listen(8080, () => {
+const PORT = process.env.PORT || 8080
+server.listen(PORT, () => {
     console.log("Server is now running");
+    console.log(PORT)
 })
 
 io.on('connection', (socket) => {

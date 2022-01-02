@@ -18,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.Escape;
@@ -41,6 +40,8 @@ public class RoomScreen implements Screen {
     private final Label.LabelStyle font;
     private Table root;
 
+    private Button start;
+
     public RoomScreen(Escape game) {
         this.game = game;
         skin = new Skin(Gdx.files.internal("skin/screen.json"), new TextureAtlas("skin/screen.pack"));
@@ -58,6 +59,9 @@ public class RoomScreen implements Screen {
         font = new Label.LabelStyle(new BitmapFont(), Color.PURPLE);
 
         stage = new Stage(viewport, batch);
+
+        start = new Button(skin, "play");
+        start.setDisabled(TRUE);
     }
 
     @Override
@@ -72,11 +76,19 @@ public class RoomScreen implements Screen {
             }
         });
 
+        start.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("START", "CLICKED");
+            }
+        });
+
         root = new Table();
         root.setBackground(skin.getDrawable("background"));
         root.setFillParent(true);
+        root.add(start).expand().padTop(150);
         root.add(back).expand().bottom();
-
+        Gdx.app.log("IS", String.valueOf(start.isVisible()));
         stage.addActor(root);
     }
 
@@ -90,11 +102,16 @@ public class RoomScreen implements Screen {
             p1Status.setVisible(TRUE);
             p1Joined = TRUE;
         }
-        if (player2 != null) {
+        if (player2 != null && !p2Joined) {
             p2Status = new Label(player2, font);
             p2Status.setVisible(TRUE);
             p2Joined = TRUE;
         }
+        if (p1Joined && p2Joined) {
+            Gdx.app.log("2 JOINED", "TRUE");
+            start.setDisabled(FALSE);
+        }
+
         root.add(p1Status).padTop(150).left();
         root.add(p2Status).padTop(150).right();
         stage.act();
