@@ -49,6 +49,7 @@ public class RoomListScreen implements Screen {
     private SpriteBatch batch;
 
     private Array<RoomItem> roomList;
+    private int selectedRoomID;
 
     public RoomListScreen(Escape game) {
         this.game = game;
@@ -69,7 +70,7 @@ public class RoomListScreen implements Screen {
 
     @Override
     public void show()  {
-
+        selectedRoomID = -1;
         stage = new Stage(viewport, batch);
         if (roomList != null)
             renderRoomList(roomList);
@@ -83,6 +84,10 @@ public class RoomListScreen implements Screen {
 
         stage.act();
         stage.draw();
+
+        if (selectedRoomID != -1) {
+            joinRoom();
+        }
     }
 
     @Override
@@ -140,11 +145,39 @@ public class RoomListScreen implements Screen {
         addRoomItem(root, roomList);
 
 //        root.add(back).expand().bottom();
-        root.add(back).row();
+        root.add(back).bottom().expand();
         stage.addActor(root);
+    }
+
+    void joinRoom()
+    {
+//        Gdx.app.postRunnable(new Runnable() {
+//            @Override
+//            public void run() {
+                try {
+                    JSONObject player2 = new JSONObject();
+                    player2.put("p2ID", EventHandler.id);
+                    player2.put("p2Name", EventHandler.name);
+
+                    EventHandler.socket.emit("p2_join", player2);
+
+                    Gdx.app.log("P2 JOIN, player 2: ", EventHandler.name);
+                    game.setScreen(Escape.ScreenKey.NEW_ROOM);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+//            }
+//        });
     }
 
     public void setRoomList(Array<RoomItem> roomList) {
         this.roomList = roomList;
+    }
+
+    public void setSelectedRoomID(String selectedRoomID) {
+        Gdx.app.log("roomlist", selectedRoomID);
+        if (selectedRoomID != null)
+            this.selectedRoomID = Integer.parseInt(selectedRoomID);
     }
 }

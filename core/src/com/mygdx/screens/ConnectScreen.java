@@ -113,11 +113,11 @@ public class ConnectScreen implements Screen {
                         try {
                             JSONObject player = new JSONObject();
                             player.put("ID", EventHandler.id);
-                            player.put("name", playerName);
+                            player.put("name", EventHandler.name);
 
                             EventHandler.socket.emit("create_room", player);
 
-                            Gdx.app.log("New room, player 1: ", playerName);
+                            Gdx.app.log("New room, player 1: ", EventHandler.name);
                             RoomScreen.setPlayer1(playerName);
                             game.setScreen(Escape.ScreenKey.NEW_ROOM);
 

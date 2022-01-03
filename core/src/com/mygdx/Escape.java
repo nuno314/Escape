@@ -131,4 +131,9 @@ public class Escape extends Game {
     public void setRoomList(Array<RoomItem> list) {
         roomListScreen.setRoomList(list);
     }
+
+    public void setSelectedRoomID(String ID) {
+        if (ID != null)
+            roomListScreen.setSelectedRoomID(ID);
+    }
 }

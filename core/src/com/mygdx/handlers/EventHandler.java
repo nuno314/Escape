@@ -17,7 +17,7 @@ public class EventHandler {
     public static Socket socket;
 
     public static String id;
-
+    public static String name;
 
     public static void connectSocket() {
         try {

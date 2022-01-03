@@ -10,6 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.mygdx.Escape;
+import com.mygdx.handlers.EventHandler;
+import com.mygdx.screens.RoomScreen;
+
+import org.json.JSONObject;
 
 public class RoomItem extends Table {
     private final String roomID;
@@ -20,22 +24,17 @@ public class RoomItem extends Table {
 
     private Escape game;
 
-    public RoomItem(String roomID, String player1, String player2, String p1ID, String p2ID, Skin skin) {
+    public RoomItem(final String roomID, String player1, String player2, String p1ID, String p2ID, Skin skin) {
         this.roomID = roomID;
         this.player1 = player1;
         this.player2 = player2;
         this.p1ID = p1ID;
         this.p2ID = p2ID;
 
-        Label roomIDlbl = new Label(roomID, skin);
+        Label roomIDlbl = new Label(String.valueOf(roomID), skin);
         Label player1lbl = new Label(player1, skin);
         TextButton join = new TextButton("join", skin);
-        join.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                 game.setScreen(Escape.ScreenKey.NEW_ROOM);
-            }
-        });
+
         this.add(roomIDlbl).pad(20).size(40);
         this.add(player1lbl).height(40).width(150);
         this.add(join).height(40).width(40);
@@ -43,7 +42,8 @@ public class RoomItem extends Table {
         addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("I got clicked!");
+                Gdx.app.log("select room", roomID);
+                game.setSelectedRoomID(roomID);
             }
         });
 

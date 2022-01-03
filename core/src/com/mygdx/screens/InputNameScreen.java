@@ -17,6 +17,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.Escape;
+import com.mygdx.handlers.EventHandler;
 
 public class InputNameScreen implements Screen {
 
@@ -57,6 +58,7 @@ public class InputNameScreen implements Screen {
                name = lblName.getText();
                game.setPlayerName(name);
                Gdx.app.log("InputNameScreen", name);
+               EventHandler.name = name;
                game.setScreen(Escape.ScreenKey.CONNECT);
             }
         });
