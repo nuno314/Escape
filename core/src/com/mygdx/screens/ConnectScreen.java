@@ -1,5 +1,7 @@
 package com.mygdx.screens;
 
+import static java.lang.Boolean.FALSE;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -136,9 +138,8 @@ public class ConnectScreen implements Screen {
                     @Override
                     public void run() {
                         try {
-                            EventHandler.socket.emit("find_room");
 
-                            game.setScreen(Escape.ScreenKey.ROOM_LIST);
+                            game.setScreen(Escape.ScreenKey.LOADING_SCREEN);
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -228,7 +229,7 @@ public class ConnectScreen implements Screen {
 
     @Override
     public void hide() {
-//        dispose();
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override

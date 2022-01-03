@@ -1,9 +1,13 @@
 package com.mygdx.utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class RoomItem extends Table {
     private final String roomID;
@@ -24,6 +28,16 @@ public class RoomItem extends Table {
         Label player1lbl = new Label(player1, skin);
         this.add(roomIDlbl).pad(20).size(40);
         this.add(player1lbl).height(40).width(150);
+        this.setTouchable(Touchable.enabled);
+        addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("I got clicked!");
+            }
+        });
+
+
+
 //        this.setWidth(320f);
 //        this.setHeight(300f);
 //        super.add(new Label(player1, skin));

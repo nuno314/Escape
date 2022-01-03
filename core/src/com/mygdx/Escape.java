@@ -6,14 +6,18 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.screens.ConnectScreen;
+import com.mygdx.screens.HowToPlayScreen;
 import com.mygdx.screens.InputNameScreen;
+import com.mygdx.screens.LoadingScreen;
 import com.mygdx.screens.PlayScreen;
 import com.mygdx.screens.RankScreen;
 import com.mygdx.screens.RoomListScreen;
 import com.mygdx.screens.RoomScreen;
 import com.mygdx.screens.SettingScreen;
 import com.mygdx.screens.UpdateLaterScreen;
+import com.mygdx.utils.RoomItem;
 
 
 import java.util.Collection;
@@ -38,14 +42,22 @@ public class Escape extends Game {
             PLAY,
             RANK,
             SETTING,
-            UPDATE_LATER
+            UPDATE_LATER,
+            HOW_TO_PLAY,
+            LOADING_SCREEN
         };
     private Map<ScreenKey, Screen> screens;
     private ConnectScreen connectScreen;
     private InputNameScreen inputNameScreen;
     private RoomScreen roomScreen;
+    private RoomListScreen roomListScreen;
     private PlayScreen playScreen;
+    private RankScreen rankScreen;
+    private SettingScreen settingScreen;
     private UpdateLaterScreen updateLaterScreen;
+    private HowToPlayScreen howToPlayScreen;
+    private LoadingScreen loadingScreen;
+
     //add for collision
     public static final short DEFAULT_BIT=1;
     public  static final short STEVEN_BIT=2;
@@ -75,11 +87,12 @@ public class Escape extends Game {
         inputNameScreen = new InputNameScreen(this);
         roomScreen = new RoomScreen(this);
         connectScreen = new ConnectScreen(this);
-        PlayScreen playScreen = new PlayScreen(this);
-        RoomListScreen roomListScreen = new RoomListScreen(this);
-        RankScreen rankScreen = new RankScreen(this);
-        SettingScreen settingScreen = new SettingScreen(this);
+        playScreen = new PlayScreen(this);
+        roomListScreen = new RoomListScreen(this);
+        rankScreen = new RankScreen(this);
+        settingScreen = new SettingScreen(this);
         updateLaterScreen = new UpdateLaterScreen(this);
+        loadingScreen = new LoadingScreen(this);
 
         screens = new HashMap<>();
 
@@ -91,6 +104,7 @@ public class Escape extends Game {
         screens.put(ScreenKey.RANK, rankScreen);
         screens.put(ScreenKey.SETTING, settingScreen);
         screens.put(ScreenKey.UPDATE_LATER, updateLaterScreen);
+        screens.put(ScreenKey.LOADING_SCREEN, loadingScreen);
 
         setScreen(ScreenKey.INPUT_NAME);
     }
@@ -110,5 +124,9 @@ public class Escape extends Game {
 
     public void setPlayerName(String name) {
         connectScreen.setPlayer(name);
+    }
+
+    public void setRoomList(Array<RoomItem> list) {
+        roomListScreen.setRoomList(list);
     }
 }

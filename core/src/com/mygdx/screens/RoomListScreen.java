@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
@@ -38,24 +39,21 @@ import io.socket.emitter.Emitter;
 public class RoomListScreen implements Screen {
 
     private final Escape game;
-    private final Stage stage;
+    private Stage stage;
     private final OrthographicCamera camera;
     private final Viewport viewport;
 
-    private final Array<RoomItem> roomList;
     private Table root;
     private final Skin skin;
     private final Skin terraSkin;
+    private SpriteBatch batch;
 
-    private ScrollPane scrollPane;
-    private Stack stack;
-
-    private Table stickyHeader;
+    private Array<RoomItem> roomList;
 
     public RoomListScreen(Escape game) {
         this.game = game;
+        batch = new SpriteBatch();
 
-        SpriteBatch batch = new SpriteBatch();
         camera = new OrthographicCamera();
         viewport = new FitViewport(Escape.WIDTH, Escape.HEIGHT, camera);
 
@@ -63,9 +61,7 @@ public class RoomListScreen implements Screen {
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
         camera.update();
 
-        stage = new Stage(viewport, batch);
-
-        roomList = new Array<>();
+        root = new Table();
 
         skin = new Skin(Gdx.files.internal("skin/screen.json"), new TextureAtlas("skin/screen.pack"));
         terraSkin = new Skin(Gdx.files.internal("skin/terra/terra-mother-ui.json"));
@@ -73,35 +69,11 @@ public class RoomListScreen implements Screen {
 
     @Override
     public void show()  {
-        EventHandler.socket.on("room_list", onRoomList);
 
-//        Gdx.app.log("FIND BUTTON", "CLICKED");
-//        Gdx.app.log("XScreen", String.valueOf(viewport.getScreenWidth()));
-//        Gdx.app.log("YScreen", String.valueOf(viewport.getScreenHeight()));
-//        Gdx.app.log("XWorld", String.valueOf(viewport.getWorldWidth()));
-//        Gdx.app.log("YWorld", String.valueOf(viewport.getWorldHeight()));
-//
-//        Button back = new Button(skin, "home_off");
-//        back.addListener(new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                game.setScreen(Escape.ScreenKey.CONNECT);
-//            }
-//        });
-//
-//        root = new Table();
-//        root.setBackground(skin.getDrawable("background"));
-//        root.setFillParent(true);
-
-
-
-//        Image image = new Image(terraSkin, "label-title");
-//        root.add(image).row();
-
-//        EventHandler.socket.on("room_list", onRoomList);
-
-//        root.add(back).expand().bottom();
-//        stage.addActor(root);
+        stage = new Stage(viewport, batch);
+        if (roomList != null)
+            renderRoomList(roomList);
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -130,6 +102,8 @@ public class RoomListScreen implements Screen {
 
     @Override
     public void hide() {
+        Gdx.input.setInputProcessor(null);
+        root.clear();
     }
 
     @Override
@@ -138,44 +112,14 @@ public class RoomListScreen implements Screen {
     }
 
     private void addRoomItem(Table root, Array<RoomItem> list) {
+
         for (int i = 0; i < list.size; i++) {
             root.add(list.get(i)).pad(20).padTop(0);
             root.row();
         }
     }
 
-    private final Emitter.Listener onRoomList = new Emitter.Listener() {
-
-        @Override
-        public void call(Object... args) {
-            JSONArray data = (JSONArray) args[0];
-
-            try {
-                for (int i = 0; i < data.length(); i++) {
-                    JSONObject room = data.getJSONObject(i);
-                    String roomID = room.getString("roomID");
-                    String p1ID = room.getString("p1ID");
-                    String p2ID = room.getString("p2ID");
-                    String p1Name = room.getString("p1Name");
-                    String p2Name = room.getString("p2Name");
-                    RoomItem newRoom = new RoomItem(roomID,p1Name, p2Name, p1ID, p2ID, terraSkin);
-                    roomList.add(newRoom);
-                }
-
-                Gdx.app.log("ONROOMLIST", "DONE");
-                for (int i = 0 ;i< roomList.size;i++) {
-                    Gdx.app.log("ROOM",roomList.get(i).getRoomID());
-                }
-
-                renderRoomList();
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    };
-
-    private void renderRoomList()
+    private void renderRoomList(Array<RoomItem> roomList)
     {
 
         Button back = new Button(skin, "home_off");
@@ -186,15 +130,8 @@ public class RoomListScreen implements Screen {
             }
         });
 
-        Button refresh = new Button(skin, "play");
-        refresh.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                EventHandler.socket.emit("find_room");
-            }
-        });
 
-        root = new Table();
+
         root.setBackground(skin.getDrawable("background"));
         root.setFillParent(true);
 
@@ -202,8 +139,12 @@ public class RoomListScreen implements Screen {
         root.add(image).row();
         addRoomItem(root, roomList);
 
-        root.add(back).expand().bottom();
+//        root.add(back).expand().bottom();
+        root.add(back).row();
         stage.addActor(root);
     }
 
+    public void setRoomList(Array<RoomItem> roomList) {
+        this.roomList = roomList;
+    }
 }
