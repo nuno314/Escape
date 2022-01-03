@@ -29,6 +29,8 @@ import io.socket.client.Socket;
 
 public class Escape extends Game {
 
+
+
     public static final float WIDTH = 576;
     public static final float HEIGHT = 1056;
     public static final float PPM = 100;
