@@ -10,6 +10,21 @@ server.listen(PORT, () => {
     console.log(PORT)
 })
 
+remove_player = (id) => {
+    rooms.forEach(room => {
+        if (room.p1ID == id) {
+            room.p1ID = ''
+            room.p1Name = ''
+        }
+        if (room.p2ID == id) {
+            room.p2ID = ''
+            room.p2Name = ''
+        }
+        if (room.p1ID == '' && room.p2ID == '')
+            rooms.splice(room);
+    })
+}
+
 io.on('connection', (socket) => {
     console.log("Player Connected");
     socket.emit('socketID', { id: socket.id });
@@ -50,8 +65,21 @@ io.on('connection', (socket) => {
         socket.emit('room_list', rooms)
         console.log('FIND_ROOM, ROOM_LIST');
     })
-    
-  //  players.push(new player(socket.id, 0, 0));
+    socket.on('p2_join', (player2) => {
+        rooms.forEach((room) => {
+            if (room.roomID == player2.roomID) {
+                room.p2ID = player2.p2ID
+                room.p2Name = player2.p2Name
+                socket.emit('p2_join', room)
+                return
+            }
+        })
+    })
+    // socket.on('leave_room', (player) => {
+    //     console.log(player, "leaves room");
+    //     remove_player(player)
+    //     console.log('Room left: ', rooms)
+    // })
 })
 
 //player = (id, x, y) => {

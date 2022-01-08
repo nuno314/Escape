@@ -2,6 +2,7 @@ package com.mygdx.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -31,13 +32,18 @@ public class RoomItem extends Table {
         this.p1ID = p1ID;
         this.p2ID = p2ID;
 
-        Label roomIDlbl = new Label(String.valueOf(roomID), skin);
-        Label player1lbl = new Label(player1, skin);
-        TextButton join = new TextButton("join", skin);
+        Button join = new Button(skin, "join");
+        Label roomIDlbl = new Label(String.valueOf(roomID), skin, "id");
+        Label player1lbl = new Label(player1, skin, "room_name");
 
-        this.add(roomIDlbl).pad(20).size(40);
-        this.add(player1lbl).height(40).width(150);
-        this.add(join).height(40).width(40);
+
+//        this.add(roomIDlbl).pad(20).size(40);
+//        this.add(player1lbl).height(40).width(150);
+//        this.add(join).height(40).width(40);
+        this.add(roomIDlbl);
+        this.add(player1lbl);
+        this.add(join);
+
         this.setTouchable(Touchable.enabled);
         addListener(new ClickListener() {
             @Override

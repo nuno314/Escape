@@ -74,6 +74,10 @@
     text_field: {
       down: text_field_off,
       up: text_field
+    },
+    join: {
+      down: join_off,
+      up: join
     }
   },
   com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
@@ -83,6 +87,18 @@
       font: default-font,
       fontColor: white,
       cursor: cursor
+    }
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+    id: {
+      background: id,
+      font: default-font,
+      fontColor: white
+    },
+    room_name: {
+      background: room_name,
+      font: default-font,
+      fontColor: white
     }
   }
 }

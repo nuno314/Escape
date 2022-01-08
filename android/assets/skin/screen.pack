@@ -135,6 +135,34 @@ text_field_off
     orig: 380, 90
     offset: 0, 0
     index: -1
+join
+    rotate: false
+    xy: 856, 368
+    size: 131, 92
+    orig: 131, 92
+    offset: 0, 0
+    index: -1
+join_off
+    rotate: false
+    xy: 856, 460
+    size: 131, 92
+    orig: 131, 92
+    offset: 0, 0
+    index: -1
+id
+    rotate: false
+    xy: 576, 731
+    size: 83, 92
+    orig: 83, 92
+    offset: 0, 0
+    index: -1
+room_name
+    rotate: false
+    xy: 659, 731
+    size: 129, 92
+    orig: 129, 92
+    offset: 0, 0
+    index: -1
 
 default.png
 size: 256,128

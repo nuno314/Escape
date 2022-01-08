@@ -56,8 +56,11 @@ public class InputNameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                name = lblName.getText();
+               if (name.isEmpty()) {
+                   lblName.setMessageText("Enter name first");
+                   return;
+               }
                game.setPlayerName(name);
-               Gdx.app.log("InputNameScreen", name);
                EventHandler.name = name;
                game.setScreen(Escape.ScreenKey.CONNECT);
             }

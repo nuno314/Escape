@@ -141,7 +141,7 @@ public class LoadingScreen implements Screen {
                     String p2ID = room.getString("p2ID");
                     String p1Name = room.getString("p1Name");
                     String p2Name = room.getString("p2Name");
-                    RoomItem newRoom = new RoomItem(roomID,p1Name, p2Name, p1ID, p2ID, terraSkin);
+                    RoomItem newRoom = new RoomItem(roomID,p1Name, p2Name, p1ID, p2ID, skin);
                     newRoom.setGame(game);
                     roomList.add(newRoom);
                 }
