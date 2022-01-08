@@ -156,12 +156,22 @@ public class RoomListScreen implements Screen {
 //            public void run() {
                 try {
                     JSONObject player2 = new JSONObject();
-                    player2.put("p2ID", EventHandler.id);
-                    player2.put("p2Name", EventHandler.name);
-
+                    player2.put("id", EventHandler.id);
+                    player2.put("name", EventHandler.name);
+                    player2.put("roomID", String.valueOf(selectedRoomID));
                     EventHandler.socket.emit("p2_join", player2);
+                    EventHandler.isPlayer2 = true;
+                    game.setRoomID(String.valueOf(selectedRoomID));
 
-                    Gdx.app.log("P2 JOIN, player 2: ", EventHandler.name);
+                    try {
+                        JSONObject data = new JSONObject();
+                        data.put("roomID", selectedRoomID);
+                        data.put("p2ID", EventHandler.id);
+                        EventHandler.socket.emit("get_p1", data);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                     game.setScreen(Escape.ScreenKey.NEW_ROOM);
 
                 } catch (Exception e) {
@@ -176,7 +186,6 @@ public class RoomListScreen implements Screen {
     }
 
     public void setSelectedRoomID(String selectedRoomID) {
-        Gdx.app.log("roomlist", selectedRoomID);
         if (selectedRoomID != null)
             this.selectedRoomID = Integer.parseInt(selectedRoomID);
     }

@@ -19,10 +19,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.Escape;
 import com.mygdx.handlers.EventHandler;
+import com.mygdx.utils.RoomItem;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import io.socket.emitter.Emitter;
 
 public class RoomScreen implements Screen {
 
@@ -33,8 +41,8 @@ public class RoomScreen implements Screen {
     private final Viewport viewport;
 
     private String roomID;
-    private static String player1;
-    private static String player2;
+    private String p1Name;
+    private String p2Name;
     private Boolean p1Joined;
     private Boolean p2Joined;
     private Label p1Status;
@@ -43,6 +51,7 @@ public class RoomScreen implements Screen {
     private Table root;
 
     private Button start;
+    private Button back;
 
     public RoomScreen(Escape game) {
         this.game = game;
@@ -63,19 +72,22 @@ public class RoomScreen implements Screen {
         stage = new Stage(viewport, batch);
 
         start = new Button(skin, "play");
-        start.setDisabled(TRUE);
+
+//        start.setDisabled(TRUE);
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        Button back = new Button(skin, "home_off");
+        back = new Button(skin, "home_off");
         back.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 EventHandler.socket.emit("leave_room", EventHandler.id);
                 Gdx.app.log("LEAVE", "CLICKED");
+                EventHandler.isPlayer1 = false;
+                EventHandler.isPlayer2 = false;
                 game.setScreen(Escape.ScreenKey.CONNECT);
             }
         });
@@ -90,9 +102,19 @@ public class RoomScreen implements Screen {
         root = new Table();
         root.setBackground(skin.getDrawable("background"));
         root.setFillParent(true);
-        root.add(start).expand().padTop(150);
-        root.add(back).expand().bottom();
-        Gdx.app.log("IS", String.valueOf(start.isVisible()));
+
+        if (EventHandler.isPlayer1) {
+            renderPlayer1(EventHandler.name);
+            EventHandler.socket.once("p2_join", onP2Join);
+        }
+
+        if (EventHandler.isPlayer2) {
+            renderPlayer2(EventHandler.name);
+            EventHandler.socket.once("p1_join", onP1Join);
+        }
+
+        root.add(start).expand().bottom().padBottom(150).row();
+        root.add(back).bottom();
         stage.addActor(root);
     }
 
@@ -101,23 +123,7 @@ public class RoomScreen implements Screen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (player1 != null && !p1Joined) {
-            p1Status = new Label(player1, font);
-            p1Status.setVisible(TRUE);
-            p1Joined = TRUE;
-        }
-        if (player2 != null && !p2Joined) {
-            p2Status = new Label(player2, font);
-            p2Status.setVisible(TRUE);
-            p2Joined = TRUE;
-        }
-        if (p1Joined && p2Joined) {
-            Gdx.app.log("2 JOINED", "TRUE");
-            start.setDisabled(FALSE);
-        }
 
-        root.add(p1Status).padTop(150).left();
-        root.add(p2Status).padTop(150).right();
         stage.act();
         stage.draw();
     }
@@ -151,11 +157,53 @@ public class RoomScreen implements Screen {
         this.roomID = roomID;
     }
 
-    public static void setPlayer1(String player) {
-        player1 = player;
+    private final Emitter.Listener onP2Join = new Emitter.Listener() {
+
+        @Override
+        public void call(Object... args) {
+            JSONObject data = (JSONObject) args[0];
+
+            try {
+                p2Joined = true;
+                p2Name = data.getString("p2Name");
+                Gdx.app.log("P1 CLIENT, P2 JOIN", p2Name);
+                renderPlayer2(p2Name);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    private final Emitter.Listener onP1Join = new Emitter.Listener() {
+
+        @Override
+        public void call(Object... args) {
+            JSONObject data = (JSONObject) args[0];
+            Gdx.app.log("P2 CLIENT, P1 JOIN", p1Name);
+            try {
+                p1Joined = true;
+                p1Name = data.getString("p1Name");
+                Gdx.app.log("P2 CLIENT, P1 JOIN", p1Name);
+                renderPlayer1(p1Name);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    private final void renderPlayer1(String name) {
+        Label nameLbl = new Label(name, font);
+        root.add(nameLbl).pad(50);
     }
 
-    public static void setPlayer2(String player) {
-        player2 = player;
+    private final void renderPlayer2(String name) {
+        Gdx.app.log("RENDER", name);
+        Label nameLbl = new Label(name, font);
+        root.add(nameLbl).pad(50);
+        p2Joined = true;
     }
+
+
 }

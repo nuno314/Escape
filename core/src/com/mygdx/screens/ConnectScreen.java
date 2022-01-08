@@ -118,7 +118,7 @@ public class ConnectScreen implements Screen {
                             EventHandler.socket.emit("create_room", player);
 
                             Gdx.app.log("New room, player 1: ", EventHandler.name);
-                            RoomScreen.setPlayer1(playerName);
+                            EventHandler.isPlayer1 = true;
                             game.setScreen(Escape.ScreenKey.NEW_ROOM);
 
                         } catch (Exception e) {
@@ -149,23 +149,6 @@ public class ConnectScreen implements Screen {
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
-//        find.addListener(new ClickListener() {
-//            @Override
-//            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-//                Gdx.app.postRunnable(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        try {
-//                            game.setScreen(Escape.ScreenKey.ROOM_LIST);
-//
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
-//                return super.touchDown(event, x, y, pointer, button);
-//            }
-//        });
 
         rank.addListener(new ClickListener() {
             @Override

@@ -136,4 +136,9 @@ public class Escape extends Game {
         if (ID != null)
             roomListScreen.setSelectedRoomID(ID);
     }
+
+    public void setRoomID(String id) {
+        if (id != null)
+            roomScreen.setRoomID(id);
+    }
 }

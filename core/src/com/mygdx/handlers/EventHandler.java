@@ -18,6 +18,8 @@ public class EventHandler {
 
     public static String id;
     public static String name;
+    public static boolean isPlayer1 = false;
+    public static boolean isPlayer2 = false;
 
     public static void connectSocket() {
         try {
