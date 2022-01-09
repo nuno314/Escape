@@ -163,6 +163,20 @@ room_name
     orig: 129, 92
     offset: 0, 0
     index: -1
+start
+    rotate: false
+    xy: 2304, 0
+    size: 280, 92
+    orig: 280, 92
+    offset: 0, 0
+    index: -1
+start_off
+    rotate: false
+    xy: 2304, 92
+    size: 280, 92
+    orig: 280, 92
+    offset: 0, 0
+    index: -1
 
 default.png
 size: 256,128

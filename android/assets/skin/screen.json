@@ -78,6 +78,10 @@
     join: {
       down: join_off,
       up: join
+    },
+    start: {
+      down:  start_off,
+      up: start
     }
   },
   com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {

@@ -51,7 +51,7 @@ public class InputNameScreen implements Screen {
         final TextField lblName = new TextField("", skin);
         lblName.setMessageText("Name");
 
-        final Button play = new Button(skin, "play");
+        final Button play = new Button(skin, "start");
         play.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
