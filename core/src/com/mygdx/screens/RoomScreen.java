@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -45,8 +46,7 @@ public class RoomScreen implements Screen {
     private String p2Name;
     private Boolean p1Joined;
     private Boolean p2Joined;
-    private Label p1Status;
-    private Label p2Status;
+    private Boolean started;
     private final Label.LabelStyle font;
     private Table root;
     private Table nameTable;
@@ -72,8 +72,6 @@ public class RoomScreen implements Screen {
         stage = new Stage(viewport, batch);
 
         start = new Button(skin, "play");
-
-        start.setDisabled(true);
     }
 
     @Override
@@ -95,9 +93,12 @@ public class RoomScreen implements Screen {
         start.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("START", "CLICKED");
+                 EventHandler.socket.emit("start_game", EventHandler.id);
+                 game.setScreen(Escape.ScreenKey.PLAY);
             }
         });
+        start.setTouchable(Touchable.disabled);
+        started = false;
 
         root = new Table();
         root.setBackground(skin.getDrawable("background"));
@@ -105,6 +106,7 @@ public class RoomScreen implements Screen {
 
         nameTable = new Table();
         if (EventHandler.isPlayer1) {
+            p1Name = EventHandler.name;
             renderPlayer1(EventHandler.name);
             EventHandler.socket.once("p2_join", onP2Join);
         }
@@ -112,6 +114,7 @@ public class RoomScreen implements Screen {
         if (EventHandler.isPlayer2) {
             renderPlayer2(EventHandler.name);
             EventHandler.socket.once("p1_join", onP1Join);
+            EventHandler.socket.once("start_game", onStartGame);
         }
         root.add(nameTable).padTop(camera.viewportHeight/4).row();
         // Only player 1 can start game
@@ -121,11 +124,24 @@ public class RoomScreen implements Screen {
         stage.addActor(root);
     }
 
+    private void update(float delta) {
+        if (EventHandler.isPlayer1) {
+            if (p2Joined) {
+                start.setTouchable(Touchable.enabled);
+            }
+        }
+        if (started) {
+            game.setScreen(Escape.ScreenKey.PLAY);
+        }
+
+    }
+
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        update(delta);
 
         stage.act();
         stage.draw();
@@ -148,7 +164,7 @@ public class RoomScreen implements Screen {
 
     @Override
     public void hide() {
-
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override
@@ -169,6 +185,7 @@ public class RoomScreen implements Screen {
             try {
                 p2Joined = true;
                 p2Name = data.getString("p2Name");
+                EventHandler.roomID = data.getString("roomID");
                 Gdx.app.log("P1 CLIENT, P2 JOIN", p2Name);
                 renderPlayer2(p2Name);
 
@@ -183,7 +200,6 @@ public class RoomScreen implements Screen {
         @Override
         public void call(Object... args) {
             JSONObject data = (JSONObject) args[0];
-            Gdx.app.log("P2 CLIENT, P1 JOIN", p1Name);
             try {
                 p1Joined = true;
                 p1Name = data.getString("p1Name");
@@ -193,6 +209,15 @@ public class RoomScreen implements Screen {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+    };
+
+    private final Emitter.Listener onStartGame = new Emitter.Listener() {
+
+        @Override
+        public void call(Object... args) {
+            Gdx.app.log("GAME START", "p2");
+            started = true;
         }
     };
 

@@ -84,6 +84,12 @@ io.on('connection', (socket) => {
         remove_player(player)
         console.log('Room left: ', rooms)
     })
+    socket.on('start_game', roomID => {
+       rooms.forEach(room=>{
+           if (room.roomID = roomID) 
+            io.to(room.p2ID).emit("start_game")
+       })
+    })
 })
 
 //player = (id, x, y) => {

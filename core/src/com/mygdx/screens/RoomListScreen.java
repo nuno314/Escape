@@ -161,6 +161,7 @@ public class RoomListScreen implements Screen {
                     player2.put("roomID", String.valueOf(selectedRoomID));
                     EventHandler.socket.emit("p2_join", player2);
                     EventHandler.isPlayer2 = true;
+                    EventHandler.roomID = String.valueOf(selectedRoomID);
                     game.setRoomID(String.valueOf(selectedRoomID));
 
                     try {

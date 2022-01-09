@@ -11,11 +11,12 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.Escape;
+import com.mygdx.handlers.EventHandler;
 import com.mygdx.handlers.ResourceHandler;
 import com.mygdx.screens.PlayScreen;
 
 public class Steven extends Sprite {
-    public enum State { FALLING, JUMPING, STANDING, LEFTING, RIGHTING, GROWING, DEAD , PASS,FINISH};
+    public enum State { FALLING, JUMPING, STANDING, LEFTING, RIGHTING, DEAD , PASS,FINISH};
     public State currentState;
     public State previousState;
 
@@ -36,8 +37,6 @@ public class Steven extends Sprite {
 
     Vector2 previousPosition;
 
-    private int order;
-
     public Steven(final String username) {
         this.world = PlayScreen.getWorld();
         this.username = username;
@@ -47,9 +46,17 @@ public class Steven extends Sprite {
 
         previousPosition = new Vector2(getX(), getY());
 
-        stevenLeft = ResourceHandler.left1;
-        stevenRight = ResourceHandler.right1;
-        stevenStand = ResourceHandler.stand1;
+        if (EventHandler.isPlayer1) {
+            stevenLeft = ResourceHandler.left1;
+            stevenRight = ResourceHandler.right1;
+            stevenStand = ResourceHandler.stand1;
+        }
+
+        if (EventHandler.isPlayer2) {
+            stevenLeft = ResourceHandler.left2;
+            stevenRight = ResourceHandler.right2;
+            stevenStand = ResourceHandler.stand2;
+        }
 
         defineSteven();
         setBounds(0,0, 40 / com.mygdx.Escape.PPM, 52 / com.mygdx.Escape.PPM);

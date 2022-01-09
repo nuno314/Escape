@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -24,6 +25,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import com.mygdx.Escape;
+import com.mygdx.handlers.EventHandler;
 import com.mygdx.handlers.InputHandler;
 import com.mygdx.scenes.Hud;
 import com.mygdx.sprites.Ground;
@@ -33,6 +35,11 @@ import com.mygdx.utils.WorldContactListener;
 import com.mygdx.sprites.Steven;
 
 import com.mygdx.handlers.B2WorldHandler;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import io.socket.emitter.Emitter;
 
 public class PlayScreen implements Screen {
 
@@ -76,6 +83,7 @@ public class PlayScreen implements Screen {
     private Drawable touchBackground;
     private Drawable touchKnob;
     String check;
+    private float x1, x2, y1, y2;
 
 
     public PlayScreen(Escape game) {
@@ -148,20 +156,42 @@ public class PlayScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         batch = new SpriteBatch();
-        player = new Steven("NUNO");
     }
 
 
     @Override
     public void show() {
+        player = new Steven(EventHandler.name);
 
+        if (EventHandler.isPlayer1) {
+
+        }
     }
 
     public void update(float dt) {
 
         world.step(1f/ 60f, 6, 2);
-
         player.update(dt);
+        Gdx.app.log("COORD x: ", String.valueOf(player.getX()));
+        Gdx.app.log("COORD y: ", String.valueOf(player.getY()));
+
+        try {
+            JSONObject coord = new JSONObject();
+            coord.put("roomID", EventHandler.roomID);
+            coord.put("x", player.getX());
+            coord.put("y", player.getY());
+            if (EventHandler.isPlayer1)
+                EventHandler.socket.emit("update_p1_coord", coord);
+            else
+                EventHandler.socket.emit("update_p2_coord", coord);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (EventHandler.isPlayer1)
+            EventHandler.socket.on("update_p2_coord", onUpdateP2Coord);
+
+
 
         InputHandler.inputUpdateTouchpad(player, dt, touchpad.getKnobPercentX(), touchpad.getKnobPercentY());
         player.updateTouchpad(dt);
@@ -280,5 +310,19 @@ public class PlayScreen implements Screen {
     public TiledMap getMap() {
         return map;
     }
+
+    private final Emitter.Listener onUpdateP2Coord = new Emitter.Listener() {
+
+        @Override
+        public void call(Object... args) {
+            JSONObject data = (JSONObject) args[0];
+            try {
+                x2 = (float) data.get("x");
+                y2 = (float) data.get("y");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
 }
 
