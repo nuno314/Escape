@@ -49,7 +49,7 @@ public class RoomScreen implements Screen {
     private Label p2Status;
     private final Label.LabelStyle font;
     private Table root;
-
+    private Table nameTable;
     private Button start;
     private Button back;
 
@@ -73,7 +73,7 @@ public class RoomScreen implements Screen {
 
         start = new Button(skin, "play");
 
-//        start.setDisabled(TRUE);
+        start.setDisabled(true);
     }
 
     @Override
@@ -103,6 +103,7 @@ public class RoomScreen implements Screen {
         root.setBackground(skin.getDrawable("background"));
         root.setFillParent(true);
 
+        nameTable = new Table();
         if (EventHandler.isPlayer1) {
             renderPlayer1(EventHandler.name);
             EventHandler.socket.once("p2_join", onP2Join);
@@ -112,9 +113,11 @@ public class RoomScreen implements Screen {
             renderPlayer2(EventHandler.name);
             EventHandler.socket.once("p1_join", onP1Join);
         }
-
-        root.add(start).expand().bottom().padBottom(150).row();
-        root.add(back).bottom();
+        root.add(nameTable).padTop(camera.viewportHeight/4).row();
+        // Only player 1 can start game
+        if (EventHandler.isPlayer1)
+            root.add(start).expand().bottom().padBottom(150).row();
+        root.add(back).bottom().expand();
         stage.addActor(root);
     }
 
@@ -195,13 +198,15 @@ public class RoomScreen implements Screen {
 
     private final void renderPlayer1(String name) {
         Label nameLbl = new Label(name, font);
-        root.add(nameLbl).pad(50);
+        nameLbl.setFontScale(2);
+        nameTable.add(nameLbl).padLeft(camera.viewportWidth/4).pad(100).left();
     }
 
     private final void renderPlayer2(String name) {
         Gdx.app.log("RENDER", name);
         Label nameLbl = new Label(name, font);
-        root.add(nameLbl).pad(50);
+        nameLbl.setFontScale(2);
+        nameTable.add(nameLbl).padRight(camera.viewportWidth/4).pad(100).right();
         p2Joined = true;
     }
 
