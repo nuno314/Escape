@@ -153,7 +153,6 @@ public class PlayScreen implements Screen {
         //Create a Stage and add TouchPad
         stage = new Stage();
         stage.addActor(touchpad);
-        Gdx.input.setInputProcessor(stage);
 
         batch = new SpriteBatch();
     }
@@ -161,6 +160,8 @@ public class PlayScreen implements Screen {
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(stage);
+
         player = new Steven(EventHandler.name);
 
         if (EventHandler.isPlayer1) {

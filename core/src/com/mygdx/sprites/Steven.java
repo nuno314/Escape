@@ -46,11 +46,11 @@ public class Steven extends Sprite {
 
         previousPosition = new Vector2(getX(), getY());
 
-        if (EventHandler.isPlayer1) {
+//        if (EventHandler.isPlayer1) {
             stevenLeft = ResourceHandler.left1;
             stevenRight = ResourceHandler.right1;
             stevenStand = ResourceHandler.stand1;
-        }
+//        }
 
         if (EventHandler.isPlayer2) {
             stevenLeft = ResourceHandler.left2;
