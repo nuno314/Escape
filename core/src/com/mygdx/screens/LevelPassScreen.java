@@ -61,12 +61,12 @@ public class LevelPassScreen implements Screen {
         stage.addActor(table);
         table.setBackground(skin.getDrawable("background"));
 
-        Escape.manager.get("audio/sounds/PassLevel.mp3", Sound.class).play();
     }
 
 
     @Override
     public void show() {
+        Escape.manager.get("audio/sounds/PassLevel.mp3", Sound.class).play();
 
     }
 
@@ -74,14 +74,13 @@ public class LevelPassScreen implements Screen {
     public void render(float delta) {
         if (Gdx.input.justTouched()) {
             Hud.level++;
-            game.setScreen(new PlayScreen(game));
+            game.setScreen(Escape.ScreenKey.PLAY);
             dispose();
         }
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
-
     }
 
     @Override
@@ -101,7 +100,7 @@ public class LevelPassScreen implements Screen {
 
     @Override
     public void hide() {
-
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override

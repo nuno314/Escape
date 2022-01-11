@@ -56,13 +56,13 @@ public class PlayScreen implements Screen {
 
     // Tiled map variables
     private final TmxMapLoader mapLoader;
-    private final TiledMap map;
-    private final OrthogonalTiledMapRenderer renderer;
+    private TiledMap map;
+    private OrthogonalTiledMapRenderer renderer;
 
     // Escape variables
 
-    private final Box2DDebugRenderer b2dr;
-    private final B2WorldHandler worldHandler;
+    private Box2DDebugRenderer b2dr;
+    private B2WorldHandler worldHandler;
 
     // Sprites
     private SpriteBatch batch;
@@ -99,26 +99,26 @@ public class PlayScreen implements Screen {
         renderer = new OrthogonalTiledMapRenderer(map, 1 / com.mygdx.Escape.PPM);
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
 
-        world = new World(new Vector2(0, -10), false);
+//        world = new World(new Vector2(0, -10), false);
 
-        b2dr = new Box2DDebugRenderer();
-        worldHandler = new B2WorldHandler(this);
+//        b2dr = new Box2DDebugRenderer();
+//        worldHandler = new B2WorldHandler(this);
 
         //add for collision
-        for (MapObject object: map.getLayers().get("Traps").getObjects()){
-            new Trap(this, object);
-        }
-
-        for (MapObject object: map.getLayers().get("Door").getObjects()){
-            new OutDoor(this, object);
-        }
-        for (MapObject object: map.getLayers().get("Walls").getObjects()){
-            new Ground(this, object);
-        }
+//        for (MapObject object: map.getLayers().get("Traps").getObjects()){
+//            new Trap(this, object);
+//        }
+//
+//        for (MapObject object: map.getLayers().get("Door").getObjects()){
+//            new OutDoor(this, object);
+//        }
+//        for (MapObject object: map.getLayers().get("Walls").getObjects()){
+//            new Ground(this, object);
+//        }
 
         batch = new SpriteBatch();
         //add for collision
-        world.setContactListener(new WorldContactListener());
+//        world.setContactListener(new WorldContactListener());
 
         hud = new Hud(batch);
 
@@ -145,13 +145,32 @@ public class PlayScreen implements Screen {
         //Create a Stage and add TouchPad
         stage = new Stage();
         stage.addActor(touchpad);
-
-        batch = new SpriteBatch();
     }
 
 
     @Override
     public void show() {
+        Hud.reset();
+        currentLevel = Hud.level;
+        map = mapLoader.load(pathMapGame[currentLevel]);
+        renderer = new OrthogonalTiledMapRenderer(map, 1 / com.mygdx.Escape.PPM);
+
+        world = new World(new Vector2(0, -10), false);
+        b2dr = new Box2DDebugRenderer();
+        worldHandler = new B2WorldHandler(this);
+
+        for (MapObject object: map.getLayers().get("Traps").getObjects()){
+            new Trap(this, object);
+        }
+
+        for (MapObject object: map.getLayers().get("Door").getObjects()){
+            new OutDoor(this, object);
+        }
+        for (MapObject object: map.getLayers().get("Walls").getObjects()){
+            new Ground(this, object);
+        }
+
+        world.setContactListener(new WorldContactListener());
         Gdx.input.setInputProcessor(stage);
 
         player = new Steven(EventHandler.name);
@@ -184,8 +203,6 @@ public class PlayScreen implements Screen {
         if (EventHandler.isPlayer1)
             EventHandler.socket.on("update_p2_coord", onUpdateP2Coord);
 
-
-
         InputHandler.inputUpdateTouchpad(player, dt, touchpad.getKnobPercentX(), touchpad.getKnobPercentY());
         player.updateTouchpad(dt);
         hud.update(dt);
@@ -199,7 +216,6 @@ public class PlayScreen implements Screen {
             player.currentState = Steven.State.PASS;
         if( hud.getWorldTimer() <= 0 || isOutOfMap())
             player.currentState = Steven.State.DEAD;
-
     }
 
     @Override
@@ -232,16 +248,16 @@ public class PlayScreen implements Screen {
 
         // Event
         if (gameOver()){
-            game.setScreen(new GameOverScreen(game));
-            dispose();
+            game.setScreen(Escape.ScreenKey.GAME_OVER);
+//            dispose();
         }
         else if(isFinish()){
             game.setScreen(new FinishGameScreen(game,Hud.getScore(),hud.getWorldTimer()));
-            dispose();
+//            dispose();
         }
         else if(isPassLevel()){
             game.setScreen(new LevelPassScreen(game,Hud.getScore(),hud.getWorldTimer()));
-            dispose();
+//            dispose();
         }
         else{
             player.currentState= Steven.State.STANDING;
@@ -283,7 +299,11 @@ public class PlayScreen implements Screen {
 
     @Override
     public void hide() {
-
+        Gdx.input.setInputProcessor(null);
+        map.dispose();
+        renderer.dispose();
+//        world.dispose();
+//        b2dr.dispose();
     }
 
     @Override

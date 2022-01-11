@@ -141,7 +141,7 @@ public class ConnectScreen implements Screen {
                     public void run() {
                         try {
 
-                            game.setScreen(Escape.ScreenKey.LOADING_SCREEN);
+                            game.setScreen(Escape.ScreenKey.LOADING);
 
                         } catch (Exception e) {
                             e.printStackTrace();

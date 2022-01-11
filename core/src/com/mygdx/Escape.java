@@ -9,6 +9,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.handlers.SoundHandler;
 import com.mygdx.screens.ConnectScreen;
+import com.mygdx.screens.GameOverScreen;
 import com.mygdx.screens.HowToPlayScreen;
 import com.mygdx.screens.InputNameScreen;
 import com.mygdx.screens.LoadingScreen;
@@ -47,7 +48,8 @@ public class Escape extends Game {
             SETTING,
             UPDATE_LATER,
             HOW_TO_PLAY,
-            LOADING_SCREEN
+            LOADING,
+            GAME_OVER
         };
     private Map<ScreenKey, Screen> screens;
     private ConnectScreen connectScreen;
@@ -60,6 +62,7 @@ public class Escape extends Game {
     private UpdateLaterScreen updateLaterScreen;
     private HowToPlayScreen howToPlayScreen;
     private LoadingScreen loadingScreen;
+    private GameOverScreen gameOverScreen;
 
     //add for collision
     public static final short DEFAULT_BIT=1;
@@ -99,6 +102,7 @@ public class Escape extends Game {
         updateLaterScreen = new UpdateLaterScreen(this);
         loadingScreen = new LoadingScreen(this);
         howToPlayScreen = new HowToPlayScreen(this);
+        gameOverScreen = new GameOverScreen(this);
 
         screens = new HashMap<>();
 
@@ -110,8 +114,9 @@ public class Escape extends Game {
         screens.put(ScreenKey.RANK, rankScreen);
         screens.put(ScreenKey.SETTING, settingScreen);
         screens.put(ScreenKey.UPDATE_LATER, updateLaterScreen);
-        screens.put(ScreenKey.LOADING_SCREEN, loadingScreen);
+        screens.put(ScreenKey.LOADING, loadingScreen);
         screens.put(ScreenKey.HOW_TO_PLAY, howToPlayScreen);
+        screens.put(ScreenKey.GAME_OVER, gameOverScreen);
 
         setScreen(ScreenKey.INPUT_NAME);
     }
