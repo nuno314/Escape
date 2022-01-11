@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -16,6 +17,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.Escape;
+
+import javax.swing.plaf.basic.BasicBorders;
 
 public class SettingScreen implements Screen {
 
@@ -48,17 +51,22 @@ public class SettingScreen implements Screen {
         Button rank = new Button(skin, "rank_off");
         Button setting = new Button(skin, "setting");
 
+        Label sound = new Label("Sound", skin, "room_name");
+//        BasicBorders.ToggleButtonBorder btn = new BasicBorders.ToggleButtonBorder(Color.)
+
         home.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new ConnectScreen(game));
+//                ((Game)Gdx.app.getApplicationListener()).setScreen(new ConnectScreen(game));
+                game.setScreen(Escape.ScreenKey.CONNECT);
             }
         });
 
         rank.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new RankScreen(game));
+//                ((Game)Gdx.app.getApplicationListener()).setScreen(new RankScreen(game));
+                game.setScreen(Escape.ScreenKey.RANK);
             }
         });
 
@@ -103,7 +111,7 @@ public class SettingScreen implements Screen {
 
     @Override
     public void hide() {
-        dispose();
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override

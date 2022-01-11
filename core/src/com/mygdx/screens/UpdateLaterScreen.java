@@ -42,13 +42,13 @@ public class UpdateLaterScreen implements Screen {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(stage);
+
 
         Button back = new Button(skin, "home_off");
         back.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new ConnectScreen(game));
+                game.setScreen(Escape.ScreenKey.CONNECT);
             }
         });
 
@@ -58,6 +58,8 @@ public class UpdateLaterScreen implements Screen {
         root.add(back).expand().bottom();
 
         stage.addActor(root);
+
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -86,7 +88,7 @@ public class UpdateLaterScreen implements Screen {
 
     @Override
     public void hide() {
-        dispose();
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override

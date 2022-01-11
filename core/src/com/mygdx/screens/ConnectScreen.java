@@ -93,14 +93,16 @@ public class ConnectScreen implements Screen {
         how_to_play.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new HowToPlayScreen());
+//                ((Game)Gdx.app.getApplicationListener()).setScreen(new HowToPlayScreen());
+                game.setScreen(Escape.ScreenKey.HOW_TO_PLAY);
             }
         });
 
         play_now.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new PlayScreen(game));
+//                ((Game)Gdx.app.getApplicationListener()).setScreen(new PlayScreen(game));
+                game.setScreen(Escape.ScreenKey.PLAY);
             }
         });
 

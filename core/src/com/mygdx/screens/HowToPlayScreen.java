@@ -26,7 +26,8 @@ public class HowToPlayScreen implements Screen {
     private OrthographicCamera camera;
     private Viewport viewport;
 
-    public HowToPlayScreen() {
+    public HowToPlayScreen(Escape game) {
+        this.game = game;
         skin = new Skin(Gdx.files.internal("skin/screen.json"), new TextureAtlas("skin/screen.pack"));
 
         batch = new SpriteBatch();
@@ -86,7 +87,7 @@ public class HowToPlayScreen implements Screen {
 
     @Override
     public void hide() {
-        dispose();
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override

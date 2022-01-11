@@ -95,6 +95,7 @@ public class Escape extends Game {
         settingScreen = new SettingScreen(this);
         updateLaterScreen = new UpdateLaterScreen(this);
         loadingScreen = new LoadingScreen(this);
+        howToPlayScreen = new HowToPlayScreen(this);
 
         screens = new HashMap<>();
 
@@ -107,6 +108,7 @@ public class Escape extends Game {
         screens.put(ScreenKey.SETTING, settingScreen);
         screens.put(ScreenKey.UPDATE_LATER, updateLaterScreen);
         screens.put(ScreenKey.LOADING_SCREEN, loadingScreen);
+        screens.put(ScreenKey.HOW_TO_PLAY, howToPlayScreen);
 
         setScreen(ScreenKey.INPUT_NAME);
     }
