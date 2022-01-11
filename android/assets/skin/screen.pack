@@ -177,6 +177,34 @@ start_off
     orig: 280, 92
     offset: 0, 0
     index: -1
+yes
+    rotate: false
+    xy: 2304, 184
+    size: 141, 92
+    orig: 141, 92
+    offset: 0, 0
+    index: -1
+yes_off
+    rotate: false
+    xy: 2304, 276
+    size: 141, 92
+    orig: 141, 92
+    offset: 0, 0
+    index: -1
+no
+    rotate: false
+    xy: 2304, 368
+    size: 141, 92
+    orig: 141, 92
+    offset: 0, 0
+    index: -1
+no_off
+    rotate: false
+    xy: 2304, 460
+    size: 141, 92
+    orig: 141, 92
+    offset: 0, 0
+    index: -1
 
 default.png
 size: 256,128

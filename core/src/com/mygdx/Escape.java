@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.handlers.SoundHandler;
 import com.mygdx.screens.ConnectScreen;
 import com.mygdx.screens.HowToPlayScreen;
 import com.mygdx.screens.InputNameScreen;
@@ -85,6 +86,8 @@ public class Escape extends Game {
         manager.load("audio/sounds/PassLevel.mp3", Sound.class);
         manager.load("audio/sounds/FinishGame.mp3", Music.class);
         manager.finishLoading();
+
+        SoundHandler.turnOn();
 
         inputNameScreen = new InputNameScreen(this);
         roomScreen = new RoomScreen(this);
