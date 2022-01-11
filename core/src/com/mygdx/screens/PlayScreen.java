@@ -27,6 +27,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.Escape;
 import com.mygdx.handlers.EventHandler;
 import com.mygdx.handlers.InputHandler;
+import com.mygdx.handlers.SoundHandler;
 import com.mygdx.scenes.Hud;
 import com.mygdx.sprites.Ground;
 import com.mygdx.sprites.OutDoor;
@@ -120,15 +121,6 @@ public class PlayScreen implements Screen {
         world.setContactListener(new WorldContactListener());
 
         hud = new Hud(batch);
-
-//        Music for game
-        music = Escape.manager.get("audio/music/Escape_music.ogg", Music.class);
-//      music = Escape.manager.get("audio/sounds/Trap.mp3",Music.class);
-
-        music.setLooping(true);
-        music.setVolume(0.1f);
-        music.play();
-
 
         //Create a touchpad skin
         touchpadSkin = new Skin();

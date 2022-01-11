@@ -2,8 +2,10 @@ package com.mygdx.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -12,12 +14,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.Escape;
+import com.mygdx.handlers.SoundHandler;
 
+import javax.swing.ButtonGroup;
 import javax.swing.plaf.basic.BasicBorders;
 
 public class SettingScreen implements Screen {
@@ -47,12 +52,31 @@ public class SettingScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
+        Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
+
         Button home = new Button(skin, "home_off");
         Button rank = new Button(skin, "rank_off");
         Button setting = new Button(skin, "setting");
+        Button no = new Button(skin, "no");
+        Button yes = new Button(skin, "yes");
+        Label music = new Label("Music", font);
+        final Label sound = new Label("Yes", font);
 
-        Label sound = new Label("Sound", skin, "room_name");
-//        BasicBorders.ToggleButtonBorder btn = new BasicBorders.ToggleButtonBorder(Color.)
+        no.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sound.setText("No");
+                SoundHandler.turnOff();
+            }
+        });
+
+        yes.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sound.setText("Yes");
+                SoundHandler.turnOn();
+            }
+        });
 
         home.addListener(new ClickListener() {
             @Override
@@ -76,10 +100,18 @@ public class SettingScreen implements Screen {
         menu.add(rank);
         menu.add(setting);
 
+        Table panel = new Table();
+        panel.left();
+        panel.add(yes);
+        panel.add(no);
+
         Table root = new Table();
-        root.setBackground(skin.getDrawable("update_later"));
+        root.setBackground(skin.getDrawable("background"));
         root.setFillParent(true);
         root.top();
+        root.add(music).expandX().padTop(300).row();
+        root.add(sound).padTop(30).row();
+        root.add(panel).padTop(50).row();
         root.add(menu).expand().bottom();
 
         stage.addActor(root);

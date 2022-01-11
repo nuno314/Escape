@@ -82,6 +82,14 @@
     start: {
       down:  start_off,
       up: start
+    },
+    yes: {
+      down:  yes_off,
+      up: yes
+    },
+    no: {
+      down:  no_off,
+      up: no
     }
   },
   com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
