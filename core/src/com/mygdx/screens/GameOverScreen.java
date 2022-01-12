@@ -75,9 +75,9 @@ public class GameOverScreen implements Screen {
 
         play.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-//                ((Game)Gdx.app.getApplicationListener()).setScreen(new PlayScreen(game));
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(Escape.ScreenKey.PLAY);
+                return super.touchDown(event, x, y, pointer, button);
             }
         });
 
@@ -90,12 +90,6 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void render(float delta) {
-//        if(Gdx.input.justTouched()) {
-//            Hud.reset();
-//            game.setScreen(Escape.ScreenKey.PLAY);
-//            dispose();
-//        }
-
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();

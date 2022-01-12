@@ -29,6 +29,8 @@ public class InputNameScreen implements Screen {
     private final OrthographicCamera camera;
     private final Viewport viewport;
 
+    private TextField lblName;
+
     public InputNameScreen(Escape game) {
         this.game = game;
         skin = new Skin(Gdx.files.internal("skin/screen.json"), new TextureAtlas("skin/screen.pack"));
@@ -48,7 +50,7 @@ public class InputNameScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        final TextField lblName = new TextField("", skin);
+        lblName = new TextField("", skin);
         lblName.setMessageText("Name");
 
         final Button play = new Button(skin, "start");
@@ -100,7 +102,9 @@ public class InputNameScreen implements Screen {
 
     @Override
     public void hide() {
-        dispose();
+        lblName.getOnscreenKeyboard().show(false);
+        stage.setKeyboardFocus(null);
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override

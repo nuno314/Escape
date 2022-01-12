@@ -71,9 +71,9 @@ public class FinishGameScreen implements Screen {
         if (Gdx.input.justTouched()) {
             Hud.level = 1;
             Hud.setScore(0);
-            game.setScreen(new PlayScreen(game));
-            dispose();
+            game.setScreen(Escape.ScreenKey.CONNECT);
             Escape.manager.get("audio/sounds/FinishGame.mp3", Music.class).dispose();
+            dispose();
         }
 
         Gdx.gl.glClearColor(0, 0, 0, 1);

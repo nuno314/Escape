@@ -39,7 +39,6 @@ public class B2WorldHandler {
             Fixture fixture = body.createFixture(shape, 0);
             fixture.setFriction(0);
 
-
         }
     }
 

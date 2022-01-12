@@ -143,13 +143,13 @@ public class PlayScreen implements Screen {
         touchpad.setBounds(15, 15, 100, 100);
 
         //Create a Stage and add TouchPad
-        stage = new Stage();
-        stage.addActor(touchpad);
+
     }
 
 
     @Override
     public void show() {
+        stage = new Stage();
         Hud.reset();
         currentLevel = Hud.level;
         map = mapLoader.load(pathMapGame[currentLevel]);
@@ -170,14 +170,11 @@ public class PlayScreen implements Screen {
             new Ground(this, object);
         }
 
+        stage.addActor(touchpad);
         world.setContactListener(new WorldContactListener());
         Gdx.input.setInputProcessor(stage);
 
         player = new Steven(EventHandler.name);
-
-        if (EventHandler.isPlayer1) {
-
-        }
     }
 
     public void update(float dt) {
@@ -299,9 +296,11 @@ public class PlayScreen implements Screen {
 
     @Override
     public void hide() {
+
         Gdx.input.setInputProcessor(null);
         map.dispose();
         renderer.dispose();
+        stage.dispose();
 //        world.dispose();
 //        b2dr.dispose();
     }

@@ -5,13 +5,16 @@ import static java.lang.Boolean.FALSE;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
@@ -72,14 +75,15 @@ public class ConnectScreen implements Screen {
 
         EventHandler.connectSocket();
         EventHandler.configSocketEvents();
-
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        final TextArea name = new TextArea(playerName, skin);
+        Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
+        final Label name = new Label("Welcome " + playerName, font);
+        name.setFontScale(2);
 
         how_to_play = new Button(skin, "how_to_play");
         create = new Button(skin, "create");
@@ -93,7 +97,6 @@ public class ConnectScreen implements Screen {
         how_to_play.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-//                ((Game)Gdx.app.getApplicationListener()).setScreen(new HowToPlayScreen());
                 game.setScreen(Escape.ScreenKey.HOW_TO_PLAY);
             }
         });
@@ -101,7 +104,6 @@ public class ConnectScreen implements Screen {
         play_now.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-//                ((Game)Gdx.app.getApplicationListener()).setScreen(new PlayScreen(game));
                 game.setScreen(Escape.ScreenKey.PLAY);
             }
         });
@@ -176,8 +178,8 @@ public class ConnectScreen implements Screen {
         root.setBackground(skin.getDrawable("background"));
         root.setFillParent(true);
         root.top();
-        root.add(name).padTop(150).row();
-        root.add(how_to_play).padTop(150).row();
+        root.add(name).padTop(270).row();
+        root.add(how_to_play).padTop(50).row();
         root.add(play_now).padTop(50).row();
         root.add(create).padTop(50).row();
         root.add(find).padTop(50).row();

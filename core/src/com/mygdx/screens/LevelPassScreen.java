@@ -17,6 +17,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.Escape;
 import com.mygdx.scenes.Hud;
+import com.mygdx.handlers.EventHandler;
+
+import org.json.JSONObject;
 
 public class LevelPassScreen implements Screen {
     private Viewport viewport;
@@ -68,6 +71,9 @@ public class LevelPassScreen implements Screen {
     public void show() {
         Escape.manager.get("audio/sounds/PassLevel.mp3", Sound.class).play();
 
+//        JSONObject levelPass = new JSONObject();
+//
+//        EventHandler.socket.emit("level_pass", )
     }
 
     @Override

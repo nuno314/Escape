@@ -44,6 +44,7 @@ public abstract class Interactive {
 
         fdef.shape=shape;
         fixture=body.createFixture(fdef);
+        fixture.setFriction(0);
         //shape.dispose();
 
 

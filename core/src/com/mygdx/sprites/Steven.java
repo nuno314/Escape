@@ -87,6 +87,11 @@ public class Steven extends Sprite {
     public boolean getIsGround() {
         return isGround;
     }
+
+    public boolean isOnTrap() {
+        return isCollied;
+    }
+
     public void defineSteven() {
         int x = 250, y = 120;
         int width = 20;
@@ -109,6 +114,7 @@ public class Steven extends Sprite {
         fdef.shape=shape;
         player.setLinearDamping(0.5f);
         player.createFixture(fdef).setUserData(this);
+
         shape.dispose();
 
         //CREATE FOOT:
