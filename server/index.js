@@ -1,8 +1,12 @@
-var app = require('express');
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
-var rooms = []
-var players = [];
+const app = require('express');
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+const sequelize = require('socket.io-sequelize');
+
+io.use(sequelize('db', 'user', 'pass', { host: 'localhost' }, 'app/models'));
+
+const rooms = []
+const players = [];
 let ID = 0;
 const PORT = process.env.PORT || 8080
 server.listen(PORT, () => {
@@ -89,6 +93,9 @@ io.on('connection', (socket) => {
            if (room.roomID = roomID) 
             io.to(room.p2ID).emit("start_game")
        })
+    })
+    socket.on('level_pass', lvl => {
+
     })
 })
 

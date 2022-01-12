@@ -19,6 +19,7 @@ import com.mygdx.Escape;
 import com.mygdx.scenes.Hud;
 import com.mygdx.handlers.EventHandler;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LevelPassScreen implements Screen {
@@ -71,9 +72,16 @@ public class LevelPassScreen implements Screen {
     public void show() {
         Escape.manager.get("audio/sounds/PassLevel.mp3", Sound.class).play();
 
-//        JSONObject levelPass = new JSONObject();
-//
-//        EventHandler.socket.emit("level_pass", )
+        // Send pass_level event to server
+        JSONObject levelPass = new JSONObject();
+        try {
+            levelPass.put("playerID", EventHandler.id);
+            levelPass.put("level", Hud.level);
+            levelPass.put("score", Hud.getScore());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        EventHandler.socket.emit("level_pass", levelPass);
     }
 
     @Override
