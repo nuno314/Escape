@@ -67,8 +67,8 @@ public class RoomScreen implements Screen {
 
         p1Joined = FALSE;
         p2Joined = FALSE;
-        font = new Label.LabelStyle(new BitmapFont(), Color.PURPLE);
-
+//        font = new Label.LabelStyle(new BitmapFont(), Color.PURPLE);
+        font = new Label.LabelStyle(new BitmapFont(Gdx.files.internal("skin/bungee.fnt")), Color.WHITE);
         stage = new Stage(viewport, batch);
 
         start = new Button(skin, "play");

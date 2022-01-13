@@ -19,7 +19,7 @@ public class InputHandler {
         if (knobX > 0.4) {
             horizontalForce += 2;
         }
-        if (knobY > 0.4 && player.getIsGround() && !player.isOnTrap()) {
+        if (knobY > 0.4 && player.getIsGround()) {
             player.getBody().applyForceToCenter(0,180, true);
         }
 

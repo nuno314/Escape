@@ -81,8 +81,8 @@ public class ConnectScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
-        final Label name = new Label("Welcome " + playerName, font);
+        Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(Gdx.files.internal("skin/bungee.fnt")), Color.WHITE);
+        final Label name = new Label(playerName, font);
         name.setFontScale(2);
 
         how_to_play = new Button(skin, "how_to_play");

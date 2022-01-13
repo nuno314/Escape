@@ -29,7 +29,7 @@ public class GameOverScreen implements Screen {
 
     private Skin skin;
     private Table table;
-    private Label.LabelStyle font, font2;
+    private Label.LabelStyle font, font2, bungee;
 
 
     public GameOverScreen(final Escape game){
@@ -39,7 +39,7 @@ public class GameOverScreen implements Screen {
 
         skin = new Skin(Gdx.files.internal("skin/screen.json"), new TextureAtlas("skin/screen.pack"));
 
-
+        bungee = new Label.LabelStyle(new BitmapFont(Gdx.files.internal("skin/bungee.fnt")), Color.WHITE);
         font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
         font2 = new Label.LabelStyle(new BitmapFont(), Color.RED);
 

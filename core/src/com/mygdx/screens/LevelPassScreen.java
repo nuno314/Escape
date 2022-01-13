@@ -40,11 +40,12 @@ public class LevelPassScreen implements Screen {
 
         Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
         Label.LabelStyle font2 = new Label.LabelStyle(new BitmapFont(), Color.PURPLE);
+        Label.LabelStyle bungee = new Label.LabelStyle(new BitmapFont(Gdx.files.internal("skin/bungee.fnt")), Color.WHITE);
 
         Table table = new Table();
         table.setFillParent(true);
-        Label gameOverLabel = new Label("CONGRATULATION!!!!", font2);
-        gameOverLabel.setFontScale(3);
+        Label gameOverLabel = new Label("CONGRATULATION", bungee);
+        gameOverLabel.setFontScale(1.5F);
         Label continueLabel = new Label("Click to CONTINUE", font2);
         Label score = new Label("Current Score: " + point.toString(), font);
         Label bonus = new Label("Remaining time: " + time.toString(), font);
