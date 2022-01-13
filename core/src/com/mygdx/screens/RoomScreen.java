@@ -223,15 +223,15 @@ public class RoomScreen implements Screen {
 
     private final void renderPlayer1(String name) {
         Label nameLbl = new Label(name, font);
-        nameLbl.setFontScale(2);
-        nameTable.add(nameLbl).padLeft(camera.viewportWidth/4).pad(100).left();
+        nameLbl.setFontScale(1.5F);
+        nameTable.add(nameLbl).padLeft(camera.viewportWidth/3).pad(50).left();
     }
 
     private final void renderPlayer2(String name) {
         Gdx.app.log("RENDER", name);
         Label nameLbl = new Label(name, font);
-        nameLbl.setFontScale(2);
-        nameTable.add(nameLbl).padRight(camera.viewportWidth/4).pad(100).right();
+        nameLbl.setFontScale(1.5F);
+        nameTable.add(nameLbl).padRight(camera.viewportWidth/3).pad(50).right();
         p2Joined = true;
     }
 
